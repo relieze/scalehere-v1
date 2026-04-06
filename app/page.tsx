@@ -17,7 +17,7 @@ export default function Home() {
             What We Do
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
-            Transform Your Business
+            Transform Your Business With Our Services
           </h2>
           <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             From social media to paid ads — we handle all your marketing so you

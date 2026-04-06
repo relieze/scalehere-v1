@@ -37,15 +37,13 @@ export function HeroSection() {
                                 </div>
                             </div>
                         </div>
+                        {/* Abstract gradient background — replace with real brand visual later */}
                         <div className="aspect-[2/3] absolute inset-0 overflow-hidden sm:aspect-video">
-                            <video
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                className="size-full object-cover opacity-50 invert dark:opacity-35 dark:invert-0 dark:lg:opacity-75"
-                                src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477">
-                            </video>
+                            <div className="size-full relative bg-[#07080f]">
+                                <div className="absolute top-[-15%] left-[5%] w-[700px] h-[700px] rounded-full bg-[#6366f1]/25 blur-[140px]" />
+                                <div className="absolute bottom-[-10%] right-[0%] w-[550px] h-[550px] rounded-full bg-[#3b82f6]/20 blur-[120px]" />
+                                <div className="absolute top-[35%] right-[25%] w-[350px] h-[350px] rounded-full bg-[#8b5cf6]/15 blur-[90px]" />
+                            </div>
                         </div>
                     </div>
                 </section>

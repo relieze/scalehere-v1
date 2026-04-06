@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Pizza04Icon,
+  ColorsIcon,
   CommandFreeIcons,
   GlobalSearchIcon,
   AiCloudIcon,
@@ -21,14 +21,16 @@ const FEATURES = [
     id: "social-media",
     label: "Social Media Management",
     icon: SmartPhone01Icon,
+    // Social media / phone content creation
     image:
-      "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1200",
+      "https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=1200",
     description: "Content creation, community engagement, and strategy development to build your brand online.",
   },
   {
     id: "digital-marketing",
     label: "Digital Marketing",
     icon: GlobalSearchIcon,
+    // Laptop with marketing analytics charts
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200",
     description: "From SEO to PPC — boost visibility, increase traffic, and generate more qualified leads.",
@@ -37,22 +39,25 @@ const FEATURES = [
     id: "collaborations",
     label: "Collaborations & UGC",
     icon: CommandFreeIcons,
+    // People collaborating / influencer content shoot
     image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1200",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200",
     description: "Influencer campaigns and UGC content that builds authentic trust with your audience.",
   },
   {
     id: "content",
     label: "Content Marketing",
     icon: MagicWandIcon,
+    // Content creation / video production setup
     image:
-      "https://images.unsplash.com/photo-1542744094-3a31f272c490?q=80&w=1200",
+      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=1200",
     description: "Blogs, video content, and campaigns that engage your audience at every stage of the funnel.",
   },
   {
     id: "branding",
     label: "Branding & Design",
-    icon: Pizza04Icon,
+    icon: ColorsIcon,
+    // Color palette / branding design workspace
     image:
       "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200",
     description: "Logos, brand identity, and visual elements that make your business unforgettable.",
@@ -61,14 +66,16 @@ const FEATURES = [
     id: "ads",
     label: "Paid Advertising",
     icon: AiCloudIcon,
+    // Digital advertising / campaign on screen
     image:
-      "https://images.unsplash.com/photo-1551288049-bbda38a10ad5?q=80&w=1200",
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200",
     description: "Google Ads and social media ads engineered to maximize ROI and scale your revenue.",
   },
   {
     id: "analytics",
     label: "Analytics & Reporting",
     icon: DashboardSquare01Icon,
+    // Analytics dashboard / data visualization
     image:
       "https://images.unsplash.com/photo-1551288049-bbda38a10ad5?q=80&w=1200",
     description: "Campaign tracking and performance insights so you always know your marketing is working.",
@@ -77,6 +84,7 @@ const FEATURES = [
     id: "seo",
     label: "SEO Optimization",
     icon: CheckmarkCircle01Icon,
+    // Search / keyboard / typing — SEO concept
     image:
       "https://images.unsplash.com/photo-1432888622747-4eb9a8f5c70c?q=80&w=1200",
     description: "Website optimization and keyword research to rank higher and attract organic traffic.",
