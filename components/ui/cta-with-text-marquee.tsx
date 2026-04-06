@@ -109,7 +109,7 @@ export default function CTAWithVerticalMarquee() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           {/* Left Content */}
           <div className="space-y-8 max-w-xl">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-medium leading-tight tracking-tight text-foreground animate-fade-in-up [animation-delay:200ms]">
+            <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-foreground animate-fade-in-up [animation-delay:200ms]">
               Ready to Scale Your Brand?
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed animate-fade-in-up [animation-delay:400ms]">
@@ -118,7 +118,7 @@ export default function CTAWithVerticalMarquee() {
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:600ms]">
               <Link
                 href="/contact"
-                className="group relative px-6 py-3 bg-foreground text-background rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="group relative px-6 py-3 bg-primary text-white rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
               >
                 <span className="relative z-10">APPLY NOW</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>

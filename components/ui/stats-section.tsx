@@ -44,11 +44,12 @@ function StatItem({
   const count = useCountUp(value, 1800, animate);
 
   return (
-    <div className="flex flex-col items-center gap-2 py-8 px-4">
-      <span className="text-5xl md:text-6xl font-bold tracking-tight">
+    <div className="flex flex-col items-center gap-2 py-10 px-4">
+      {/* Number uses heading font + accent color */}
+      <span className="font-heading text-5xl md:text-6xl font-bold tracking-tight text-primary">
         {prefix ?? ""}{count}{suffix}
       </span>
-      <span className="text-sm md:text-base text-muted-foreground uppercase tracking-widest">
+      <span className="text-xs md:text-sm text-muted-foreground uppercase tracking-[0.25em] font-medium">
         {label}
       </span>
     </div>
@@ -79,7 +80,7 @@ export function StatsSection() {
       className="w-full py-16 md:py-24 border-y border-border/30 bg-background"
     >
       <div className="max-w-7xl mx-auto px-6">
-        <p className="text-center text-xs uppercase tracking-[0.3em] text-muted-foreground mb-10">
+        <p className="text-center text-xs uppercase tracking-[0.35em] text-primary/70 mb-10 font-medium">
           Us in Numbers
         </p>
         <div

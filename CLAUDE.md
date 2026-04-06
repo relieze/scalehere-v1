@@ -46,3 +46,7 @@ The current site is on Wix. We are replacing it with a custom-coded site.
 - I am a beginner — explain what you're doing in plain English when it's not obvious
 - When I share a screenshot, treat it as the source of truth for what needs fixing
 - Default to asking clarifying questions before making large structural changes
+
+## Saving Progress
+- After completing any significant change or feature, automatically run git add . and commit with a descriptive message. Never commit broken code.
+
