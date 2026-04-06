@@ -35,6 +35,7 @@ export function AboutSection() {
             <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-8">
               Marketing That Feels Real, Fun &amp; Deeply Human.
             </h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-primary/70 font-medium mb-3">Our Mission</p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
               We are a marketing agency dedicated to empowering businesses to expand their reach in
               the digital world. We specialize in crafting innovative marketing strategies, compelling
@@ -49,6 +50,7 @@ export function AboutSection() {
 
           {/* Right — vision + brand pillars */}
           <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-primary/70 font-medium mb-3">Our Vision</p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-12">
               We support business owners across San Diego, Los Angeles, and beyond with creative,
               sustainable marketing that helps them grow without burning out. Whether you&apos;re

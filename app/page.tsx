@@ -12,7 +12,7 @@ export default function Home() {
       <HeroSection />
 
       {/* ── Section 2: Services ─────────────────────────── */}
-      <section id="services" className="w-full pt-0 pb-20 md:pb-28 px-4">
+      <section id="services" className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-7xl mx-auto mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             What We Do
