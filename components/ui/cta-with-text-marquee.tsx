@@ -117,7 +117,7 @@ export default function CTAWithVerticalMarquee() {
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:600ms]">
               <Link
-                href="/contact"
+                href="#contact"
                 className="group relative px-6 py-3 bg-primary text-white rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
               >
                 <span className="relative z-10">APPLY NOW</span>

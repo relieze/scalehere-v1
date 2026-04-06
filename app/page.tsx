@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/blocks/hero-section-5";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
 import { StatsSection } from "@/components/ui/stats-section";
+import { AboutSection } from "@/components/ui/about-section";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 
 export default function Home() {
@@ -30,8 +31,15 @@ export default function Home() {
       {/* ── Section 3: Stats ────────────────────────────── */}
       <StatsSection />
 
-      {/* ── Section 4: Contact CTA ──────────────────────── */}
-      <CTAWithVerticalMarquee />
+      {/* ── Section 4: About ────────────────────────────── */}
+      <div id="about">
+        <AboutSection />
+      </div>
+
+      {/* ── Section 5: Contact CTA ──────────────────────── */}
+      <div id="contact">
+        <CTAWithVerticalMarquee />
+      </div>
 
     </div>
   );

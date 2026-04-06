@@ -24,13 +24,13 @@ export function HeroSection() {
 
                                 <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                                     <Link
-                                        href="/contact"
+                                        href="#contact"
                                         className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full pl-5 pr-3 text-base")}>
                                         <span className="text-nowrap">Apply Now</span>
                                         <ChevronRight className="ml-1" />
                                     </Link>
                                     <Link
-                                        href="/about"
+                                        href="#about"
                                         className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-full px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
                                         <span className="text-nowrap">Learn More</span>
                                     </Link>
@@ -56,8 +56,8 @@ export function HeroSection() {
 
 const menuItems = [
     { name: 'Services', href: '#services' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'About', href: '#about' },
+    { name: 'Contact', href: '#contact' },
 ]
 
 const HeroHeader = () => {
@@ -128,7 +128,7 @@ const HeroHeader = () => {
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <Link
-                                    href="/contact"
+                                    href="#contact"
                                     className={cn(buttonVariants({ size: "sm" }))}>
                                     <span>Apply Now</span>
                                 </Link>
