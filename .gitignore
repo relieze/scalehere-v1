@@ -24,5 +24,6 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Local reference screenshots — not needed in repo
+# Personal reference docs and screenshots — not needed in repo
+my_references/
 reference_screenshots/
