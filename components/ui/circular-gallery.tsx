@@ -95,11 +95,11 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                       className="absolute inset-0 w-full h-full object-cover"
                       style={{ objectPosition: item.photo.pos || 'center' }}
                     />
-                    {/* Card overlay — extended gradient so website URL is readable */}
-                    <div className="absolute bottom-0 left-0 w-full px-4 pt-16 pb-4 bg-gradient-to-t from-black via-black/70 to-transparent text-white">
+                    {/* Card overlay */}
+                    <div className="absolute bottom-0 left-0 w-full px-4 pt-20 pb-5 bg-gradient-to-t from-black from-40% via-black/80 to-transparent text-white">
                       <h2 className="text-xl font-bold font-heading leading-tight">{item.client}</h2>
-                      <p className="text-sm text-primary mt-0.5">{item.industry}</p>
-                      <p className="text-xs mt-2 text-white/80">{item.website}</p>
+                      <p className="text-sm text-primary mt-1">{item.industry}</p>
+                      <p className="text-xs mt-1.5 text-white/80">{item.photo.website}</p>
                     </div>
                   </div>
                 </div>
@@ -108,31 +108,31 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           </div>
         </div>
 
-        {/* Prev / Next buttons — hold to spin faster */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-          <button
-            onMouseDown={handlePrevStart}
-            onMouseUp={handleManualEnd}
-            onMouseLeave={handleManualEnd}
-            onTouchStart={handlePrevStart}
-            onTouchEnd={handleManualEnd}
-            aria-label="Rotate left"
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/40 backdrop-blur text-white hover:border-primary hover:bg-primary/20 transition-colors"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onMouseDown={handleNextStart}
-            onMouseUp={handleManualEnd}
-            onMouseLeave={handleManualEnd}
-            onTouchStart={handleNextStart}
-            onTouchEnd={handleManualEnd}
-            aria-label="Rotate right"
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/40 backdrop-blur text-white hover:border-primary hover:bg-primary/20 transition-colors"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+        {/* Prev button — left side, vertically centered */}
+        <button
+          onMouseDown={handlePrevStart}
+          onMouseUp={handleManualEnd}
+          onMouseLeave={handleManualEnd}
+          onTouchStart={handlePrevStart}
+          onTouchEnd={handleManualEnd}
+          aria-label="Rotate left"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur text-white hover:border-primary hover:bg-primary/20 transition-colors"
+        >
+          <ChevronLeft size={20} />
+        </button>
+
+        {/* Next button — right side, vertically centered */}
+        <button
+          onMouseDown={handleNextStart}
+          onMouseUp={handleManualEnd}
+          onMouseLeave={handleManualEnd}
+          onTouchStart={handleNextStart}
+          onTouchEnd={handleManualEnd}
+          aria-label="Rotate right"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur text-white hover:border-primary hover:bg-primary/20 transition-colors"
+        >
+          <ChevronRight size={20} />
+        </button>
       </div>
     );
   }
