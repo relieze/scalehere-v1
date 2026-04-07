@@ -53,13 +53,17 @@ The current site is on Wix. We are replacing it with a custom-coded site.
 ---
 
 ## Current Project State
-The homepage has been assembled and normalized. Do not redo this work.
+This is a **single-page site**. All navigation uses anchor links — there are no separate pages (/about, /contact, etc.). Do not add multi-page routing.
 
 ### Completed
-- Next.js 16 + TypeScript + Tailwind CSS + shadcn/ui project initialized in `v1/`
-- ANF Assemble phase done: 4 sections built from 21st.dev component prompts
-- ANF Normalize phase done: dark theme, fonts, colors unified across all sections
-- `.gitignore` in place — `.next/`, `node_modules/` are excluded from git
+- Next.js + TypeScript + Tailwind CSS + shadcn/ui project initialized in `v1/`
+- ANF Assemble phase done: sections built from 21st.dev component prompts
+- ANF Normalize phase done: dark theme, fonts, colors unified
+- ANF Fill phase done: all real Scale SD content in place, placeholder icons fixed, better Unsplash images
+- Single-page anchor nav: all links point to `#services`, `#about`, `#contact`
+- About section added with mission, vision, and brand pillars
+- Hero video background contained with `relative overflow-hidden` on section
+- `.gitignore` in place — `.next/`, `node_modules/` are excluded
 
 ### Design Tokens (do not change without instruction)
 - **Background:** `#07080f` (near-black navy)
@@ -77,12 +81,13 @@ v1/
 ├── app/
 │   ├── globals.css        # All CSS vars, dark palette, custom animations
 │   ├── layout.tsx         # Google Fonts, dark class, metadata
-│   └── page.tsx           # Homepage — imports all 4 sections in order
+│   └── page.tsx           # Homepage — imports all 5 sections in order
 ├── components/
 │   ├── blocks/
 │   │   └── hero-section-5.tsx     # Hero + navbar (fixed, z-50, blurred bg)
 │   └── ui/
 │       ├── button.tsx             # shadcn button (@base-ui/react — no asChild)
+│       ├── about-section.tsx      # About section — mission, vision, brand pillars
 │       ├── feature-carousel.tsx   # Services section (animated carousel)
 │       ├── infinite-slider.tsx    # Used by hero logo row (currently removed)
 │       ├── progressive-blur.tsx   # Used by hero logo row (currently removed)
@@ -90,18 +95,29 @@ v1/
 │       └── cta-with-text-marquee.tsx  # Contact CTA with vertical marquee
 ├── lib/
 │   └── utils.ts           # cn() helper
-└── scalehere_content.md   # All real brand copy — use this for Fill phase
+└── scalehere_content.md   # All real brand copy — use this for reference
 ```
+
+### Page Section Order (`app/page.tsx`)
+1. `<HeroSection />` — hero + fixed navbar
+2. `<section id="services">` — services carousel
+3. `<StatsSection />` — animated stats row
+4. `<div id="about">` — about section (mission, vision, pillars)
+5. `<div id="contact">` — CTA with vertical marquee
+
+### Anchor Nav
+- All nav links and buttons use anchor hrefs: `#services`, `#about`, `#contact`
+- "Apply Now" everywhere → `#contact`
+- "Learn More" → `#about`
 
 ### Important shadcn Note
 This project uses a newer shadcn version with `@base-ui/react/button`. The `Button` component does **not** support `asChild`. Use `buttonVariants()` with a `<Link>` instead:
 ```tsx
 import { buttonVariants } from '@/components/ui/button'
-<Link href="/contact" className={cn(buttonVariants({ size: "lg" }))}>Apply Now</Link>
+<Link href="#contact" className={cn(buttonVariants({ size: "lg" }))}>Apply Now</Link>
 ```
 
-### Next Steps (ANF Fill Phase)
-- Replace all placeholder copy with real Scale SD content from `scalehere_content.md`
-- Replace Unsplash images in `feature-carousel.tsx` with real Scale SD photos or approved stock
-- Add remaining pages: About, Services, Contact
-
+### Known Issues / Next Up
+- Anchor scroll offset: when nav links are clicked, the fixed navbar may still slightly overlap the destination section top — not fully resolved
+- Carousel images: currently Unsplash placeholders — replace with real Scale SD photos when available
+- CTA section: uses `min-h-screen` which makes it full viewport height — intentional for now
