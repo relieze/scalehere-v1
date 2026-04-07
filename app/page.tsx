@@ -3,6 +3,8 @@ import { FeatureCarousel } from "@/components/ui/feature-carousel";
 import { StatsSection } from "@/components/ui/stats-section";
 import { StaggerTestimonials } from "@/components/ui/stagger-testimonials";
 import { CaseStudiesSection } from "@/components/ui/case-studies-section";
+import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
+import { PortfolioVisual } from "@/components/ui/portfolio-visual";
 import { AboutSection } from "@/components/ui/about-section";
 import TeamShowcase from "@/components/ui/team-showcase";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
@@ -53,7 +55,39 @@ export default function Home() {
       {/* ── Section 5: Case Studies ─────────────────────── */}
       <CaseStudiesSection />
 
-      {/* ── Section 6: About ────────────────────────────── */}
+      {/* ── Section 6: Portfolio (detailed case studies) ── */}
+      <section className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
+        <div className="max-w-5xl mx-auto mb-14 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
+            Client Work
+          </p>
+          <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
+            Results We've Delivered
+          </h2>
+          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            Click any client to see the full story — services, strategy, and real numbers.
+          </p>
+        </div>
+        <PortfolioAccordion />
+      </section>
+
+      {/* ── Section 6b: Portfolio Visual (TEMP — compare with above) ── */}
+      <section className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
+        <div className="max-w-5xl mx-auto mb-14 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
+            Client Work (Style B)
+          </p>
+          <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
+            Results We've Delivered
+          </h2>
+          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            Click any client to expand their story.
+          </p>
+        </div>
+        <PortfolioVisual />
+      </section>
+
+      {/* ── Section 7: About ────────────────────────────── */}
       <div id="about">
         <AboutSection />
       </div>

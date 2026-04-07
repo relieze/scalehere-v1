@@ -103,8 +103,12 @@ v1/
 2. `<section id="services">` — services carousel
 3. `<StatsSection />` — animated stats row
 4. `<StaggerTestimonials />` — testimonials (staggered card layout, click to browse)
-5. `<div id="about">` — about section (mission, vision, pillars)
-6. `<div id="contact">` — CTA with vertical marquee
+5. `<CaseStudiesSection />` — 3D rotating client website gallery
+6. `<PortfolioAccordion />` — detailed case studies, accordion expand (Style A)
+7. `<PortfolioVisual />` — detailed case studies, image panel expand (Style B — TEMP, pending client feedback)
+8. `<div id="about">` — about section (mission, vision, pillars)
+9. `<TeamShowcase />` — team photo grid with hover interaction
+10. `<div id="contact">` — CTA with vertical marquee
 
 ### Anchor Nav
 - All nav links and buttons use anchor hrefs: `#services`, `#about`, `#contact`
@@ -131,9 +135,13 @@ This is how we add new sections to the site:
 - `components/prompt-stats.txt` — stats row (done)
 - `components/prompt-cta.txt` — contact CTA (done)
 - `components/prompt-testimonials.txt` — testimonials section (done)
+- `components/prompt-case-studies.txt` — 3D rotating website gallery (done)
+- `components/prompt-team.txt` — team showcase (done)
+- `components/prompt-portfolio.txt` — detailed portfolio accordion (done)
 - _(add new ones here as we go)_
 
 ### Known Issues / Next Up
 - Anchor scroll offset: when nav links are clicked, the fixed navbar may still slightly overlap the destination section top — not fully resolved
-- Carousel images: currently Unsplash placeholders — replace with real Scale SD photos when available
+- All photos/team members/client data are placeholders — replace with real Scale SD content when available
+- Portfolio: two style variants live simultaneously (A = accordion, B = image panels) — pending client feedback on which to keep
 - CTA section: uses `min-h-screen` which makes it full viewport height — intentional for now
