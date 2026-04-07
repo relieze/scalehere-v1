@@ -102,8 +102,9 @@ v1/
 1. `<HeroSection />` — hero + fixed navbar
 2. `<section id="services">` — services carousel
 3. `<StatsSection />` — animated stats row
-4. `<div id="about">` — about section (mission, vision, pillars)
-5. `<div id="contact">` — CTA with vertical marquee
+4. `<StaggerTestimonials />` — testimonials (staggered card layout, click to browse)
+5. `<div id="about">` — about section (mission, vision, pillars)
+6. `<div id="contact">` — CTA with vertical marquee
 
 ### Anchor Nav
 - All nav links and buttons use anchor hrefs: `#services`, `#about`, `#contact`
@@ -129,6 +130,7 @@ This is how we add new sections to the site:
 - `components/prompt-services.txt` — services carousel (done)
 - `components/prompt-stats.txt` — stats row (done)
 - `components/prompt-cta.txt` — contact CTA (done)
+- `components/prompt-testimonials.txt` — testimonials section (done)
 - _(add new ones here as we go)_
 
 ### Known Issues / Next Up

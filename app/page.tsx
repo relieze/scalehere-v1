@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/blocks/hero-section-5";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
 import { StatsSection } from "@/components/ui/stats-section";
+import { StaggerTestimonials } from "@/components/ui/stagger-testimonials";
 import { AboutSection } from "@/components/ui/about-section";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 
@@ -31,7 +32,23 @@ export default function Home() {
       {/* ── Section 3: Stats ────────────────────────────── */}
       <StatsSection />
 
-      {/* ── Section 4: About ────────────────────────────── */}
+      {/* ── Section 4: Testimonials ─────────────────────── */}
+      <section className="w-full pt-24 md:pt-32 pb-4 px-4">
+        <div className="max-w-7xl mx-auto mb-14 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
+            Client Love
+          </p>
+          <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
+            What Our Clients Are Saying
+          </h2>
+          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            Real results from real businesses. Click the cards to browse through our client stories.
+          </p>
+        </div>
+        <StaggerTestimonials />
+      </section>
+
+      {/* ── Section 5: About ────────────────────────────── */}
       <div id="about">
         <AboutSection />
       </div>
