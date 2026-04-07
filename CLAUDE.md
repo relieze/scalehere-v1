@@ -117,6 +117,20 @@ import { buttonVariants } from '@/components/ui/button'
 <Link href="#contact" className={cn(buttonVariants({ size: "lg" }))}>Apply Now</Link>
 ```
 
+### Adding New Sections (21st.dev Process)
+This is how we add new sections to the site:
+1. Claude creates a prompt file in `components/` named `prompt-[section-name].txt` with a header comment and the 21st.dev search URL
+2. User browses 21st.dev, picks a component, clicks "Claude Code", and copies the generated prompt
+3. User pastes the prompt into the `.txt` file
+4. Claude reads the file, integrates the component into the codebase (installs deps, adapts styles, fills real content), then commits
+
+**Existing prompt files:**
+- `components/prompt-hero.txt` — hero section (done)
+- `components/prompt-services.txt` — services carousel (done)
+- `components/prompt-stats.txt` — stats row (done)
+- `components/prompt-cta.txt` — contact CTA (done)
+- _(add new ones here as we go)_
+
 ### Known Issues / Next Up
 - Anchor scroll offset: when nav links are clicked, the fixed navbar may still slightly overlap the destination section top — not fully resolved
 - Carousel images: currently Unsplash placeholders — replace with real Scale SD photos when available
