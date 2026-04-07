@@ -29,11 +29,10 @@ npm run build   # production build
 - `.claude/docs/` — detailed reference docs for Claude (gitignored)
 
 ## General Playbook
-`../PLAYBOOK.md` — one level up, outside this project. Contains startup checklist, CLAUDE.md structure rules, ANF process, session habits, and cross-project lessons learned. Read it when starting fresh or if something feels unclear about how we work.
+`../PLAYBOOK.md` — one level up, outside this project. Contains startup checklist, CLAUDE.md structure rules, ANF process, session habits, and cross-project lessons learned. **At the start of every session: read this file, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`.**
 
 ## Reference Files — Read When Relevant
 - `my_references/current.md` — active task tracker. **Update as work is completed.**
-- `my_references/tips.md` — hard-learned lessons. **Add to when something is worth remembering.**
 - `my_references/v1.md` — build summary. Update at end of session.
 - `my_references/scalehere_content.md` — all real Scale SD brand copy. Use for all content.
 - `.claude/docs/sections.md` — full page section order, anchor nav, shadcn note
