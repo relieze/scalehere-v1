@@ -25,22 +25,9 @@ npm run build   # production build
 - `components/ui/` — all section components
 - `components/prompt-*.txt` — 21st.dev integration prompts (one per section)
 - `lib/utils.ts` — `cn()` helper
-- `my_references/` — gitignored personal docs (see below)
-- `.claude/docs/` — detailed reference docs for Claude (gitignored)
-
-## General Playbook
-`../PLAYBOOK.md` — one level up, outside this project. Contains startup checklist, CLAUDE.md structure rules, ANF process, session habits, and cross-project lessons learned. **At the start of every session: read this file, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`.**
-
-## Reference Files — Read When Relevant
-- `my_references/current.md` — active task tracker. **Update as work is completed.**
-- `my_references/v1.md` — build summary. Update at end of session.
-- `my_references/scalehere_content.md` — all real Scale SD brand copy. Use for all content.
-- `.claude/docs/sections.md` — full page section order, anchor nav, shadcn note
-- `.claude/docs/design-tokens.md` — colors, fonts, dark mode — do not change without instruction
-- `.claude/docs/process.md` — 21st.dev workflow and prompt file status
 
 ## Design Direction
-- Dark near-black background (`#07080f`), indigo accent (`#6366f1`)
+- Dark navy background (`#070D18`), sunset orange accent (`#FB923C`) — Coastal Twilight scheme (pending final decision)
 - Radial gradient blobs for depth — no flat backgrounds
 - Two fonts: Syne (headings) + DM Sans (body)
 - Subtle scroll/hover animations — never flashy
@@ -60,6 +47,18 @@ npm run build   # production build
 ## Workflow Notes
 - After completing a significant change: ask user to check, then commit with a descriptive message
 - Never commit broken code
-- Update `my_references/current.md` task tracker as work is done
-- Screenshots for UI fixes go in `my_references/screenshots/` — check there before asking user to describe a problem
-- **End of every session:** review `../PLAYBOOK.md` and update Lessons Learned if anything new was discovered. Then update `my_references/current.md` and `my_references/v1.md`, then commit.
+- No Co-Authored-By in commit messages
+
+---
+
+## Personal Workflow (local only — not relevant to other contributors)
+
+The following files are gitignored and only exist on the owner's machine:
+
+- `my_references/` — task tracker, build summary, brand copy, screenshots
+- `.claude/docs/` — detailed design tokens, section order, 21st.dev process
+- `../PLAYBOOK.md` — cross-project Claude workflow guide (one level above this project)
+
+**At the start of every session:** read `../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
+
+**End of session:** update `my_references/current.md`, `my_references/v1.md`, and any docs that changed. Commit everything.
