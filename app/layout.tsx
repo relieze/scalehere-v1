@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans } from "next/font/google";
+import { Syne, Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 
 // Heading font — bold, geometric, premium feel
@@ -9,11 +9,19 @@ const syne = Syne({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-// Body font — clean, readable, modern
-const dmSans = DM_Sans({
+// Body font — premium, clean, modern
+const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600"],
+});
+
+// Accent font — optical serif for pull quotes and high-impact statements
+const fraunces = Fraunces({
+  variable: "--font-accent",
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -31,7 +39,7 @@ export default function RootLayout({
     // "dark" class forces dark theme globally — our brand is dark by default
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} dark h-full antialiased`}
+      className={`${syne.variable} ${plusJakartaSans.variable} ${fraunces.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

@@ -47,6 +47,8 @@
   --font-mono: ui-monospace, monospace;
   /* font-heading utility — apply to all section headings */
   --font-heading: var(--font-heading);
+  /* font-accent utility — Fraunces, use for pull quotes and high-impact statements */
+  --font-accent: var(--font-accent);
 }
 
 /* ─────────────────────────────────────────────────────────────
