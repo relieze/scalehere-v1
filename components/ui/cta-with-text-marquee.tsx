@@ -110,17 +110,17 @@ export default function CTAWithVerticalMarquee() {
           {/* Left Content */}
           <div className="space-y-8 max-w-xl">
             <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-foreground animate-fade-in-up [animation-delay:200ms]">
-              Ready to Scale Your Brand?
+              Ready to Stop Guessing and Start Growing?
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed animate-fade-in-up [animation-delay:400ms]">
-              Join 100+ businesses that grew with Scale SD. We handle everything — content, ads, and strategy — in just 1 hour of your time each week.
+              Get a free marketing audit for your business. We'll show you exactly where your marketing dollars are going — and where they should be. Month-to-month. No contracts. You own everything.
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:600ms]">
               <Link
                 href="#contact"
                 className="group relative px-6 py-3 bg-primary text-white rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
               >
-                <span className="relative z-10">APPLY NOW</span>
+                <span className="relative z-10">GET MY FREE AUDIT</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               </Link>
               <a

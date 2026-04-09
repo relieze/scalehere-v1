@@ -1,11 +1,14 @@
 import { HeroSection } from "@/components/blocks/hero-section-5";
+import { SoundFamiliar } from "@/components/ui/sound-familiar";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
+import { HowItWorks } from "@/components/ui/how-it-works";
 import { StatsSection } from "@/components/ui/stats-section";
 import { StaggerTestimonials } from "@/components/ui/stagger-testimonials";
 import { CaseStudiesSection } from "@/components/ui/case-studies-section";
 import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
 import { AboutSection } from "@/components/ui/about-section";
 import TeamShowcase from "@/components/ui/team-showcase";
+import { FAQSection } from "@/components/ui/faq-section";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 import { StickyFooter } from "@/components/ui/sticky-footer";
 import { ClientLogosSection } from "@/components/ui/logo-cloud";
@@ -17,30 +20,35 @@ export default function Home() {
       {/* ── Section 1: Hero ─────────────────────────────── */}
       <HeroSection />
 
-      {/* ── Section 2: Services ─────────────────────────── */}
+      {/* ── Section 2: Sound Familiar (pain/problem) ────── */}
+      <SoundFamiliar />
+
+      {/* ── Section 3: Services ─────────────────────────── */}
       <section id="services" className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-7xl mx-auto mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             What We Do
           </p>
           <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
-            Transform Your Business With Our Services
+            Your Full Marketing Team — For 1 Hour of Your Time Per Week
           </h2>
           <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            From social media to paid ads — we handle all your marketing so you
-            can focus on running your business.
+            We handle everything — content, ads, strategy, and reporting — so you can focus on running your business.
           </p>
         </div>
         <FeatureCarousel />
       </section>
 
-      {/* ── Section 3: Stats ────────────────────────────── */}
+      {/* ── Section 4: How It Works ──────────────────────── */}
+      <HowItWorks />
+
+      {/* ── Section 5: Stats ────────────────────────────── */}
       <StatsSection />
 
-      {/* ── Section 3b: Platform Logos ──────────────────── */}
+      {/* ── Section 5b: Platform Logos ──────────────────── */}
       <ClientLogosSection />
 
-      {/* ── Section 4: Testimonials ─────────────────────── */}
+      {/* ── Section 6: Testimonials ─────────────────────── */}
       <section className="w-full pt-24 md:pt-32 pb-4 px-4">
         <div className="max-w-7xl mx-auto mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -56,10 +64,10 @@ export default function Home() {
         <StaggerTestimonials />
       </section>
 
-      {/* ── Section 5: Case Studies ─────────────────────── */}
+      {/* ── Section 7: Case Studies ─────────────────────── */}
       <CaseStudiesSection />
 
-      {/* ── Section 6: Portfolio (detailed case studies) ── */}
+      {/* ── Section 8: Portfolio (detailed case studies) ── */}
       <section className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-5xl mx-auto mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -75,13 +83,12 @@ export default function Home() {
         <PortfolioAccordion />
       </section>
 
-
-      {/* ── Section 7: About ────────────────────────────── */}
+      {/* ── Section 9: About ────────────────────────────── */}
       <div id="about">
         <AboutSection />
       </div>
 
-      {/* ── Section 7: Team ─────────────────────────────── */}
+      {/* ── Section 10: Team ────────────────────────────── */}
       <section className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-7xl mx-auto mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -97,7 +104,10 @@ export default function Home() {
         <TeamShowcase />
       </section>
 
-      {/* ── Section 8: Contact CTA ──────────────────────── */}
+      {/* ── Section 11: FAQ ─────────────────────────────── */}
+      <FAQSection />
+
+      {/* ── Section 12: Contact CTA ─────────────────────── */}
       <div id="contact">
         <CTAWithVerticalMarquee />
       </div>
