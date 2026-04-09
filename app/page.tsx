@@ -7,6 +7,8 @@ import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
 import { AboutSection } from "@/components/ui/about-section";
 import TeamShowcase from "@/components/ui/team-showcase";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
+import { StickyFooter } from "@/components/ui/sticky-footer";
+import { ClientLogosSection } from "@/components/ui/logo-cloud";
 
 export default function Home() {
   return (
@@ -34,6 +36,9 @@ export default function Home() {
 
       {/* ── Section 3: Stats ────────────────────────────── */}
       <StatsSection />
+
+      {/* ── Section 3b: Platform Logos ──────────────────── */}
+      <ClientLogosSection />
 
       {/* ── Section 4: Testimonials ─────────────────────── */}
       <section className="w-full pt-24 md:pt-32 pb-4 px-4">
@@ -96,6 +101,9 @@ export default function Home() {
       <div id="contact">
         <CTAWithVerticalMarquee />
       </div>
+
+      {/* ── Footer ──────────────────────────────────────── */}
+      <StickyFooter />
 
     </div>
   );

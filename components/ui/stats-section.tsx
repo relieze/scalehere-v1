@@ -77,7 +77,7 @@ export function StatsSection() {
   return (
     <section
       ref={ref}
-      className="w-full py-16 md:py-24 border-y border-border/30 bg-background"
+      className="w-full pt-16 md:pt-24 pb-8 border-t border-border/30 bg-background"
     >
       <div className="max-w-7xl mx-auto px-6">
         <p className="text-center text-xs uppercase tracking-[0.35em] text-primary/70 mb-10 font-medium">

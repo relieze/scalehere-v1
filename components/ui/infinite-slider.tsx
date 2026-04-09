@@ -27,7 +27,6 @@ export function InfiniteSlider({
   speed,
   speedOnHover,
 }: InfiniteSliderProps) {
-  // speed/speedOnHover are aliases for duration/durationOnHover
   const effectiveDuration = speed ?? duration;
   const effectiveDurationOnHover = speedOnHover ?? durationOnHover;
 
@@ -38,8 +37,10 @@ export function InfiniteSlider({
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    let controls: ReturnType<typeof animate> | undefined;
     const size = direction === 'horizontal' ? width : height;
+    if (size === 0) return; // wait until measured
+
+    let controls: ReturnType<typeof animate> | undefined;
     const contentSize = size + gap;
     const from = reverse ? -contentSize / 2 : 0;
     const to = reverse ? 0 : -contentSize / 2;
@@ -47,11 +48,10 @@ export function InfiniteSlider({
     if (isTransitioning) {
       controls = animate(translation, [translation.get(), to], {
         ease: 'linear',
-        duration:
-          currentDuration * Math.abs((translation.get() - to) / contentSize),
+        duration: currentDuration * Math.abs((translation.get() - to) / contentSize),
         onComplete: () => {
           setIsTransitioning(false);
-          setKey((prevKey) => prevKey + 1);
+          setKey((prev) => prev + 1);
         },
       });
     } else {
@@ -61,46 +61,26 @@ export function InfiniteSlider({
         repeat: Infinity,
         repeatType: 'loop',
         repeatDelay: 0,
-        onRepeat: () => {
-          translation.set(from);
-        },
+        onRepeat: () => { translation.set(from); },
       });
     }
 
     return controls?.stop;
-  }, [
-    key,
-    translation,
-    currentDuration,
-    width,
-    height,
-    gap,
-    isTransitioning,
-    direction,
-    reverse,
-  ]);
+  }, [key, translation, currentDuration, width, height, gap, isTransitioning, direction, reverse]);
 
   const hoverProps = effectiveDurationOnHover
     ? {
-        onHoverStart: () => {
-          setIsTransitioning(true);
-          setCurrentDuration(effectiveDurationOnHover);
-        },
-        onHoverEnd: () => {
-          setIsTransitioning(true);
-          setCurrentDuration(effectiveDuration);
-        },
+        onHoverStart: () => { setIsTransitioning(true); setCurrentDuration(effectiveDurationOnHover); },
+        onHoverEnd:   () => { setIsTransitioning(true); setCurrentDuration(effectiveDuration); },
       }
     : {};
 
   return (
     <div className={cn('overflow-hidden', className)}>
       <motion.div
-        className='flex w-max'
+        className="flex w-max"
         style={{
-          ...(direction === 'horizontal'
-            ? { x: translation }
-            : { y: translation }),
+          ...(direction === 'horizontal' ? { x: translation } : { y: translation }),
           gap: `${gap}px`,
           flexDirection: direction === 'horizontal' ? 'row' : 'column',
         }}
