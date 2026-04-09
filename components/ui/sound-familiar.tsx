@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-import Lenis from 'lenis';
-import { ZoomParallax } from '@/components/ui/zoom-parallax';
+import { ZoomParallax, type BodySegment } from '@/components/ui/zoom-parallax';
 
 const panels = [
 	{ type: 'center' as const },
@@ -14,23 +12,27 @@ const panels = [
 	{ type: 'quote' as const, quote: 'I felt like a small fish.', sub: 'Pitched by the expert, handed off to the most junior person.' },
 ];
 
+// Each segment fades in sequentially. Highlighted phrases draw the eye.
+const bodySegments: BodySegment[] = [
+	{ text: "You've tried " },
+	{ text: 'marketing before.', highlight: 'orange' },
+	{ text: ' They ' },
+	{ text: 'promised results,', highlight: 'bold' },
+	{ text: ' sent reports full of jargon, and ' },
+	{ text: 'disappeared', highlight: 'italic-orange' },
+	{ text: ' when you had questions. ' },
+	{ text: 'Your phone never rang', highlight: 'bold' },
+	{ text: ' any more than it did before.' },
+];
+
 export function SoundFamiliar() {
-	React.useEffect(() => {
-		const lenis = new Lenis();
-
-		function raf(time: number) {
-			lenis.raf(time);
-			requestAnimationFrame(raf);
-		}
-
-		requestAnimationFrame(raf);
-
-		return () => lenis.destroy();
-	}, []);
-
 	return (
 		<section>
-			<ZoomParallax panels={panels} />
+			<ZoomParallax
+				panels={panels}
+				bodySegments={bodySegments}
+				promiseText="We do it differently — and we can prove it."
+			/>
 		</section>
 	);
 }
