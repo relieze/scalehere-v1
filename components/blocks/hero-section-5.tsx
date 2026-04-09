@@ -16,17 +16,17 @@ export function HeroSection() {
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
                                 <h1 className="font-heading mt-8 max-w-2xl text-balance text-5xl font-bold md:text-6xl lg:mt-4 xl:text-7xl">
-                                    We Manage All Your Content & Ads With Just 1 Hour of Your Time Each Week.
+                                    Stop Wasting Money on Marketing That Doesn't Bring Customers.
                                 </h1>
                                 <p className="mt-8 max-w-2xl text-balance text-lg">
-                                    We create campaigns that turn followers into buyers, and buyers into loyal customers.
+                                    We build revenue-generating marketing systems for San Diego businesses — in just 1 hour of your time per week.
                                 </p>
 
                                 <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                                     <Link
                                         href="#contact"
                                         className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full pl-5 pr-3 text-base")}>
-                                        <span className="text-nowrap">Apply Now</span>
+                                        <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="ml-1" />
                                     </Link>
                                     <Link

@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const stats = [
-  { value: 100, suffix: "+", label: "Happy Clients" },
-  { value: 10, suffix: "+", label: "Years of Experience" },
-  { value: 50, suffix: "+", label: "Businesses Scaled" },
-  { value: 1, prefix: "$", suffix: "M+", label: "Revenue Generated" },
+  { value: 100, suffix: "+", label: "San Diego Businesses Trust Us" },
+  { value: 10, suffix: "+", label: "Years Growing Local Businesses" },
+  { value: 50, suffix: "+", label: "Businesses Scaled to Their Next Revenue Milestone" },
+  { value: 1, prefix: "$", suffix: "M+", label: "Revenue Generated for Clients" },
 ];
 
 function useCountUp(target: number, duration = 2000, start = false) {
