@@ -1,6 +1,6 @@
 # TESTIMONIALS SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/testimonials
+# Browse: https://21st.dev/community/components/vaib215/stagger-testimonials/default
 # Look for: dark background, quote cards or grid layout, client name + role, star ratings optional
 # Avoid: carousels that auto-play aggressively — static grid or subtle scroll preferred
 

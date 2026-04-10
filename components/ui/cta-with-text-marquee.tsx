@@ -38,6 +38,8 @@ function VerticalMarquee({
       className={cn("group flex flex-col overflow-hidden", className)}
       style={{ "--duration": `${speed}s` } as React.CSSProperties}
     >
+      {/* Single animated wrapper with both copies — -50% lands exactly at the duplicate,
+          making the reset invisible and the loop seamless */}
       <div
         className={cn(
           "flex shrink-0 flex-col animate-marquee-vertical",
@@ -45,17 +47,8 @@ function VerticalMarquee({
           pauseOnHover && "group-hover:[animation-play-state:paused]"
         )}
       >
-        {children}
-      </div>
-      <div
-        className={cn(
-          "flex shrink-0 flex-col animate-marquee-vertical",
-          reverse && "[animation-direction:reverse]",
-          pauseOnHover && "group-hover:[animation-play-state:paused]"
-        )}
-        aria-hidden="true"
-      >
-        {children}
+        <div className="flex flex-col">{children}</div>
+        <div className="flex flex-col" aria-hidden="true">{children}</div>
       </div>
     </div>
   );
@@ -94,13 +87,13 @@ export default function CTAWithVerticalMarquee() {
       });
     };
 
-    const animationFrame = () => {
+    let frameId: number;
+    const loop = () => {
       updateOpacity();
-      requestAnimationFrame(animationFrame);
+      frameId = requestAnimationFrame(loop);
     };
-
-    const frame = requestAnimationFrame(animationFrame);
-    return () => cancelAnimationFrame(frame);
+    frameId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(frameId);
   }, []);
 
   return (

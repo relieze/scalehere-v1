@@ -1,6 +1,6 @@
 # CONTACT CTA SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/cta (11 options)
+# Browse: https://21st.dev/community/components/uimix/cta-with-text-marquee/cta-with-vertical-marquee-left
 # Look for: full-width banner, bold headline + 1-2 buttons, dark bg with accent color button
 # Avoid: embedded forms — keep it simple with "Apply Now" / "Contact Us" buttons only
 

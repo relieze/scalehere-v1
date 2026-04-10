@@ -1,6 +1,6 @@
 # STATS / NUMBERS SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/stats (17 options)
+# Browse: https://21st.dev/community/components/reui/statistics-card-1/default
 # Look for: horizontal row of 4 big numbers, animated count-up bonus, dark bg, minimal layout
 # Stats to fill in: 100+ clients | 10+ years experience | 50+ businesses scaled | $1M+ revenue
 

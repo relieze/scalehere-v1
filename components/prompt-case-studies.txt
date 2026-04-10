@@ -1,6 +1,6 @@
 # CASE STUDIES / CLIENT SHOWCASE SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/portfolio or https://21st.dev/s/case-studies
+# Browse: https://21st.dev/community/components/ravikatiyar/circular-gallery/default
 # Look for: dark background, project cards with image + title + description, grid or scroll layout
 
 You are given a task to integrate an existing React component in the codebase

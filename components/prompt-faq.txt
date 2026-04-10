@@ -1,6 +1,6 @@
 # FAQ / OBJECTION HANDLING
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/faq
+# Browse: https://21st.dev/community/components/efferd/faqs-1/default
 # Look for: accordion-style FAQ with smooth open/close animation
 
 You are given a task to integrate an existing React component in the codebase

@@ -1,6 +1,6 @@
 # CLIENT LOGOS / SOCIAL PROOF ROW
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/logo
+# Browse: https://21st.dev/community/components/efferd/logo-cloud-3/default
 # Look for: horizontal scrolling marquee / ticker strip of client or platform logos
 
 You are given a task to integrate an existing React component in the codebase
