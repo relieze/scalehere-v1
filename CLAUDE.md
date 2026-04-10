@@ -29,7 +29,7 @@ npm run build   # production build
 ## Design Direction
 - Dark navy background (`#070D18`), sunset orange accent (`#FB923C`) — Coastal Twilight scheme (pending final decision)
 - Radial gradient blobs for depth — no flat backgrounds
-- Two fonts: Syne (headings) + DM Sans (body)
+- Three fonts: Syne (headings) + Plus Jakarta Sans (body) + Fraunces (accent/pull quotes)
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
 
@@ -45,7 +45,10 @@ npm run build   # production build
 - Explain what you're doing in plain English — user is a beginner
 
 ## Workflow Notes
-- After completing a significant change: ask user to check, then commit with a descriptive message
+- Before every task: restate interpretation in plain English and ask for confirmation before touching any files
+- Before every commit: ask for confirmation — never commit on your own initiative
+- Never push unless explicitly asked to
+- After completing a significant change: ask user to check in browser before committing
 - Never commit broken code
 - No Co-Authored-By in commit messages
 
