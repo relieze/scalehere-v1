@@ -100,7 +100,7 @@ export function PortfolioAccordion() {
   const toggle = (id: string) => setOpenId(prev => (prev === id ? null : id));
 
   return (
-    <div className="w-full max-w-5xl mx-auto divide-y divide-white/10 border-y border-white/10">
+    <div className="w-full max-w-5xl mx-auto divide-y divide-white/20 border-y border-white/20">
       {CLIENTS.map((client) => {
         const isOpen = openId === client.id;
 
@@ -109,7 +109,7 @@ export function PortfolioAccordion() {
             {/* ── Row header ── */}
             <button
               onClick={() => toggle(client.id)}
-              className="w-full flex items-center gap-5 py-6 px-2 text-left group"
+              className="w-full flex items-center gap-5 py-9 px-2 text-left group"
             >
               {/* Thumbnail */}
               <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
@@ -189,9 +189,11 @@ export function PortfolioAccordion() {
                     {/* Right: results grid */}
                     <div className="grid grid-cols-2 gap-4 content-start">
                       {client.results.map((r) => (
-                        <div key={r.label} className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
-                          <p className="text-3xl font-bold font-heading text-foreground">{r.value}</p>
-                          <p className="text-xs text-muted-foreground mt-1.5 uppercase tracking-wider">{r.label}</p>
+                        <div key={r.label} className="chrome-border rounded-xl">
+                          <div className="rounded-[11px] bg-white/[0.03] p-5">
+                            <p className="text-3xl font-bold font-heading text-foreground">{r.value}</p>
+                            <p className="text-xs text-muted-foreground mt-1.5 uppercase tracking-wider">{r.label}</p>
+                          </div>
                         </div>
                       ))}
                     </div>

@@ -1,6 +1,6 @@
 # ABOUT SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/about
+# Browse: https://21st.dev/community/components/jatin-yadav05/radial-orbital-timeline/default
 # Look for: two-column layout with mission/vision text and brand pillars or values grid
 
 You are given a task to integrate an existing React component in the codebase

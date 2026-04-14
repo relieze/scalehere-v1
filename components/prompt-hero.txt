@@ -1,6 +1,6 @@
 # HERO SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/hero
+# Browse: https://21st.dev/community/components/tailark/hero-section-5/default
 # Look for: dark background, bold headline + subheadline + CTA button, radial gradient or animated bg
 
 You are given a task to integrate an existing React component in the codebase
