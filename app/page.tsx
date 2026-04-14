@@ -2,7 +2,6 @@ import { HeroSection } from "@/components/blocks/hero-section-5";
 import { SoundFamiliar } from "@/components/ui/sound-familiar";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
 import { HowItWorks } from "@/components/ui/how-it-works";
-import { StatsSection } from "@/components/ui/stats-section";
 import { TestimonialsSection } from "@/components/ui/testimonial-v2";
 import { CaseStudiesSection } from "@/components/ui/case-studies-section";
 import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
@@ -11,7 +10,6 @@ import TeamShowcase from "@/components/ui/team-showcase";
 import { FAQSection } from "@/components/ui/faq-section";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 import { StickyFooter } from "@/components/ui/sticky-footer";
-import { ClientLogosSection } from "@/components/ui/logo-cloud";
 
 export default function Home() {
   return (
@@ -42,11 +40,6 @@ export default function Home() {
       {/* ── Section 4: How It Works ──────────────────────── */}
       <HowItWorks />
 
-      {/* ── Section 5: Stats ────────────────────────────── */}
-      <StatsSection />
-
-      {/* ── Section 5b: Platform Logos ──────────────────── */}
-      <ClientLogosSection />
 
       {/* ── Section 6: Testimonials ─────────────────────── */}
       <section className="w-full pt-24 md:pt-32 pb-4 px-4">
