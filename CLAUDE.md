@@ -27,8 +27,8 @@ npm run build   # production build
 - `lib/utils.ts` — `cn()` helper
 
 ## Design Direction
-- Dark navy background (`#070D18`), sunset orange accent (`#FB923C`) — Coastal Twilight scheme (pending final decision)
-- Radial gradient blobs for depth — no flat backgrounds
+- True black background (`#000000`) + texture image (`public/Darkshell-12.jpeg`) + `body::before` rgba(0,0,0,0.55) overlay to dim it, electric blue accent (`#3B82F6`) — Electric Black scheme
+- Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px)
 - Three fonts: Syne (headings) + Plus Jakarta Sans (body) + Fraunces (accent/pull quotes)
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
@@ -64,4 +64,4 @@ The following files are gitignored and only exist on the owner's machine:
 
 **At the start of every session:** read `../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
 
-**End of session:** update `my_references/current.md`, `my_references/v1.md`, and any docs that changed. Commit everything.
+**End of session:** update `my_references/HANDOFF.md`, `my_references/v1.md`, and any docs that changed. Commit everything.

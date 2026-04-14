@@ -88,18 +88,20 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                     transition: 'opacity 0.3s linear',
                   }}
                 >
-                  <div className="relative w-full h-full rounded-lg shadow-2xl overflow-hidden border border-white/10 bg-card/30 backdrop-blur-lg">
-                    <img
-                      src={item.photo.url}
-                      alt={item.photo.text}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      style={{ objectPosition: item.photo.pos || 'center' }}
-                    />
-                    {/* Card overlay */}
-                    <div className="absolute bottom-0 left-0 w-full px-4 pt-20 pb-5 bg-gradient-to-t from-black from-40% via-black/80 to-transparent text-white">
-                      <h2 className="text-xl font-bold font-heading leading-tight">{item.client}</h2>
-                      <p className="text-sm text-primary mt-1">{item.industry}</p>
-                      <p className="text-xs mt-1.5 text-white/80">{item.photo.website}</p>
+                  <div className="chrome-border rounded-lg shadow-2xl w-full h-full" style={{ padding: '3px' }}>
+                    <div className="relative w-full h-full rounded-[5px] overflow-hidden bg-card/30 backdrop-blur-lg">
+                      <img
+                        src={item.photo.url}
+                        alt={item.photo.text}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        style={{ objectPosition: item.photo.pos || 'center' }}
+                      />
+                      {/* Card overlay */}
+                      <div className="absolute bottom-0 left-0 w-full px-4 pt-20 pb-5 bg-gradient-to-t from-black from-40% via-black/80 to-transparent text-white">
+                        <h2 className="text-xl font-bold font-heading leading-tight">{item.client}</h2>
+                        <p className="text-sm text-primary mt-1">{item.industry}</p>
+                        <p className="text-xs mt-1.5 text-white/80">{item.photo.website}</p>
+                      </div>
                     </div>
                   </div>
                 </div>

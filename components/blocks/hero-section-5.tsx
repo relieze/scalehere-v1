@@ -5,6 +5,27 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight } from 'lucide-react'
 import { useScroll, motion } from 'motion/react'
+import { InfiniteSlider } from '@/components/ui/infinite-slider'
+
+const trustStats = [
+    { number: '100+', label: 'Clients Trust Us' },
+    { number: '10+',  label: 'Years in Business' },
+    { number: '50+',  label: 'Businesses Scaled' },
+    { number: '$1M+', label: 'Revenue Generated' },
+]
+
+const trustLogos = [
+    { src: 'https://svgl.app/library/instagram-wordmark.svg',  alt: 'Instagram', width: 120, height: 24 },
+    { src: 'https://svgl.app/library/facebook-wordmark.svg',   alt: 'Facebook',  width: 110, height: 24 },
+    { src: 'https://svgl.app/library/tiktok-wordmark-light.svg', alt: 'TikTok',  width: 100, height: 24 },
+    { src: 'https://svgl.app/library/google-wordmark.svg',     alt: 'Google',    width: 90,  height: 24 },
+    { src: 'https://svgl.app/library/linkedin.svg',            alt: 'LinkedIn',  width: 28,  height: 28 },
+    { src: 'https://svgl.app/library/meta.svg',                alt: 'Meta',      width: 90,  height: 24 },
+    { src: 'https://svgl.app/library/pinterest.svg',           alt: 'Pinterest', width: 28,  height: 28 },
+]
+
+// Logos that don't render cleanly with brightness-0 invert — rendered as text instead
+const trustLogoText = ['YouTube', 'Snapchat']
 
 export function HeroSection() {
     return (
@@ -37,7 +58,49 @@ export function HeroSection() {
                                 </div>
                             </div>
                         </div>
-                        <div className="aspect-[2/3] absolute inset-0 overflow-hidden sm:aspect-video">
+                    </div>
+
+                    {/* Trust strip — absolute, flush to bottom of hero, above video layer */}
+                    <div className="absolute bottom-0 inset-x-0 z-10 hidden md:block border-t border-white/10 backdrop-blur-sm bg-black/40">
+                        <div className="mx-auto max-w-7xl px-8 py-4 flex items-center gap-8">
+                            {/* Stats */}
+                            <div className="flex items-center gap-8 shrink-0">
+                                {trustStats.map((stat) => (
+                                    <div key={stat.number} className="flex flex-col gap-0.5">
+                                        <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
+                                        <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            {/* Vertical divider */}
+                            <div className="w-px self-stretch bg-white/10" />
+                            {/* Logo marquee */}
+                            <div className="flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+                                <InfiniteSlider gap={40} speed={70} speedOnHover={25}>
+                                    {trustLogos.map((logo) => (
+                                        <img
+                                            key={logo.alt}
+                                            src={logo.src}
+                                            alt={logo.alt}
+                                            width={logo.width}
+                                            height={logo.height}
+                                            className="h-5 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
+                                        />
+                                    ))}
+                                    {trustLogoText.map((name) => (
+                                        <span
+                                            key={name}
+                                            className="text-sm font-semibold tracking-wide text-white/40 whitespace-nowrap select-none"
+                                        >
+                                            {name}
+                                        </span>
+                                    ))}
+                                </InfiniteSlider>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="aspect-[2/3] absolute inset-0 overflow-hidden sm:aspect-video">
                             <video
                                 autoPlay
                                 loop
@@ -47,7 +110,6 @@ export function HeroSection() {
                                 src="/hero_sunset_bridge_bg.mp4">
                             </video>
                         </div>
-                    </div>
                 </section>
             </main>
         </>

@@ -1,6 +1,6 @@
 # FOOTER
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/footer
+# Browse: https://21st.dev/community/components/efferd/sticky-footer/default
 # Look for: dark footer with logo left, nav links, social icons, and a copyright line
 
 You are given a task to integrate an existing React component in the codebase

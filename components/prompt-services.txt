@@ -1,6 +1,6 @@
 # SERVICES SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/services (3 options) or https://21st.dev/s/features (fallback)
+# Browse: https://21st.dev/community/components/0xUrvish/feature-carousel/default
 # Look for: 3-card layout, icon + title + description, dark cards with accent borders/glow
 
 You are given a task to integrate an existing React component in the codebase

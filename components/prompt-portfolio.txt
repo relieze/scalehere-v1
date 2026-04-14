@@ -1,6 +1,6 @@
 # CLIENT PORTFOLIO / DETAILED CASE STUDIES SECTION
 # Paste the Claude Code prompt from 21st.dev here.
-# Browse: https://21st.dev/s/portfolio or https://21st.dev/s/case-study
+# Browse: https://21st.dev/community/components/thanh/interactive-selector/default
 # Look for: expandable cards or tabbed layout, room for image + metrics + description per client
 
 You are given a task to integrate an existing React component in the codebase
