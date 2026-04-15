@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransform, motion, useMotionValue } from 'motion/react';
+import { useTransform, motion, useMotionValue, MotionValue } from 'motion/react';
 import { useRef, useEffect, useState } from 'react';
 
 interface Panel {
@@ -96,7 +96,7 @@ export function ZoomParallax({ panels, bodySegments, promiseText }: ZoomParallax
 	];
 
 	// Center panel — accepts scale + optional class for vertical offset (e.g. tablet push-up)
-	const makeCenterPanel = (scale: ReturnType<typeof useTransform>, extraClass = '') => (
+	const makeCenterPanel = (scale: MotionValue<number>, extraClass = '') => (
 		<motion.div
 			style={{ scale }}
 			className={`absolute inset-0 flex items-center justify-center z-20 pointer-events-none ${extraClass}`}
