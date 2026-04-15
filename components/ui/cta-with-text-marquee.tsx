@@ -157,17 +157,17 @@ export default function CTAWithVerticalMarquee() {
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:600ms]">
               <Link
                 href="#cta-form"
-                className="group relative px-6 py-3 bg-primary text-white rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+                className="group relative px-6 py-3 btn-chrome rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <span className="relative z-10">GET MY FREE AUDIT</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               </Link>
               <a
                 href="tel:7604437876"
-                className="group relative px-6 py-3 bg-secondary text-secondary-foreground rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg border border-border"
+                className="group relative px-6 py-3 btn-chrome rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <span className="relative z-10">CALL 760-443-7876</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               </a>
             </div>
 
@@ -236,7 +236,7 @@ export default function CTAWithVerticalMarquee() {
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="w-full px-6 py-3 bg-primary text-white rounded-md font-medium text-sm tracking-wide transition-all duration-300 hover:brightness-110 hover:shadow-lg hover:shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-6 py-3 btn-chrome rounded-md font-medium text-sm tracking-wide transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {status === "loading" ? "Sending…" : "SEND MESSAGE"}
                   </button>

@@ -36,7 +36,7 @@ export function HeroSection() {
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
-                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-5xl font-bold md:text-6xl lg:mt-4 xl:text-7xl">
+                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-bold md:text-6xl lg:mt-4 xl:text-7xl">
                                     Stop Wasting Money on Marketing That Doesn't Bring Customers.
                                 </h1>
                                 <p className="mt-8 max-w-2xl text-balance text-lg">
@@ -46,13 +46,13 @@ export function HeroSection() {
                                 <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                                     <Link
                                         href="#contact"
-                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full pl-5 pr-3 text-base")}>
+                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base")}>
                                         <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="ml-1" />
                                     </Link>
                                     <Link
                                         href="#about"
-                                        className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-full px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
+                                        className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-md px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
                                         <span className="text-nowrap">Learn More</span>
                                     </Link>
                                 </div>
@@ -61,22 +61,53 @@ export function HeroSection() {
                     </div>
 
                     {/* Trust strip — absolute, flush to bottom of hero, above video layer */}
-                    <div className="absolute bottom-0 inset-x-0 z-10 hidden md:block border-t border-white/10 backdrop-blur-sm bg-black/40">
-                        <div className="mx-auto max-w-7xl px-8 py-4 flex items-center gap-8">
-                            {/* Stats */}
-                            <div className="flex items-center gap-8 shrink-0">
-                                {trustStats.map((stat) => (
-                                    <div key={stat.number} className="flex flex-col gap-0.5">
-                                        <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                        <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
-                                    </div>
-                                ))}
+                    <div className="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
+
+                        {/* Mobile: stacked rows */}
+                        <div className="md:hidden py-3 flex flex-col gap-3">
+                            {/* Stats infinite scroll */}
+                            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+                                <InfiniteSlider gap={28} speed={35}>
+                                    {trustStats.map((stat) => (
+                                        <div key={stat.number} className="flex flex-col gap-0.5 items-center px-3">
+                                            <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
+                                            <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                        </div>
+                                    ))}
+                                </InfiniteSlider>
                             </div>
-                            {/* Vertical divider */}
-                            <div className="w-px self-stretch bg-white/10" />
+                            {/* Aesthetic divider — inset, fades at ends */}
+                            <div className="mx-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                             {/* Logo marquee */}
-                            <div className="flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-                                <InfiniteSlider gap={40} speed={70} speedOnHover={25}>
+                            <div className="py-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+                                <InfiniteSlider gap={48} speed={70}>
+                                    {trustLogos.map((logo) => (
+                                        <img
+                                            key={logo.alt}
+                                            src={logo.src}
+                                            alt={logo.alt}
+                                            width={logo.width}
+                                            height={logo.height}
+                                            className="h-4 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
+                                        />
+                                    ))}
+                                    {trustLogoText.map((name) => (
+                                        <span
+                                            key={name}
+                                            className="text-xs font-semibold tracking-wide text-white/40 whitespace-nowrap select-none"
+                                        >
+                                            {name}
+                                        </span>
+                                    ))}
+                                </InfiniteSlider>
+                            </div>
+                        </div>
+
+                        {/* md+: 50/50 side-by-side infinite scroll */}
+                        <div className="hidden md:flex items-center py-4">
+                            {/* Logo marquee — left half, scrolls left (default) */}
+                            <div className="w-1/2 pr-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_78%,transparent)]">
+                                <InfiniteSlider gap={56} speed={70} reverse>
                                     {trustLogos.map((logo) => (
                                         <img
                                             key={logo.alt}
@@ -97,10 +128,24 @@ export function HeroSection() {
                                     ))}
                                 </InfiniteSlider>
                             </div>
+                            {/* Vertical divider — centered */}
+                            <div className="w-px self-stretch bg-gradient-to-b from-transparent via-white/20 to-transparent shrink-0" />
+                            {/* Stats — right half, scrolls right (reverse) */}
+                            <div className="w-1/2 pl-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%,black_95%,transparent)]">
+                                <InfiniteSlider gap={40} speed={35} reverse>
+                                    {[...trustStats, ...trustStats, ...trustStats].map((stat, i) => (
+                                        <div key={i} className="flex flex-col gap-0.5 items-center px-4">
+                                            <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
+                                            <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                        </div>
+                                    ))}
+                                </InfiniteSlider>
+                            </div>
                         </div>
+
                     </div>
 
-                    <div className="aspect-[2/3] absolute inset-0 overflow-hidden sm:aspect-video">
+                    <div className="absolute inset-0 overflow-hidden">
                             <video
                                 autoPlay
                                 loop
@@ -134,8 +179,22 @@ const HeroHeader = () => {
         return () => unsubscribe()
     }, [scrollYProgress])
 
+    // Close mobile menu on scroll
+    React.useEffect(() => {
+        const handleScroll = () => { if (menuState) setMenuState(false) }
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [menuState])
+
     return (
         <header>
+            {/* Backdrop — tapping outside the menu closes it */}
+            {menuState && (
+                <div
+                    className="fixed inset-0 z-40 lg:hidden"
+                    onClick={() => setMenuState(false)}
+                />
+            )}
             <nav
                 data-state={menuState && 'active'}
                 className="group fixed z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
@@ -181,6 +240,7 @@ const HeroHeader = () => {
                                         <li key={index}>
                                             <Link
                                                 href={item.href}
+                                                onClick={() => setMenuState(false)}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
                                             </Link>
@@ -191,7 +251,8 @@ const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <Link
                                     href="#contact"
-                                    className={cn(buttonVariants({ size: "sm" }))}>
+                                    onClick={() => setMenuState(false)}
+                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md")}>
                                     <span>Apply Now</span>
                                 </Link>
                             </div>

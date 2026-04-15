@@ -213,3 +213,14 @@
   );
   padding: 1px;
 }
+
+/* Chrome fill button — metallic silver gradient, dark text */
+@layer utilities {
+  .btn-chrome {
+    background: linear-gradient(135deg, #e2e2e2 0%, #a8a8a8 35%, #d4d4d4 65%, #8c8c8c 100%);
+    color: #0a0a0a;
+  }
+  .btn-chrome:hover {
+    background: linear-gradient(135deg, #ececec 0%, #b8b8b8 35%, #e0e0e0 65%, #9e9e9e 100%);
+  }
+}
