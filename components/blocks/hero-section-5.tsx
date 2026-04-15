@@ -107,7 +107,7 @@ export function HeroSection() {
                                 muted
                                 playsInline
                                 className="size-full object-cover opacity-50 invert dark:opacity-35 dark:invert-0 dark:lg:opacity-75"
-                                src="/skyscraper_array.mp4">
+                                src="/hero_sunset_bridge_bg.mp4">
                             </video>
                         </div>
                 </section>
@@ -134,8 +134,22 @@ const HeroHeader = () => {
         return () => unsubscribe()
     }, [scrollYProgress])
 
+    // Close mobile menu on scroll
+    React.useEffect(() => {
+        const handleScroll = () => { if (menuState) setMenuState(false) }
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [menuState])
+
     return (
         <header>
+            {/* Backdrop — tapping outside the menu closes it */}
+            {menuState && (
+                <div
+                    className="fixed inset-0 z-40 lg:hidden"
+                    onClick={() => setMenuState(false)}
+                />
+            )}
             <nav
                 data-state={menuState && 'active'}
                 className="group fixed z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
@@ -181,6 +195,7 @@ const HeroHeader = () => {
                                         <li key={index}>
                                             <Link
                                                 href={item.href}
+                                                onClick={() => setMenuState(false)}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
                                             </Link>
@@ -191,6 +206,7 @@ const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <Link
                                     href="#contact"
+                                    onClick={() => setMenuState(false)}
                                     className={cn(buttonVariants({ size: "sm" }), "rounded-md")}>
                                     <span>Apply Now</span>
                                 </Link>

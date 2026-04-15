@@ -222,7 +222,7 @@ export default function RadialOrbitalTimeline() {
   // ── Orbital canvas (shared between both layouts) ───────────
   const orbitalCanvas = (
     <div
-      className="relative flex items-center justify-center w-full h-[580px] lg:h-[640px] lg:flex-1"
+      className="relative flex items-center justify-center w-full h-[580px] lg:h-[640px] lg:flex-1 overflow-hidden"
       onClick={handleContainerClick}
     >
       {/* Ring decorations */}
