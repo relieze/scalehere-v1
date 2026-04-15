@@ -80,7 +80,7 @@ export function HeroSection() {
                             <div className="mx-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                             {/* Logo marquee */}
                             <div className="py-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-                                <InfiniteSlider gap={48} speed={60} speedOnHover={10}>
+                                <InfiniteSlider gap={48} speed={70}>
                                     {trustLogos.map((logo) => (
                                         <img
                                             key={logo.alt}
@@ -107,7 +107,7 @@ export function HeroSection() {
                         <div className="hidden md:flex items-center py-4">
                             {/* Logo marquee — left half, scrolls left (default) */}
                             <div className="w-1/2 pr-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_78%,transparent)]">
-                                <InfiniteSlider gap={56} speed={70} speedOnHover={10} reverse>
+                                <InfiniteSlider gap={56} speed={70} reverse>
                                     {trustLogos.map((logo) => (
                                         <img
                                             key={logo.alt}
@@ -132,7 +132,7 @@ export function HeroSection() {
                             <div className="w-px self-stretch bg-gradient-to-b from-transparent via-white/20 to-transparent shrink-0" />
                             {/* Stats — right half, scrolls right (reverse) */}
                             <div className="w-1/2 pl-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%,black_95%,transparent)]">
-                                <InfiniteSlider gap={40} speed={35} speedOnHover={10} reverse>
+                                <InfiniteSlider gap={40} speed={35} reverse>
                                     {[...trustStats, ...trustStats, ...trustStats].map((stat, i) => (
                                         <div key={i} className="flex flex-col gap-0.5 items-center px-4">
                                             <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
