@@ -67,7 +67,7 @@ export function HeroSection() {
                         <div className="md:hidden py-3 flex flex-col gap-3">
                             {/* Stats infinite scroll */}
                             <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-                                <InfiniteSlider gap={28} speed={35}>
+                                <InfiniteSlider gap={28} speed={35} reverse>
                                     {trustStats.map((stat) => (
                                         <div key={stat.number} className="flex flex-col gap-0.5 items-center px-3">
                                             <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
@@ -80,7 +80,7 @@ export function HeroSection() {
                             <div className="mx-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                             {/* Logo marquee */}
                             <div className="py-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-                                <InfiniteSlider gap={48} speed={70}>
+                                <InfiniteSlider gap={48} speed={70} reverse>
                                     {trustLogos.map((logo) => (
                                         <img
                                             key={logo.alt}
@@ -145,16 +145,6 @@ export function HeroSection() {
 
                     </div>
 
-                    <div className="absolute inset-0 overflow-hidden">
-                            <video
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                className="size-full object-cover opacity-50 invert dark:opacity-35 dark:invert-0 dark:lg:opacity-75"
-                                src="/hero_sunset_bridge_bg.mp4">
-                            </video>
-                        </div>
                 </section>
             </main>
         </>
