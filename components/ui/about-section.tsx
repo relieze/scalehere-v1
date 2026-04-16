@@ -4,7 +4,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="w-full py-24 md:py-32 px-6 bg-background border-b border-border/30"
+      className="w-full py-24 md:py-32 px-6 bg-background"
     >
       <div className="max-w-6xl mx-auto">
 

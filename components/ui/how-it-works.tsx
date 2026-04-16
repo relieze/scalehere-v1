@@ -75,22 +75,22 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section className="w-full py-24 md:py-32 px-6 bg-background border-t border-border/30">
+    <section className="w-full py-16 md:py-24 lg:py-32 px-6">
       <div className="max-w-3xl mx-auto">
 
         {/* Section header */}
         <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
           The Process
         </p>
-        <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mb-4">
+        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
           How It Works
         </h2>
-        <p className="text-muted-foreground text-lg mb-16 max-w-xl">
+        <p className="text-muted-foreground text-lg mb-10 md:mb-16 max-w-xl">
           Simple, transparent, and built around your results.
         </p>
 
         {/* Timeline steps */}
-        <div className="space-y-16 md:space-y-24">
+        <div className="space-y-12 md:space-y-16 lg:space-y-24">
           {steps.map((step, index) => {
             const isActive = index === activeIndex;
 
@@ -108,7 +108,7 @@ export function HowItWorks() {
                 />
 
                 {/* Left: independently sticky label */}
-                <div className="top-24 flex h-min w-56 shrink-0 items-center gap-3 md:sticky">
+                <div className="top-24 flex h-min w-full md:w-56 md:shrink-0 items-center gap-3 md:sticky">
                   <div
                     className={`p-2 rounded-lg transition-colors duration-300 ${
                       isActive

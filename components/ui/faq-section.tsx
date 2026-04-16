@@ -48,7 +48,7 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section className="w-full py-24 md:py-32 px-6 bg-background border-t border-border/30">
+    <section className="w-full py-24 md:py-32 px-6 bg-background">
       <div className="mx-auto w-full max-w-3xl space-y-7">
 
         {/* Header */}
