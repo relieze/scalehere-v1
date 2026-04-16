@@ -51,6 +51,7 @@ npm run build   # production build
 - After completing a significant change: ask user to check in browser before committing
 - Never commit broken code
 - No Co-Authored-By in commit messages
+- Commit format: `type(scope): description` — Conventional Commits. Full convention in `../../PLAYBOOK.md`
 
 ---
 
