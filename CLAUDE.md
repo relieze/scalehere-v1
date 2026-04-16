@@ -64,4 +64,4 @@ The following files are gitignored and only exist on the owner's machine:
 
 **At the start of every session:** read `../../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
 
-**End of session:** update `my_references/HANDOFF.md`, `my_references/v1.md`, and any docs that changed. Commit everything.
+**End of session:** follow the end of session protocol in `../../PLAYBOOK.md`.

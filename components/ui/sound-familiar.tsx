@@ -1,17 +1,18 @@
 'use client';
 
-import { ZoomParallax, type BodySegment } from '@/components/ui/zoom-parallax';
+import { ZoomParallax, type Quote, type BodySegment } from '@/components/ui/zoom-parallax';
 
-const panels = [
-	{ type: 'center' as const },
-	{ type: 'quote' as const, quote: 'Cookie-cutter campaigns, copy-pasted.', sub: 'No strategy built around my business. Just a recycled formula.' },
-	{ type: 'quote' as const, quote: 'No one could explain what they were doing.', sub: 'Every question got a five-page report. Never a straight answer.' },
-	{ type: 'quote' as const, quote: 'They held my accounts hostage.', sub: "Couldn't access my own Google or Meta accounts when I left." },
-	{ type: 'quote' as const, quote: 'More excuses than results.', sub: 'Always "we need more time, more budget." Month after month.' },
-	{ type: 'quote' as const, quote: 'I was locked in for 12 months.', sub: 'No performance clause. No way out. Just invoices with nothing to show.' },
-	{ type: 'quote' as const, quote: 'I spent thousands and got nothing.', sub: 'Reports full of clicks and impressions. Phone never rang.' },
-	{ type: 'quote' as const, quote: 'They ghosted me after month one.', sub: 'Emails ignored. Account rep gone. Basic communication paywalled.' },
-	{ type: 'quote' as const, quote: 'I felt like a small fish.', sub: 'Pitched by the expert, handed off to the most junior person.' },
+// All available quotes — assign to any layout slot freely.
+// Changing a quote here only affects the layouts that reference its index.
+const quotes: Quote[] = [
+	{ quote: 'No one could explain what they were doing.', sub: 'Every question got a five-page report. Never a straight answer.' },          // 0
+	{ quote: 'Cookie-cutter campaigns, copy-pasted.', sub: 'No strategy built around my business. Just a recycled formula.' },                 // 1
+	{ quote: 'I felt like a small fish.', sub: 'Pitched by the expert, handed off to the most junior person.' },                               // 2
+	{ quote: 'More excuses than results.', sub: 'Always "we need more time, more budget." Month after month.' },                               // 3
+	{ quote: 'They ghosted me after month one.', sub: 'Emails ignored. Account rep gone. Basic communication paywalled.' },                    // 4
+	{ quote: 'They held my accounts hostage.', sub: "Couldn't access my own Google or Meta accounts when I left." },                           // 5
+	{ quote: 'I was locked in for 12 months.', sub: 'No performance clause. No way out. Just invoices with nothing to show.' },                // 6
+	{ quote: 'I spent thousands and got nothing.', sub: 'Reports full of clicks and impressions. Phone never rang.' },                         // 7
 ];
 
 // Each segment fades in sequentially. Highlighted phrases draw the eye.
@@ -31,7 +32,7 @@ export function SoundFamiliar() {
 	return (
 		<section>
 			<ZoomParallax
-				panels={panels}
+				quotes={quotes}
 				bodySegments={bodySegments}
 				promiseText="We do it differently — and we can prove it."
 			/>
