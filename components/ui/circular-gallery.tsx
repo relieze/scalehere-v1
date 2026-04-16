@@ -26,36 +26,98 @@ interface CircularGalleryProps extends HTMLAttributes<HTMLDivElement> {
 const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
   ({ items, className, radius = 600, autoRotateSpeed = 0.015, ...props }, ref) => {
     const [rotation, setRotation] = useState(0);
-    const manualSpeedRef = useRef(0); // extra speed added by holding a button
+    const rotationRef = useRef(0);          // source of truth for animation loop
     const animationFrameRef = useRef<number | null>(null);
+    const snapTargetRef = useRef<number | null>(null);  // target angle when snapping
+    const pauseUntilRef = useRef<number>(0);            // timestamp — pause auto-rotate until then
+    const isDraggingRef = useRef(false);
+    const dragStartXRef = useRef(0);
+    const dragStartRotRef = useRef(0);
 
-    // Auto-rotate + manual speed boost
+    // Responsive card size — smaller on mobile
+    const [cardW, setCardW] = useState(300);
+    const [cardH, setCardH] = useState(400);
     useEffect(() => {
-      const autoRotate = () => {
-        setRotation(prev => prev + autoRotateSpeed + manualSpeedRef.current);
-        animationFrameRef.current = requestAnimationFrame(autoRotate);
+      const updateCard = () => {
+        const mobile = window.innerWidth < 768;
+        setCardW(mobile ? 220 : 300);
+        setCardH(mobile ? 290 : 400);
       };
-      animationFrameRef.current = requestAnimationFrame(autoRotate);
+      updateCard();
+      window.addEventListener('resize', updateCard);
+      return () => window.removeEventListener('resize', updateCard);
+    }, []);
+
+    const anglePerItem = 360 / items.length;
+
+    // Animation loop — handles snap easing + auto-rotate + drag pause
+    useEffect(() => {
+      const tick = () => {
+        if (!isDraggingRef.current) {
+          if (snapTargetRef.current !== null) {
+            // Lerp toward snap target
+            const diff = snapTargetRef.current - rotationRef.current;
+            if (Math.abs(diff) < 0.3) {
+              rotationRef.current = snapTargetRef.current;
+              snapTargetRef.current = null;
+              pauseUntilRef.current = Date.now() + 3000; // pause 3s after snap
+            } else {
+              rotationRef.current += diff * 0.12;
+            }
+            setRotation(rotationRef.current);
+          } else if (Date.now() > pauseUntilRef.current) {
+            // Normal auto-rotate
+            rotationRef.current += autoRotateSpeed;
+            setRotation(rotationRef.current);
+          }
+        }
+        animationFrameRef.current = requestAnimationFrame(tick);
+      };
+      animationFrameRef.current = requestAnimationFrame(tick);
       return () => {
         if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
       };
     }, [autoRotateSpeed]);
 
-    const anglePerItem = 360 / items.length;
+    // Snap to adjacent card — direction: +1 next, -1 prev
+    const snapTo = (direction: 1 | -1) => {
+      const nearestStep = Math.round(rotationRef.current / anglePerItem);
+      snapTargetRef.current = (nearestStep + direction) * anglePerItem;
+    };
 
-    // Hold-to-spin: add speed while button is pressed, stop on release
-    const handlePrevStart = () => { manualSpeedRef.current = -0.4; };
-    const handleNextStart = () => { manualSpeedRef.current = 0.4; };
-    const handleManualEnd  = () => { manualSpeedRef.current = 0; };
+    // Drag/swipe handlers — pointer events cover mouse + touch uniformly
+    const onDragStart = (clientX: number) => {
+      isDraggingRef.current = true;
+      dragStartXRef.current = clientX;
+      dragStartRotRef.current = rotationRef.current;
+      pauseUntilRef.current = Date.now() + 999999; // freeze auto-rotate while dragging
+    };
+    const onDragMove = (clientX: number) => {
+      if (!isDraggingRef.current) return;
+      const delta = clientX - dragStartXRef.current;
+      rotationRef.current = dragStartRotRef.current + delta * 0.3;
+      setRotation(rotationRef.current);
+    };
+    const onDragEnd = () => {
+      if (!isDraggingRef.current) return;
+      isDraggingRef.current = false;
+      // Snap to nearest card; 3s pause is set inside the snap completion branch
+      const nearestStep = Math.round(rotationRef.current / anglePerItem);
+      snapTargetRef.current = nearestStep * anglePerItem;
+    };
 
     return (
-      <div className={cn("relative w-full h-full flex flex-col items-center justify-center", className)}>
-        {/* 3D viewport */}
+      <div ref={ref} className={cn("relative w-full h-full flex flex-col items-center justify-center", className)}>
+        {/* 3D viewport — drag/swipe enabled */}
         <div
           role="region"
           aria-label="Client Work Gallery"
-          className="relative w-full h-full flex items-center justify-center"
-          style={{ perspective: '2000px' }}
+          className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
+          style={{ perspective: '2000px', touchAction: 'none' }}
+          onPointerDown={(e) => { onDragStart(e.clientX); e.currentTarget.setPointerCapture(e.pointerId); }}
+          onPointerMove={(e) => onDragMove(e.clientX)}
+          onPointerUp={onDragEnd}
+          onPointerLeave={onDragEnd}
           {...props}
         >
           <div
@@ -77,13 +139,15 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   key={item.photo.url}
                   role="group"
                   aria-label={item.client}
-                  className="absolute w-[300px] h-[400px]"
+                  className="absolute"
                   style={{
+                    width: cardW,
+                    height: cardH,
                     transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
                     left: '50%',
                     top: '50%',
-                    marginLeft: '-150px',
-                    marginTop: '-200px',
+                    marginLeft: `-${cardW / 2}px`,
+                    marginTop: `-${cardH / 2}px`,
                     opacity,
                     transition: 'opacity 0.3s linear',
                   }}
@@ -110,27 +174,19 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           </div>
         </div>
 
-        {/* Prev button — left side, vertically centered */}
+        {/* Prev button — click snaps to previous card */}
         <button
-          onMouseDown={handlePrevStart}
-          onMouseUp={handleManualEnd}
-          onMouseLeave={handleManualEnd}
-          onTouchStart={handlePrevStart}
-          onTouchEnd={handleManualEnd}
-          aria-label="Rotate left"
+          onClick={() => snapTo(-1)}
+          aria-label="Previous"
           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur text-white hover:border-primary hover:bg-primary/20 transition-colors"
         >
           <ChevronLeft size={20} />
         </button>
 
-        {/* Next button — right side, vertically centered */}
+        {/* Next button — click snaps to next card */}
         <button
-          onMouseDown={handleNextStart}
-          onMouseUp={handleManualEnd}
-          onMouseLeave={handleManualEnd}
-          onTouchStart={handleNextStart}
-          onTouchEnd={handleManualEnd}
-          aria-label="Rotate right"
+          onClick={() => snapTo(1)}
+          aria-label="Next"
           className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur text-white hover:border-primary hover:bg-primary/20 transition-colors"
         >
           <ChevronRight size={20} />
