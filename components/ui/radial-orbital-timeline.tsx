@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { BookOpen, Eye, Palette, MessageSquare, Layers, Lightbulb } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface OrbitItem {
   id: string;
@@ -11,11 +10,12 @@ interface OrbitItem {
   tagline: string;
   content: string;
   icon: React.ElementType;
+  tier: "core" | "pillar";
 }
 
-// ── Orbit radii ───────────────────────────────────────────────
-const INNER_RADIUS = 150;
-const OUTER_RADIUS = 265;
+// ── Orbit radii (desktop defaults — overridden responsively) ──
+const DEFAULT_INNER = 150;
+const DEFAULT_OUTER = 265;
 
 // ── Data ──────────────────────────────────────────────────────
 const innerItems: OrbitItem[] = [
@@ -26,6 +26,7 @@ const innerItems: OrbitItem[] = [
     content:
       "We are a marketing agency dedicated to empowering businesses to expand their reach in the digital world. We specialize in crafting innovative strategies, compelling content, and impactful campaigns that elevate brands and drive growth. We treat clients like family.",
     icon: BookOpen,
+    tier: "core",
   },
   {
     id: "vision",
@@ -34,6 +35,7 @@ const innerItems: OrbitItem[] = [
     content:
       "To build a world where marketing feels real, fun, and deeply human. We support business owners across San Diego, Los Angeles, and beyond with creative, sustainable marketing that helps them grow without burning out.",
     icon: Eye,
+    tier: "core",
   },
 ];
 
@@ -45,6 +47,7 @@ const outerItems: OrbitItem[] = [
     content:
       "We shape your brand's look through tone, colors, props, and style so every photo speaks to your ideal client and builds instant recognition.",
     icon: Palette,
+    tier: "pillar",
   },
   {
     id: "storytelling",
@@ -53,6 +56,7 @@ const outerItems: OrbitItem[] = [
     content:
       "Brand storytelling is the art of conveying your ideas, values, and viewpoints through compelling, authentic media that resonates with real people.",
     icon: MessageSquare,
+    tier: "pillar",
   },
   {
     id: "design",
@@ -61,6 +65,7 @@ const outerItems: OrbitItem[] = [
     content:
       "From static graphics to animation and interactive pages — design that moves people and drives real engagement across every platform.",
     icon: Layers,
+    tier: "pillar",
   },
   {
     id: "consulting",
@@ -69,6 +74,7 @@ const outerItems: OrbitItem[] = [
     content:
       "Helping business owners master the craft and strategy of social media marketing from the ground up — so you always know what's working and why.",
     icon: Lightbulb,
+    tier: "pillar",
   },
 ];
 
@@ -85,68 +91,75 @@ function calcPosition(index: number, total: number, radius: number, angle: numbe
   return { x, y, zIndex, opacity };
 }
 
-// ── Angle to move a node to 270° (top / 12 o'clock) ──────────
-function angleToTop(nodeIndex: number, total: number): number {
-  return ((270 - (nodeIndex / total) * 360) % 360 + 360) % 360;
-}
 
 export default function RadialOrbitalTimeline() {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [innerAngle, setInnerAngle] = useState(0);
-  const [outerAngle, setOuterAngle] = useState(0);
-  const [autoRotate, setAutoRotate] = useState(true);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>("mission");
+  const [innerAngle, setInnerAngle] = useState(270); // Mission starts at 12 o'clock
+  const [outerAngle, setOuterAngle] = useState(45); // X offset — interleaves with inner orbit
+  const [radii, setRadii] = useState<{ inner: number; outer: number; innerNode: number; outerNode: number; iconInner: number; iconOuter: number; containerHeight: number } | null>(null);
+  const [rushTransition, setRushTransition] = useState(false);
+  const rushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isResizing, setIsResizing] = useState(false);
+  const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── Responsive detection ───────────────────────────────────
+  const triggerRush = useCallback(() => {
+    setRushTransition(true);
+    if (rushTimer.current) clearTimeout(rushTimer.current);
+    rushTimer.current = setTimeout(() => setRushTransition(false), 300);
+  }, []);
+
+  // ── Responsive detection — radii start null, nodes don't render until set
   useEffect(() => {
-    const check = () => setIsDesktop(window.innerWidth >= 1024);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const update = () => {
+      // Disable node transitions during resize so nodes jump instantly — no travel, no layout overflow
+      setIsResizing(true);
+      if (resizeTimer.current) clearTimeout(resizeTimer.current);
+      resizeTimer.current = setTimeout(() => setIsResizing(false), 150);
+      const w = window.innerWidth;
+      // Orbit radii use 400/640/1024 thresholds (orbit size steps)
+      // Container height matches the original Tailwind breakpoints exactly (640/768/1024)
+      const containerHeight = w < 640 ? 360 : w < 768 ? 460 : w < 1024 ? 560 : 640;
+      if (w < 400)       setRadii({ inner: 68,  outer: 108, innerNode: 28, outerNode: 32, iconInner: 12, iconOuter: 13, containerHeight });
+      else if (w < 768)  setRadii({ inner: 82,  outer: 135, innerNode: 32, outerNode: 36, iconInner: 13, iconOuter: 15, containerHeight });
+      // 768–1023px: side-by-side layout — canvas is ~360px wide, orbit must fit inside it
+      else if (w < 1024) setRadii({ inner: 95,  outer: 145, innerNode: 36, outerNode: 40, iconInner: 15, iconOuter: 16, containerHeight });
+      else               setRadii({ inner: DEFAULT_INNER, outer: DEFAULT_OUTER, innerNode: 48, outerNode: 56, iconInner: 18, iconOuter: 20, containerHeight });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
   // ── Rotation loop ──────────────────────────────────────────
   useEffect(() => {
-    if (!autoRotate) return;
     const timer = setInterval(() => {
       setInnerAngle((prev) => Number(((prev + 0.3) % 360).toFixed(3)));
       setOuterAngle((prev) => Number(((prev - 0.18 + 360) % 360).toFixed(3)));
     }, 50);
     return () => clearInterval(timer);
-  }, [autoRotate]);
-
-  // ── On mobile: rotate orbit so clicked node goes to top ────
-  const centerOnNode = useCallback((id: string) => {
-    const innerIdx = innerItems.findIndex((i) => i.id === id);
-    if (innerIdx !== -1) {
-      setInnerAngle(angleToTop(innerIdx, innerItems.length));
-      return;
-    }
-    const outerIdx = outerItems.findIndex((i) => i.id === id);
-    if (outerIdx !== -1) {
-      setOuterAngle(angleToTop(outerIdx, outerItems.length));
-    }
   }, []);
 
   // ── Click handlers ─────────────────────────────────────────
   const handleNodeClick = useCallback(
     (id: string, e: React.MouseEvent) => {
       e.stopPropagation();
-      if (expandedId === id) {
-        setExpandedId(null);
-        setAutoRotate(true);
-      } else {
-        setExpandedId(id);
-        setAutoRotate(false);
-        if (!isDesktop) centerOnNode(id);
-      }
+      setExpandedId(id);
+      triggerRush();
     },
-    [expandedId, isDesktop, centerOnNode]
+    [triggerRush]
+  );
+
+  const handleNavClick = useCallback(
+    (id: string) => {
+      setExpandedId(id);
+      triggerRush();
+    },
+    [triggerRush]
   );
 
   const handleContainerClick = () => {
-    setExpandedId(null);
-    setAutoRotate(true);
+    setExpandedId("mission");
+    triggerRush();
   };
 
   const expandedItem = allItems.find((i) => i.id === expandedId) ?? null;
@@ -161,13 +174,13 @@ export default function RadialOrbitalTimeline() {
   ) => {
     const pos = calcPosition(index, total, radius, angle);
     const isExpanded = expandedId === item.id;
-    const isOuter = radius === OUTER_RADIUS;
+    const isOuter = radii ? radius === radii.outer : false;
     const Icon = item.icon;
 
     return (
       <div
         key={item.id}
-        className="absolute transition-all duration-700 cursor-pointer"
+        className={`absolute transition-all ${isResizing ? "duration-0" : rushTransition ? "duration-200" : "duration-700"} cursor-pointer group`}
         style={{
           transform: `translate(${pos.x}px, ${pos.y}px)`,
           zIndex: isExpanded ? 200 : pos.zIndex,
@@ -177,44 +190,26 @@ export default function RadialOrbitalTimeline() {
       >
         {/* Node button */}
         <div
-          className={`rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-            isOuter ? "w-11 h-11" : "w-10 h-10"
-          } ${
+          className={`rounded-full flex items-center justify-center border transition-all duration-300 ${
             isExpanded
-              ? "bg-primary text-primary-foreground border-primary scale-125 shadow-lg shadow-primary/30"
-              : "bg-background text-foreground border-white/25 hover:border-primary/60"
+              ? "bg-primary/20 text-white border-primary scale-110 shadow-[0_0_20px_rgba(59,130,246,0.55)]"
+              : `bg-white/[0.07] backdrop-blur-md text-white/70 hover:text-white hover:border-primary/60 hover:scale-105 hover:shadow-[0_0_12px_rgba(59,130,246,0.35)] ${item.tier === "core" ? "border-primary/35" : "border-white/20"}`
           }`}
+          style={{ width: isOuter ? radii!.outerNode : radii!.innerNode, height: isOuter ? radii!.outerNode : radii!.innerNode }}
         >
-          <Icon size={isOuter ? 17 : 16} />
+          <Icon size={isOuter ? radii!.iconOuter : radii!.iconInner} />
         </div>
 
-        {/* Label */}
+        {/* Label — offset derived from node size so gap stays consistent at every breakpoint */}
         <div
-          className={`absolute top-12 whitespace-nowrap text-xs font-semibold tracking-wider transition-all duration-300 -translate-x-1/2 left-1/2 ${
-            isExpanded ? "text-primary" : "text-white/60"
+          className={`absolute whitespace-nowrap text-xs font-semibold tracking-wider transition-all duration-300 -translate-x-1/2 left-1/2 ${
+            isExpanded ? "text-white" : "hidden md:block text-white/50 group-hover:text-white/80"
           }`}
+          style={{ top: (isOuter ? radii!.outerNode : radii!.innerNode) + 6 }}
         >
           {item.title}
         </div>
 
-        {/* Mobile inline card — node is at top, card drops down over center */}
-        {isExpanded && !isDesktop && (
-          <Card
-            className="absolute top-16 left-1/2 -translate-x-1/2 w-64 bg-card/95 backdrop-blur-lg border-border/60 shadow-xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-primary/50" />
-            <CardHeader className="pb-1 pt-4 px-4">
-              <p className="text-[10px] uppercase tracking-widest text-primary/70 font-medium mb-1">
-                {item.tagline}
-              </p>
-              <CardTitle className="text-base font-heading">{item.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xs text-muted-foreground leading-relaxed px-4 pb-4">
-              {item.content}
-            </CardContent>
-          </Card>
-        )}
       </div>
     );
   };
@@ -222,18 +217,21 @@ export default function RadialOrbitalTimeline() {
   // ── Orbital canvas (shared between both layouts) ───────────
   const orbitalCanvas = (
     <div
-      className="relative flex items-center justify-center w-full h-[580px] lg:h-[640px] lg:flex-1 overflow-hidden"
+      className="relative flex items-center justify-center w-full md:w-[360px] lg:w-[580px]"
+      style={{ height: radii ? radii.containerHeight : 360 }}
       onClick={handleContainerClick}
     >
-      {/* Ring decorations */}
-      <div className="absolute w-[530px] h-[530px] rounded-full border border-white/[0.06] pointer-events-none" />
-      <div className="absolute w-[300px] h-[300px] rounded-full border border-white/10 pointer-events-none" />
+      {/* Radial glow — always visible */}
+      <div
+        className="absolute w-full h-full pointer-events-none"
+        style={{ background: "radial-gradient(ellipse at center, rgba(59,130,246,0.08) 0%, transparent 65%)" }}
+      />
 
-      {/* Center orb */}
-      <div className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 via-amber-400 to-orange-600 flex items-center justify-center z-10 pointer-events-none">
-        <div className="absolute w-20 h-20 rounded-full border border-orange-400/20 animate-ping opacity-60" />
+      {/* Center orb — always visible */}
+      <div className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 flex items-center justify-center z-10 pointer-events-none">
+        <div className="absolute w-20 h-20 rounded-full border border-blue-400/25 animate-ping opacity-60" />
         <div
-          className="absolute w-24 h-24 rounded-full border border-orange-400/10 animate-ping opacity-40"
+          className="absolute w-24 h-24 rounded-full border border-blue-400/15 animate-ping opacity-40"
           style={{ animationDelay: "0.5s" }}
         />
         <span className="text-[9px] font-heading font-bold text-white tracking-wide text-center leading-tight">
@@ -241,21 +239,86 @@ export default function RadialOrbitalTimeline() {
         </span>
       </div>
 
-      {/* Nodes */}
-      {innerItems.map((item, i) =>
-        renderNode(item, i, innerItems.length, INNER_RADIUS, innerAngle)
-      )}
-      {outerItems.map((item, i) =>
-        renderNode(item, i, outerItems.length, OUTER_RADIUS, outerAngle)
+      {/* Rings + nodes — only render once radii is measured on client */}
+      {radii && (
+        <>
+          <div
+            className="absolute rounded-full border border-white/[0.06] pointer-events-none"
+            style={{ width: radii.outer * 2, height: radii.outer * 2 }}
+          />
+          <div
+            className="absolute rounded-full border border-white/10 pointer-events-none"
+            style={{ width: radii.inner * 2, height: radii.inner * 2 }}
+          />
+          {innerItems.map((item, i) =>
+            renderNode(item, i, innerItems.length, radii.inner, innerAngle)
+          )}
+          {outerItems.map((item, i) =>
+            renderNode(item, i, outerItems.length, radii.outer, outerAngle)
+          )}
+        </>
       )}
     </div>
   );
 
-  // ── Desktop right panel ────────────────────────────────────
+  // ── Shared panel content — single source of truth ─────────────
+  const panelContent = expandedItem ? (
+    <>
+      <p className="text-[9px] uppercase tracking-[0.25em] text-white/25 font-medium mb-1 md:mb-2">
+        {expandedItem.tier === "core" ? "Core Belief" : "Brand Pillar"}
+      </p>
+      <p className="text-[10px] uppercase tracking-[0.3em] text-primary/70 font-medium mb-2 md:mb-3">
+        {expandedItem.tagline}
+      </p>
+      <h3 className="font-heading text-2xl md:text-3xl xl:text-4xl font-bold mb-3 md:mb-4 leading-tight">
+        {expandedItem.title}
+      </h3>
+      <div className="w-8 h-px bg-primary/50 mb-4 md:mb-5" />
+      <p className="text-muted-foreground text-sm xl:text-base leading-relaxed mb-6 md:mb-0">
+        {expandedItem.content}
+      </p>
+      <div className="pt-4 md:mt-6 md:pt-5 border-t border-white/10 space-y-2">
+        <div className="flex items-baseline gap-3">
+          <span className="text-[9px] uppercase tracking-widest text-white/25 font-medium w-10 flex-shrink-0">Core</span>
+          <div className="flex gap-3 flex-wrap">
+            {innerItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`text-xs transition-colors ${
+                  expandedId === item.id ? "text-primary font-medium" : "text-white/40 hover:text-white/70"
+                }`}
+              >
+                {item.title.replace("Our ", "")}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-baseline gap-3">
+          <span className="text-[9px] uppercase tracking-widest text-white/25 font-medium w-10 flex-shrink-0">Pillars</span>
+          <div className="flex gap-3 flex-wrap">
+            {outerItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`text-xs transition-colors ${
+                  expandedId === item.id ? "text-primary font-medium" : "text-white/40 hover:text-white/70"
+                }`}
+              >
+                {item.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  ) : null;
+
+  // ── Desktop panel (side) ───────────────────────────────────────
   const desktopPanel = (
-    <div className="hidden lg:flex lg:w-80 xl:w-96 flex-shrink-0 flex-col justify-center min-h-[300px]">
+    <div className="hidden md:flex md:w-80 xl:w-96 flex-shrink-0 flex-col justify-center min-h-[300px]" onClick={(e) => e.stopPropagation()}>
       <AnimatePresence mode="wait">
-        {expandedItem ? (
+        {expandedItem && (
           <motion.div
             key={expandedItem.id}
             initial={{ opacity: 0, x: 16 }}
@@ -263,33 +326,26 @@ export default function RadialOrbitalTimeline() {
             exit={{ opacity: 0, x: 16 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
-            <p className="text-[10px] uppercase tracking-[0.3em] text-primary/70 font-medium mb-3">
-              {expandedItem.tagline}
-            </p>
-            <h3 className="font-heading text-3xl xl:text-4xl font-bold mb-4 leading-tight">
-              {expandedItem.title}
-            </h3>
-            <div className="w-8 h-px bg-primary/50 mb-5" />
-            <p className="text-muted-foreground text-sm xl:text-base leading-relaxed">
-              {expandedItem.content}
-            </p>
-            <button
-              className="mt-6 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
-              onClick={handleContainerClick}
-            >
-              ← Dismiss
-            </button>
+            {panelContent}
           </motion.div>
-        ) : (
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
+  // ── Mobile panel (below orbit) ─────────────────────────────────
+  const mobilePanel = (
+    <div className="md:hidden pt-2 pb-2 max-w-sm mx-auto" onClick={(e) => e.stopPropagation()}>
+      <AnimatePresence mode="wait">
+        {expandedItem && (
           <motion.div
-            key="empty"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="text-muted-foreground/30 text-sm"
+            key={expandedItem.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
-            Click any node to explore.
+            {panelContent}
           </motion.div>
         )}
       </AnimatePresence>
@@ -297,9 +353,12 @@ export default function RadialOrbitalTimeline() {
   );
 
   return (
-    <div className="w-full lg:flex lg:items-center lg:gap-8 xl:gap-16">
-      {orbitalCanvas}
-      {desktopPanel}
+    <div className="w-full" onClick={handleContainerClick}>
+      <div className="md:flex md:items-center md:justify-center md:gap-8 xl:gap-16">
+        {orbitalCanvas}
+        {desktopPanel}
+      </div>
+      {mobilePanel}
     </div>
   );
 }
