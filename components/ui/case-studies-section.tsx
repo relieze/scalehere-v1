@@ -88,13 +88,13 @@ const clients: GalleryItem[] = [
 
 export function CaseStudiesSection() {
   return (
-    <section className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4 overflow-hidden">
+    <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4 overflow-hidden">
       {/* Section heading */}
-      <div className="max-w-7xl mx-auto mb-14 text-center">
+      <div className="max-w-7xl mx-auto mb-10 md:mb-24 text-center">
         <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
           Our Work
         </p>
-        <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
+        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
           Websites We've Built
         </h2>
         <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
@@ -102,8 +102,8 @@ export function CaseStudiesSection() {
         </p>
       </div>
 
-      {/* 3D rotating gallery — fixed height, auto-rotates */}
-      <div className="w-full" style={{ height: '520px' }}>
+      {/* 3D rotating gallery — responsive height */}
+      <div className="w-full h-[400px] md:h-[460px] lg:h-[520px]">
         <CircularGallery items={clients} radius={550} autoRotateSpeed={0.015} />
       </div>
     </section>

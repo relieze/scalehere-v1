@@ -109,7 +109,7 @@ export function PortfolioAccordion() {
             {/* ── Row header ── */}
             <button
               onClick={() => toggle(client.id)}
-              className="w-full flex items-center gap-5 py-9 px-2 text-left group"
+              className="w-full flex items-center gap-5 py-5 md:py-9 px-2 text-left group"
             >
               {/* Thumbnail */}
               <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
@@ -191,7 +191,7 @@ export function PortfolioAccordion() {
                       {client.results.map((r) => (
                         <div key={r.label} className="chrome-border rounded-xl">
                           <div className="rounded-[11px] bg-white/[0.03] p-5">
-                            <p className="text-3xl font-bold font-heading text-foreground">{r.value}</p>
+                            <p className="text-2xl md:text-3xl font-bold font-heading text-foreground">{r.value}</p>
                             <p className="text-xs text-muted-foreground mt-1.5 uppercase tracking-wider">{r.label}</p>
                           </div>
                         </div>
