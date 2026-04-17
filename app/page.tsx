@@ -61,7 +61,7 @@ export default function Home() {
       <CaseStudiesSection />
 
       {/* ── Section 8: Portfolio (detailed case studies) ── */}
-      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+      <section id="portfolio" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-5xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             Client Work
@@ -98,7 +98,9 @@ export default function Home() {
       </section>
 
       {/* ── Section 11: FAQ ─────────────────────────────── */}
-      <FAQSection />
+      <div id="faq">
+        <FAQSection />
+      </div>
 
       {/* ── Section 12: Contact CTA ─────────────────────── */}
       <div id="contact">

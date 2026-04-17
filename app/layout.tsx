@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
+import { ContactDialogProvider } from "@/lib/contact-dialog-context";
 
 // Heading font — bold, geometric, premium feel
 const syne = Syne({
@@ -41,7 +42,9 @@ export default function RootLayout({
       lang="en"
       className={`${syne.variable} ${plusJakartaSans.variable} ${fraunces.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ContactDialogProvider>{children}</ContactDialogProvider>
+      </body>
     </html>
   );
 }

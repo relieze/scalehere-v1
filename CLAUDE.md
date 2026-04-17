@@ -25,6 +25,7 @@ npm run build   # production build
 - `components/ui/` — all section components
 - `components/prompt-*.txt` — 21st.dev integration prompts (one per section)
 - `lib/utils.ts` — `cn()` helper
+- `lib/contact-dialog-context.tsx` — ContactDialogProvider + useContactDialog hook (shared dialog state)
 
 ## Design Direction
 - True black background (`#000000`) + texture image (`public/Darkshell-12.jpeg`) + `body::before` rgba(0,0,0,0.55) overlay to dim it, electric blue accent (`#3B82F6`) — Electric Black scheme
