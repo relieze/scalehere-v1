@@ -30,9 +30,6 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
     const animationFrameRef = useRef<number | null>(null);
     const snapTargetRef = useRef<number | null>(null);  // target angle when snapping
     const pauseUntilRef = useRef<number>(0);            // timestamp — pause auto-rotate until then
-    const isDraggingRef = useRef(false);
-    const dragStartXRef = useRef(0);
-    const dragStartRotRef = useRef(0);
 
     // Responsive card size — smaller on mobile
     const [cardW, setCardW] = useState(300);
@@ -50,10 +47,10 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
 
     const anglePerItem = 360 / items.length;
 
-    // Animation loop — handles snap easing + auto-rotate + drag pause
+    // Animation loop — handles snap easing + auto-rotate
     useEffect(() => {
       const tick = () => {
-        if (!isDraggingRef.current) {
+        {
           if (snapTargetRef.current !== null) {
             // Lerp toward snap target
             const diff = snapTargetRef.current - rotationRef.current;
@@ -85,26 +82,6 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
       snapTargetRef.current = (nearestStep + direction) * anglePerItem;
     };
 
-    // Drag/swipe handlers — pointer events cover mouse + touch uniformly
-    const onDragStart = (clientX: number) => {
-      isDraggingRef.current = true;
-      dragStartXRef.current = clientX;
-      dragStartRotRef.current = rotationRef.current;
-      pauseUntilRef.current = Date.now() + 999999; // freeze auto-rotate while dragging
-    };
-    const onDragMove = (clientX: number) => {
-      if (!isDraggingRef.current) return;
-      const delta = clientX - dragStartXRef.current;
-      rotationRef.current = dragStartRotRef.current + delta * 0.3;
-      setRotation(rotationRef.current);
-    };
-    const onDragEnd = () => {
-      if (!isDraggingRef.current) return;
-      isDraggingRef.current = false;
-      // Snap to nearest card; 3s pause is set inside the snap completion branch
-      const nearestStep = Math.round(rotationRef.current / anglePerItem);
-      snapTargetRef.current = nearestStep * anglePerItem;
-    };
 
     return (
       <div ref={ref} className={cn("relative w-full h-full flex flex-col items-center justify-center", className)}>
@@ -112,12 +89,8 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
         <div
           role="region"
           aria-label="Client Work Gallery"
-          className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
-          style={{ perspective: '2000px', touchAction: 'none' }}
-          onPointerDown={(e) => { onDragStart(e.clientX); e.currentTarget.setPointerCapture(e.pointerId); }}
-          onPointerMove={(e) => onDragMove(e.clientX)}
-          onPointerUp={onDragEnd}
-          onPointerLeave={onDragEnd}
+          className="relative w-full h-full flex items-center justify-center"
+          style={{ perspective: '2000px' }}
           {...props}
         >
           <div

@@ -187,7 +187,7 @@ const HeroHeader = () => {
             )}
             <nav
                 data-state={menuState && 'active'}
-                className="group fixed z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
+                className="group fixed z-[300] w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
                 <div className="mx-auto max-w-7xl px-6 lg:px-12">
                     <motion.div
                         key={1}

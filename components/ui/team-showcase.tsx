@@ -62,199 +62,158 @@ const TEAM: TeamMember[] = [
   },
 ];
 
-interface TeamShowcaseProps {
-  members?: TeamMember[];
-}
+export default function TeamShowcase({ members = TEAM }: { members?: TeamMember[] }) {
+  const [activeId, setActiveId] = useState<string | null>(null);
 
-export default function TeamShowcase({ members = TEAM }: TeamShowcaseProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  // Mobile: 2 columns. Desktop: 3 columns.
+  const mob1 = members.filter((_, i) => i % 2 === 0);
+  const mob2 = members.filter((_, i) => i % 2 === 1);
+  const dsk1 = members.filter((_, i) => i % 3 === 0);
+  const dsk2 = members.filter((_, i) => i % 3 === 1);
+  const dsk3 = members.filter((_, i) => i % 3 === 2);
 
-  const col1 = members.filter((_, i) => i % 3 === 0);
-  const col2 = members.filter((_, i) => i % 3 === 1);
-  const col3 = members.filter((_, i) => i % 3 === 2);
+  const onHover = (id: string | null) => setActiveId(id);
+  const onTap   = (id: string) => setActiveId(prev => prev === id ? null : id);
 
   return (
-    <div className="flex flex-col md:flex-row items-start gap-8 md:gap-10 lg:gap-14 select-none w-full max-w-5xl mx-auto py-8 px-0 md:px-6">
-      {/* ── Left: staggered photo grid ── */}
-      <div className="flex gap-2 md:gap-3 flex-shrink-0 overflow-x-auto pb-1 md:pb-0">
-        {/* Column 1 */}
-        <div className="flex flex-col gap-2 md:gap-3">
-          {col1.map((member) => (
-            <PhotoCard
-              key={member.id}
-              member={member}
-              className="w-[86px] h-[96px] sm:w-[130px] sm:h-[140px] md:w-[155px] md:h-[165px]"
-              hoveredId={hoveredId}
-              onHover={setHoveredId}
+    <div className="flex justify-center w-full max-w-5xl mx-auto py-8 px-0 md:px-6 select-none" onClick={() => setActiveId(null)}>
+
+      {/* ── Mobile layout: 2 columns ── */}
+      <div className="flex gap-3 md:hidden">
+        <div className="flex flex-col gap-3">
+          {mob1.map(m => (
+            <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
+              className="w-[130px] h-[148px] min-[375px]:w-[155px] min-[375px]:h-[175px]"
             />
           ))}
         </div>
-
         {/* Column 2 — offset down */}
-        <div className="flex flex-col gap-2 md:gap-3 mt-[48px] sm:mt-[56px] md:mt-[68px]">
-          {col2.map((member) => (
-            <PhotoCard
-              key={member.id}
-              member={member}
-              className="w-[94px] h-[104px] sm:w-[145px] sm:h-[155px] md:w-[172px] md:h-[182px]"
-              hoveredId={hoveredId}
-              onHover={setHoveredId}
+        <div className="flex flex-col gap-3 mt-[56px]">
+          {mob2.map(m => (
+            <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
+              className="w-[140px] h-[158px] min-[375px]:w-[165px] min-[375px]:h-[185px]"
             />
           ))}
         </div>
+      </div>
 
+      {/* ── Desktop layout: 3 columns ── */}
+      <div className="hidden md:flex gap-4 lg:gap-5">
+        <div className="flex flex-col gap-4">
+          {dsk1.map(m => (
+            <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
+              className="md:w-[185px] md:h-[210px] lg:w-[230px] lg:h-[260px]"
+            />
+          ))}
+        </div>
+        {/* Column 2 — offset down */}
+        <div className="flex flex-col gap-4 md:mt-[72px] lg:mt-[90px]">
+          {dsk2.map(m => (
+            <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
+              className="md:w-[205px] md:h-[230px] lg:w-[255px] lg:h-[285px]"
+            />
+          ))}
+        </div>
         {/* Column 3 — offset halfway */}
-        <div className="flex flex-col gap-2 md:gap-3 mt-[22px] sm:mt-[26px] md:mt-[32px]">
-          {col3.map((member) => (
-            <PhotoCard
-              key={member.id}
-              member={member}
-              className="w-[88px] h-[98px] sm:w-[136px] sm:h-[146px] md:w-[162px] md:h-[172px]"
-              hoveredId={hoveredId}
-              onHover={setHoveredId}
+        <div className="flex flex-col gap-4 md:mt-[36px] lg:mt-[45px]">
+          {dsk3.map(m => (
+            <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
+              className="md:w-[193px] md:h-[217px] lg:w-[240px] lg:h-[270px]"
             />
           ))}
         </div>
       </div>
 
-      {/* ── Right: name + role list ── */}
-      <div className="flex flex-col sm:grid sm:grid-cols-2 md:flex md:flex-col gap-4 md:gap-5 pt-0 md:pt-2 flex-1 w-full">
-        {members.map((member) => (
-          <MemberRow
-            key={member.id}
-            member={member}
-            hoveredId={hoveredId}
-            onHover={setHoveredId}
-          />
-        ))}
-      </div>
     </div>
   );
 }
 
 /* ─────────────────────────────────────────
-   Photo card
+   Photo card with slide-up info strip
 ───────────────────────────────────────── */
 
 function PhotoCard({
-  member,
-  className,
-  hoveredId,
-  onHover,
+  member, className, activeId, onHover, onTap,
 }: {
   member: TeamMember;
   className: string;
-  hoveredId: string | null;
+  activeId: string | null;
   onHover: (id: string | null) => void;
+  onTap: (id: string) => void;
 }) {
-  const isActive = hoveredId === member.id;
-  const isDimmed = hoveredId !== null && !isActive;
+  const isActive = activeId === member.id;
+  const isDimmed = activeId !== null && !isActive;
+  const hasSocial = member.social?.twitter ?? member.social?.linkedin ?? member.social?.instagram;
 
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-xl cursor-pointer flex-shrink-0 transition-opacity duration-400',
+        'relative overflow-hidden rounded-xl cursor-pointer flex-shrink-0 transition-opacity duration-300',
         className,
-        isDimmed ? 'opacity-60' : 'opacity-100',
+        isDimmed ? 'opacity-50' : 'opacity-100',
       )}
       onMouseEnter={() => onHover(member.id)}
       onMouseLeave={() => onHover(null)}
+      onTouchEnd={(e) => { e.preventDefault(); onTap(member.id); }}
+      onClick={(e) => e.stopPropagation()}
     >
       <img
         src={member.image}
         alt={member.name}
         className="w-full h-full object-cover transition-[filter] duration-500"
         style={{
-          filter: isActive ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(0.77)',
+          filter: isDimmed ? 'grayscale(1) brightness(0.77)' : 'grayscale(0) brightness(1)',
         }}
       />
-    </div>
-  );
-}
 
-/* ─────────────────────────────────────────
-   Member name row
-───────────────────────────────────────── */
-
-function MemberRow({
-  member,
-  hoveredId,
-  onHover,
-}: {
-  member: TeamMember;
-  hoveredId: string | null;
-  onHover: (id: string | null) => void;
-}) {
-  const isActive = hoveredId === member.id;
-  const isDimmed = hoveredId !== null && !isActive;
-  const hasSocial = member.social?.twitter ?? member.social?.linkedin ?? member.social?.instagram;
-
-  return (
-    <div
-      className={cn(
-        'cursor-pointer transition-opacity duration-300',
-        isDimmed ? 'opacity-50' : 'opacity-100',
-      )}
-      onMouseEnter={() => onHover(member.id)}
-      onMouseLeave={() => onHover(null)}
-    >
-      {/* Name + social icons */}
-      <div className="flex items-center gap-2.5">
-        <span
-          className={cn(
-            'h-3 rounded-[5px] flex-shrink-0 transition-all duration-300 bg-primary',
-            isActive ? 'w-5' : 'w-4 opacity-30',
-          )}
-        />
-        <span
-          className={cn(
-            'text-base md:text-[18px] font-semibold leading-none tracking-tight transition-colors duration-300',
-            isActive ? 'text-foreground' : 'text-foreground/80',
-          )}
-        >
+      {/* Peek — name always visible at bottom on all devices, hides when full strip is active */}
+      <div className={cn("absolute bottom-0 inset-x-0 px-2.5 pb-2 pt-6 bg-gradient-to-t from-black/75 to-transparent", isActive && "hidden")}>
+        <p className="text-white text-[11px] font-semibold leading-tight truncate">
           {member.name}
-        </span>
+        </p>
+      </div>
 
-        {/* Social icons — slide in on hover */}
+      {/* Full info strip — slides up on tap (mobile) or hover (desktop)
+          Covers the peek div when active                                  */}
+      <div className={cn(
+        'absolute bottom-0 inset-x-0 px-2.5 pb-2.5 pt-8',
+        'bg-gradient-to-t from-black/85 via-black/50 to-transparent',
+        'transition-transform duration-300 ease-out',
+        isActive ? 'translate-y-0' : 'translate-y-full',
+      )}>
+        <p className="text-white text-[11px] font-semibold leading-tight truncate">
+          {member.name}
+        </p>
+        <p className="text-white/60 text-[9px] uppercase tracking-[0.15em] font-medium mt-0.5 leading-snug">
+          {member.role}
+        </p>
+
         {hasSocial && (
-          <div
-            className={cn(
-              'flex items-center gap-1.5 ml-0.5 transition-all duration-200',
-              isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 pointer-events-none',
-            )}
-          >
+          <div className="flex items-center gap-1.5 mt-2">
             {member.social?.twitter && (
               <a href={member.social.twitter} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-1 rounded text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-150 hover:scale-110"
-                title="X / Twitter">
-                <FaTwitter size={10} />
+                className="p-2 rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150">
+                <FaTwitter size={12} />
               </a>
             )}
             {member.social?.linkedin && (
               <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-1 rounded text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-150 hover:scale-110"
-                title="LinkedIn">
-                <FaLinkedinIn size={10} />
+                className="p-2 rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150">
+                <FaLinkedinIn size={12} />
               </a>
             )}
             {member.social?.instagram && (
               <a href={member.social.instagram} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-1 rounded text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-150 hover:scale-110"
-                title="Instagram">
-                <FaInstagram size={10} />
+                className="p-2 rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150">
+                <FaInstagram size={12} />
               </a>
             )}
           </div>
         )}
       </div>
-
-      {/* Role */}
-      <p className="mt-1.5 pl-[27px] text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-        {member.role}
-      </p>
     </div>
   );
 }
