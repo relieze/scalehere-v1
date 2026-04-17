@@ -20,18 +20,13 @@ type StickyFooterProps = React.ComponentProps<'footer'>;
 export function StickyFooter({ className, ...props }: StickyFooterProps) {
   return (
     <footer
-      className={cn('relative h-[500px] w-full', className)}
+      className={cn('relative h-auto md:h-[500px] w-full', className)}
       style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
       {...props}
     >
-      <div className="fixed bottom-0 h-[500px] w-full">
-        <div className="sticky top-[calc(100vh-500px)] h-full overflow-y-auto">
-          <div className="relative flex size-full flex-col justify-between gap-5 border-t border-white/10 bg-[#070D18] px-4 py-8 md:px-12">
-
-            {/* Subtle radial blobs for depth */}
-            <div aria-hidden className="absolute inset-0 isolate z-0 contain-strict">
-              <div className="absolute top-0 left-0 h-[500px] w-[400px] -translate-y-1/2 -rotate-45 rounded-full bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,rgba(251,146,60,.05)_0,transparent_80%)]" />
-            </div>
+      <div className="md:fixed md:bottom-0 md:h-[500px] w-full">
+        <div className="md:sticky md:top-[calc(100vh-500px)] h-full">
+          <div className="relative flex size-full flex-col justify-between gap-5 border-t border-white/10 bg-black px-4 py-8 md:px-12">
 
             {/* Main columns */}
             <div className="relative z-10 mt-6 flex flex-col gap-8 md:flex-row xl:mt-0">
@@ -71,7 +66,7 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
                   delay={0.1 + index * 0.1}
                   className="w-full"
                 >
-                  <div className="mb-10 md:mb-0">
+                  <div>
                     <h3 className="text-xs font-semibold uppercase tracking-widest text-primary/80">
                       {group.label}
                     </h3>

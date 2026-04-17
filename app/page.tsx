@@ -1,8 +1,8 @@
 import { HeroSection } from "@/components/blocks/hero-section-5";
 import { SoundFamiliar } from "@/components/ui/sound-familiar";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
-import { HowItWorks } from "@/components/ui/how-it-works";
 import { TestimonialsSection } from "@/components/ui/testimonial-v2";
+import { HowItWorks } from "@/components/ui/how-it-works";
 import { CaseStudiesSection } from "@/components/ui/case-studies-section";
 import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
 import { AboutSection } from "@/components/ui/about-section";
@@ -10,6 +10,7 @@ import TeamShowcase from "@/components/ui/team-showcase";
 import { FAQSection } from "@/components/ui/faq-section";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 import { StickyFooter } from "@/components/ui/sticky-footer";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
 export default function Home() {
   return (
@@ -37,11 +38,10 @@ export default function Home() {
         <FeatureCarousel />
       </section>
 
-      {/* ── Section 4: How It Works ──────────────────────── */}
-      <HowItWorks />
-
-
-      {/* ── Section 6: Testimonials ─────────────────────── */}
+      {/* ── Section 4: Testimonials ─────────────────────── */}
+      {/* Moved before How It Works — social proof lands hardest right after */}
+      {/* Services sells them on what we do; real client voices lock it in   */}
+      {/* before they read the process detail.                               */}
       <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-4 px-4">
         <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -57,11 +57,14 @@ export default function Home() {
         <TestimonialsSection />
       </section>
 
-      {/* ── Section 7: Case Studies ─────────────────────── */}
+      {/* ── Section 5: How It Works ──────────────────────── */}
+      <HowItWorks />
+
+      {/* ── Section 6: Case Studies ─────────────────────── */}
       <CaseStudiesSection />
 
-      {/* ── Section 8: Portfolio (detailed case studies) ── */}
-      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+      {/* ── Section 7: Portfolio (detailed case studies) ── */}
+      <section id="portfolio" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-5xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             Client Work
@@ -76,12 +79,12 @@ export default function Home() {
         <PortfolioAccordion />
       </section>
 
-      {/* ── Section 9: About ────────────────────────────── */}
+      {/* ── Section 8: About ────────────────────────────── */}
       <div id="about">
         <AboutSection />
       </div>
 
-      {/* ── Section 10: Team ────────────────────────────── */}
+      {/* ── Section 9: Team ─────────────────────────────── */}
       <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -97,16 +100,21 @@ export default function Home() {
         <TeamShowcase />
       </section>
 
-      {/* ── Section 11: FAQ ─────────────────────────────── */}
-      <FAQSection />
+      {/* ── Section 10: FAQ ─────────────────────────────── */}
+      <div id="faq">
+        <FAQSection />
+      </div>
 
-      {/* ── Section 12: Contact CTA ─────────────────────── */}
+      {/* ── Section 11: Contact CTA ─────────────────────── */}
       <div id="contact">
         <CTAWithVerticalMarquee />
       </div>
 
       {/* ── Footer ──────────────────────────────────────── */}
       <StickyFooter />
+
+      {/* ── Scroll to top ───────────────────────────────── */}
+      <ScrollToTop />
 
     </div>
   );

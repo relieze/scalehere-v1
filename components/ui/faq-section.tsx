@@ -48,15 +48,15 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section className="w-full py-24 md:py-32 px-6 bg-background">
-      <div className="mx-auto w-full max-w-3xl space-y-7">
+    <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-24 md:pb-32 px-6">
+      <div className="mx-auto w-full max-w-3xl">
 
         {/* Header */}
-        <div className="space-y-3 text-center">
+        <div className="space-y-3 text-center mb-10 md:mb-14">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 font-medium">
             Common Questions
           </p>
-          <h2 className="font-heading text-4xl md:text-5xl font-bold tracking-tight">
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
             Honest Answers
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -88,7 +88,7 @@ export function FAQSection() {
         </Accordion>
 
         {/* Footer CTA */}
-        <p className="text-muted-foreground text-center text-sm">
+        <p className="text-muted-foreground text-center text-sm mt-7">
           Still have questions?{" "}
           <a href="#contact" className="text-primary hover:underline font-medium">
             Book a free strategy call

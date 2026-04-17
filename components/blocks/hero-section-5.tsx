@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight } from 'lucide-react'
 import { useScroll, motion } from 'motion/react'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
+import { useContactDialog } from '@/lib/contact-dialog-context'
 
 const trustStats = [
     { number: '100+', label: 'Clients Trust Us' },
@@ -153,7 +154,9 @@ export function HeroSection() {
 
 const menuItems = [
     { name: 'Services', href: '#services' },
+    { name: 'Portfolio', href: '#portfolio' },
     { name: 'About', href: '#about' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'Contact', href: '#contact' },
 ]
 
@@ -161,6 +164,7 @@ const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [scrolled, setScrolled] = React.useState(false)
     const { scrollYProgress } = useScroll()
+    const { openDialog } = useContactDialog()
 
     React.useEffect(() => {
         const unsubscribe = scrollYProgress.on('change', (latest) => {
@@ -187,7 +191,7 @@ const HeroHeader = () => {
             )}
             <nav
                 data-state={menuState && 'active'}
-                className="group fixed z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
+                className="group fixed z-[300] w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
                 <div className="mx-auto max-w-7xl px-6 lg:px-12">
                     <motion.div
                         key={1}
@@ -239,12 +243,11 @@ const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <Link
-                                    href="#contact"
-                                    onClick={() => setMenuState(false)}
+                                <button
+                                    onClick={() => { setMenuState(false); openDialog(); }}
                                     className={cn(buttonVariants({ size: "sm" }), "rounded-md")}>
-                                    <span>Apply Now</span>
-                                </Link>
+                                    <span>Free Audit</span>
+                                </button>
                             </div>
                         </div>
                     </motion.div>

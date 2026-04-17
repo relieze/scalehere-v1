@@ -97,16 +97,9 @@ export default function RadialOrbitalTimeline() {
   const [innerAngle, setInnerAngle] = useState(270); // Mission starts at 12 o'clock
   const [outerAngle, setOuterAngle] = useState(45); // X offset — interleaves with inner orbit
   const [radii, setRadii] = useState<{ inner: number; outer: number; innerNode: number; outerNode: number; iconInner: number; iconOuter: number; containerHeight: number } | null>(null);
-  const [rushTransition, setRushTransition] = useState(false);
-  const rushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isResizing, setIsResizing] = useState(false);
   const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const triggerRush = useCallback(() => {
-    setRushTransition(true);
-    if (rushTimer.current) clearTimeout(rushTimer.current);
-    rushTimer.current = setTimeout(() => setRushTransition(false), 300);
-  }, []);
 
   // ── Responsive detection — radii start null, nodes don't render until set
   useEffect(() => {
@@ -121,8 +114,11 @@ export default function RadialOrbitalTimeline() {
       const containerHeight = w < 640 ? 360 : w < 768 ? 460 : w < 1024 ? 560 : 640;
       if (w < 400)       setRadii({ inner: 68,  outer: 108, innerNode: 28, outerNode: 32, iconInner: 12, iconOuter: 13, containerHeight });
       else if (w < 768)  setRadii({ inner: 82,  outer: 135, innerNode: 32, outerNode: 36, iconInner: 13, iconOuter: 15, containerHeight });
-      // 768–1023px: side-by-side layout — canvas is ~360px wide, orbit must fit inside it
+      // 768–1023px: side-by-side — canvas ~360px wide
       else if (w < 1024) setRadii({ inner: 95,  outer: 145, innerNode: 36, outerNode: 40, iconInner: 15, iconOuter: 16, containerHeight });
+      // 1024–1279px: lg — canvas ~460px, intermediate orbit size
+      else if (w < 1280) setRadii({ inner: 112, outer: 185, innerNode: 42, outerNode: 48, iconInner: 16, iconOuter: 18, containerHeight });
+      // 1280px+: full orbit
       else               setRadii({ inner: DEFAULT_INNER, outer: DEFAULT_OUTER, innerNode: 48, outerNode: 56, iconInner: 18, iconOuter: 20, containerHeight });
     };
     update();
@@ -144,22 +140,19 @@ export default function RadialOrbitalTimeline() {
     (id: string, e: React.MouseEvent) => {
       e.stopPropagation();
       setExpandedId(id);
-      triggerRush();
     },
-    [triggerRush]
+    []
   );
 
   const handleNavClick = useCallback(
     (id: string) => {
       setExpandedId(id);
-      triggerRush();
     },
-    [triggerRush]
+    []
   );
 
   const handleContainerClick = () => {
     setExpandedId("mission");
-    triggerRush();
   };
 
   const expandedItem = allItems.find((i) => i.id === expandedId) ?? null;
@@ -180,7 +173,7 @@ export default function RadialOrbitalTimeline() {
     return (
       <div
         key={item.id}
-        className={`absolute transition-all ${isResizing ? "duration-0" : rushTransition ? "duration-200" : "duration-700"} cursor-pointer group`}
+        className={`absolute transition-all ${isResizing ? "duration-0" : "duration-700"} cursor-pointer group`}
         style={{
           transform: `translate(${pos.x}px, ${pos.y}px)`,
           zIndex: isExpanded ? 200 : pos.zIndex,
@@ -192,7 +185,7 @@ export default function RadialOrbitalTimeline() {
         <div
           className={`rounded-full flex items-center justify-center border transition-all duration-300 ${
             isExpanded
-              ? "bg-primary/20 text-white border-primary scale-110 shadow-[0_0_20px_rgba(59,130,246,0.55)]"
+              ? "bg-primary/20 text-white border-primary shadow-[0_0_20px_rgba(59,130,246,0.55)]"
               : `bg-white/[0.07] backdrop-blur-md text-white/70 hover:text-white hover:border-primary/60 hover:scale-105 hover:shadow-[0_0_12px_rgba(59,130,246,0.35)] ${item.tier === "core" ? "border-primary/35" : "border-white/20"}`
           }`}
           style={{ width: isOuter ? radii!.outerNode : radii!.innerNode, height: isOuter ? radii!.outerNode : radii!.innerNode }}
@@ -217,7 +210,7 @@ export default function RadialOrbitalTimeline() {
   // ── Orbital canvas (shared between both layouts) ───────────
   const orbitalCanvas = (
     <div
-      className="relative flex items-center justify-center w-full md:w-[360px] lg:w-[580px]"
+      className="relative flex items-center justify-center w-full md:w-[360px] lg:w-[460px] xl:w-[580px]"
       style={{ height: radii ? radii.containerHeight : 360 }}
       onClick={handleContainerClick}
     >
@@ -316,7 +309,7 @@ export default function RadialOrbitalTimeline() {
 
   // ── Desktop panel (side) ───────────────────────────────────────
   const desktopPanel = (
-    <div className="hidden md:flex md:w-80 xl:w-96 flex-shrink-0 flex-col justify-center min-h-[300px]" onClick={(e) => e.stopPropagation()}>
+    <div className="hidden md:flex md:w-80 lg:w-[340px] xl:w-96 flex-shrink-0 flex-col justify-center min-h-[300px]" onClick={(e) => e.stopPropagation()}>
       <AnimatePresence mode="wait">
         {expandedItem && (
           <motion.div
