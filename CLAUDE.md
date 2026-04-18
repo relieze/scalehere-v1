@@ -47,7 +47,7 @@ npm run build   # production build
 
 ## Workflow Notes
 - Before every task: restate interpretation in plain English and ask for confirmation before touching any files
-- Update `my_references/session-log.md` after each meaningful change — not just at end of session
+- Update `my_references/files/session-log.md` after each meaningful change — not just at end of session
 - Before every commit: ask for confirmation — never commit on your own initiative
 - Never push unless explicitly asked to
 - After completing a significant change: ask user to check in browser before committing
@@ -61,7 +61,7 @@ npm run build   # production build
 
 The following files are gitignored and only exist on the owner's machine:
 
-- `my_references/` — task tracker, build summary, brand copy, screenshots
+- `my_references/` — structured as `files/` (docs: HANDOFF, session-log, v1, brand copy), `screenshots/` (reference images), `tools/` (local HTML tools like chrome crop tool)
 - `.claude/docs/` — detailed design tokens, section order, 21st.dev process
 - `../../PLAYBOOK.md` — cross-project Claude workflow guide (two levels above this project)
 

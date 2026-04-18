@@ -34,6 +34,21 @@ export function HeroSection() {
             <HeroHeader />
             <main className="overflow-x-clip">
                 <section className="relative overflow-hidden min-h-screen">
+                    {/* Chrome accent — liquid metal ribbons, right side */}
+                    <div
+                        className="absolute right-0 top-0 h-full w-1/2 md:w-2/5 pointer-events-none"
+                        style={{
+                            backgroundImage: 'url(/chrome_texture_2.jpg)',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            maskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 65%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+                            maskComposite: 'intersect',
+                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 65%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+                            WebkitMaskComposite: 'source-in',
+                            opacity: 0.85,
+                        }}
+                    />
+
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">

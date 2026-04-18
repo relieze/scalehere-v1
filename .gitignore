@@ -26,3 +26,6 @@ Thumbs.db
 
 # Personal reference docs and screenshots — not needed in repo
 my_references/
+
+# Sandbox — local design testing tool, not part of the site
+app/sandbox/
