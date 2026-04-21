@@ -172,14 +172,14 @@ export default function CTAWithVerticalMarquee() {
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-fade-in-up [animation-delay:600ms]">
               <button
                 onClick={() => { resetForm(); openDialog(); }}
-                className="group relative px-6 py-3 btn-chrome rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="group relative cursor-pointer px-6 py-3 btn-chrome rounded-md font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <span className="relative z-10">GET MY FREE AUDIT</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               </button>
               <a
                 href="tel:7604437876"
-                className="group relative px-6 py-3 btn-chrome rounded-md font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="group relative cursor-pointer px-6 py-3 btn-chrome rounded-md font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <span className="relative z-10">CALL 760-443-7876</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
@@ -221,7 +221,7 @@ export default function CTAWithVerticalMarquee() {
 
           {status === "success" ? (
             <p className="text-sm text-primary font-medium py-4">
-              Got it — we'll be in touch soon.
+              Thank you — we'll be in touch soon.
             </p>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3 mt-2">
@@ -269,9 +269,11 @@ export default function CTAWithVerticalMarquee() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full px-6 py-3 btn-chrome rounded-md font-medium text-sm tracking-wide transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full cursor-pointer px-6 py-3 btn-chrome rounded-md font-bold text-sm tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {status === "loading" ? "Sending…" : "SEND MESSAGE"}
+                <span className="relative z-10">
+                  {status === "loading" ? "Sending…" : "SEND MESSAGE"}
+                </span>
               </button>
             </form>
           )}

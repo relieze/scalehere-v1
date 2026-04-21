@@ -63,7 +63,7 @@ export function HeroSection() {
                                 <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                                     <Link
                                         href="#contact"
-                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base")}>
+                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base hover:scale-105 hover:shadow-lg duration-300")}>
                                         <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="ml-1" />
                                     </Link>
@@ -259,7 +259,7 @@ const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <button
                                     onClick={() => { setMenuState(false); openDialog(); }}
-                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md")}>
+                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md hover:scale-105 hover:shadow-lg duration-300")}>
                                     <span>Free Audit</span>
                                 </button>
                             </div>
