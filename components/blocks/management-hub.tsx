@@ -337,8 +337,11 @@ export function ManagementHub() {
             </div>
           </div>
 
-          {/* Image column — first on mobile */}
-          <div className="hub-image-wrapper order-1 lg:order-2">
+          {/* Image column — first on mobile. lg:self-start prevents the grid
+              (items-stretch default) from stretching this cell to the text column's
+              height, which combined with aspect-ratio: 2/1 would derive width from
+              the stretched height and overflow the column at 1024-1280px. */}
+          <div className="hub-image-wrapper order-1 lg:order-2 lg:self-start">
             <div className="hub-image-frame transition-all ease-out" style={imageTransition}>
               <img
                 src={currentSlide.imageUrl}
