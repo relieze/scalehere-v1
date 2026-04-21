@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FaLinkedinIn, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 
@@ -145,6 +145,11 @@ function PhotoCard({
   const isDimmed = activeId !== null && !isActive;
   const hasSocial = member.social?.twitter ?? member.social?.linkedin ?? member.social?.instagram;
 
+  // Track touchstart Y so we can distinguish a tap from a scroll in touchEnd.
+  // Without this, onTouchEnd fires after any vertical scroll that started on a
+  // card, accidentally toggling the slide-up strip.
+  const touchStartY = useRef<number | null>(null);
+
   return (
     <div
       className={cn(
@@ -154,7 +159,16 @@ function PhotoCard({
       )}
       onMouseEnter={() => onHover(member.id)}
       onMouseLeave={() => onHover(null)}
-      onTouchEnd={(e) => { e.preventDefault(); onTap(member.id); }}
+      onTouchStart={(e) => { touchStartY.current = e.touches[0].clientY; }}
+      onTouchEnd={(e) => {
+        const startY = touchStartY.current;
+        const endY = e.changedTouches[0].clientY;
+        touchStartY.current = null;
+        // > 10px vertical movement = scroll, not tap — leave default behavior alone
+        if (startY !== null && Math.abs(endY - startY) > 10) return;
+        e.preventDefault();
+        onTap(member.id);
+      }}
       onClick={(e) => e.stopPropagation()}
     >
       <img
