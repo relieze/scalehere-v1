@@ -80,27 +80,25 @@ export function HeroSection() {
                     {/* Trust strip — absolute, flush to bottom of hero, above video layer */}
                     <div className="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
 
-                        {/* Mobile: stacked rows */}
-                        <div className="md:hidden py-3 flex flex-col gap-3">
-                            {/* Stats infinite scroll */}
-                            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-                                <InfiniteSlider gap={28} speed={35} reverse>
-                                    {trustStats.map((stat) => (
-                                        <div key={stat.number} className="flex flex-col gap-0.5 items-center px-3">
-                                            <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                            <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
-                                        </div>
-                                    ))}
-                                </InfiniteSlider>
+                        {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
+                        <div className="xl:hidden py-3 flex flex-col gap-3">
+                            {/* Stats — static, wraps until all 4 fit in one row */}
+                            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 px-2">
+                                {trustStats.map((stat) => (
+                                    <div key={stat.number} className="flex flex-col gap-0.5 items-center">
+                                        <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                    </div>
+                                ))}
                             </div>
                             {/* Aesthetic divider — inset, fades at ends */}
                             <div className="mx-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                            {/* Logo marquee */}
+                            {/* Logo marquee — arrays doubled so single-instance ≥ container width at stacked widths up to 1280px (guarantees the marquee always fills the row during the loop) */}
                             <div className="py-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
                                 <InfiniteSlider gap={48} speed={70} reverse>
-                                    {trustLogos.map((logo) => (
+                                    {[...trustLogos, ...trustLogos].map((logo, i) => (
                                         <img
-                                            key={logo.alt}
+                                            key={`${logo.alt}-${i}`}
                                             src={logo.src}
                                             alt={logo.alt}
                                             width={logo.width}
@@ -108,9 +106,9 @@ export function HeroSection() {
                                             className="h-4 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
                                         />
                                     ))}
-                                    {trustLogoText.map((name) => (
+                                    {[...trustLogoText, ...trustLogoText].map((name, i) => (
                                         <span
-                                            key={name}
+                                            key={`${name}-${i}`}
                                             className="text-xs font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
                                         >
                                             {name}
@@ -120,14 +118,14 @@ export function HeroSection() {
                             </div>
                         </div>
 
-                        {/* md+: 50/50 side-by-side infinite scroll */}
-                        <div className="hidden md:flex items-center py-4">
-                            {/* Logo marquee — left half, scrolls left (default) */}
+                        {/* xl+: 50/50 side-by-side — stats fit in one row at this width */}
+                        <div className="hidden xl:flex items-center py-4">
+                            {/* Logo marquee — left half, scrolls left (default). Arrays doubled to guarantee row fill at wide viewports */}
                             <div className="w-1/2 pr-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_78%,transparent)]">
                                 <InfiniteSlider gap={56} speed={70} reverse>
-                                    {trustLogos.map((logo) => (
+                                    {[...trustLogos, ...trustLogos].map((logo, i) => (
                                         <img
-                                            key={logo.alt}
+                                            key={`${logo.alt}-${i}`}
                                             src={logo.src}
                                             alt={logo.alt}
                                             width={logo.width}
@@ -135,9 +133,9 @@ export function HeroSection() {
                                             className="h-5 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
                                         />
                                     ))}
-                                    {trustLogoText.map((name) => (
+                                    {[...trustLogoText, ...trustLogoText].map((name, i) => (
                                         <span
-                                            key={name}
+                                            key={`${name}-${i}`}
                                             className="text-sm font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
                                         >
                                             {name}
@@ -147,16 +145,16 @@ export function HeroSection() {
                             </div>
                             {/* Vertical divider — centered */}
                             <div className="w-px self-stretch bg-gradient-to-b from-transparent via-white/20 to-transparent shrink-0" />
-                            {/* Stats — right half, scrolls right (reverse) */}
-                            <div className="w-1/2 pl-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%,black_95%,transparent)]">
-                                <InfiniteSlider gap={40} speed={35} reverse>
-                                    {[...trustStats, ...trustStats, ...trustStats].map((stat, i) => (
-                                        <div key={i} className="flex flex-col gap-0.5 items-center px-4">
+                            {/* Stats — right half, static. Distribute with equal space between items and at both ends (justify-evenly) so the row spans the full half-width */}
+                            <div className="w-1/2 pl-8">
+                                <div className="flex flex-wrap justify-evenly items-center gap-y-2">
+                                    {trustStats.map((stat) => (
+                                        <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                             <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
                                             <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
                                         </div>
                                     ))}
-                                </InfiniteSlider>
+                                </div>
                             </div>
                         </div>
 
