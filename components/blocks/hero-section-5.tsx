@@ -52,7 +52,7 @@ export function HeroSection() {
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
-                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-bold md:text-6xl lg:mt-4 xl:text-7xl">
+                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-black md:text-6xl lg:mt-4 xl:text-7xl">
                                     Stop Wasting Money on Marketing That Doesn't Bring Customers.
                                 </h1>
                                 <p className="mt-8 max-w-2xl text-balance text-lg">
@@ -110,7 +110,7 @@ export function HeroSection() {
                                     {trustLogoText.map((name) => (
                                         <span
                                             key={name}
-                                            className="text-xs font-semibold tracking-wide text-white/40 whitespace-nowrap select-none"
+                                            className="text-xs font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
                                         >
                                             {name}
                                         </span>
@@ -137,7 +137,7 @@ export function HeroSection() {
                                     {trustLogoText.map((name) => (
                                         <span
                                             key={name}
-                                            className="text-sm font-semibold tracking-wide text-white/40 whitespace-nowrap select-none"
+                                            className="text-sm font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
                                         >
                                             {name}
                                         </span>

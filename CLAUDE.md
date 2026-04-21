@@ -30,7 +30,7 @@ npm run build   # production build
 ## Design Direction
 - True black background (`#000000`) + texture image (`public/Darkshell-12.jpeg`) + `body::before` rgba(0,0,0,0.55) overlay to dim it, electric blue accent (`#3B82F6`) — Electric Black scheme
 - Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px)
-- Three fonts: Syne (headings) + Plus Jakarta Sans (body) + Fraunces (accent/pull quotes)
+- Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Fraunces retired. Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
 

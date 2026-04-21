@@ -168,7 +168,7 @@ function PhotoCard({
 
       {/* Peek — name always visible at bottom on all devices, hides when full strip is active */}
       <div className={cn("absolute bottom-0 inset-x-0 px-2.5 pb-2 pt-6 bg-gradient-to-t from-black/75 to-transparent", isActive && "hidden")}>
-        <p className="text-white text-[11px] font-semibold leading-tight truncate">
+        <p className="text-white text-[11px] font-bold leading-tight truncate">
           {member.name}
         </p>
       </div>
@@ -181,7 +181,7 @@ function PhotoCard({
         'transition-transform duration-300 ease-out',
         isActive ? 'translate-y-0' : 'translate-y-full',
       )}>
-        <p className="text-white text-[11px] font-semibold leading-tight truncate">
+        <p className="text-white text-[11px] font-bold leading-tight truncate">
           {member.name}
         </p>
         <p className="text-white/60 text-[9px] uppercase tracking-[0.15em] font-medium mt-0.5 leading-snug">

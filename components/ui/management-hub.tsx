@@ -295,16 +295,16 @@ export function ManagementHub() {
                 </div>
 
                 {/* Per-slide tool title — demoted to h3, acts as subtitle to the section heading above */}
-                <h3 className="font-heading text-xl md:text-2xl font-semibold tracking-tight mb-2 text-white">
+                <h3 className="font-heading text-xl md:text-2xl font-medium tracking-tight mb-2 text-white">
                   {currentSlide.title}
                 </h3>
 
                 {/* Per-slide tagline — italic pull-quote in electric blue */}
-                <p className="font-accent italic text-base md:text-lg mb-5" style={{ color: ACCENT }}>
+                <p className="italic text-base md:text-lg mb-5" style={{ color: ACCENT }}>
                   {currentSlide.subtitle}
                 </p>
 
-                <p className="hub-description text-base md:text-lg font-light leading-relaxed text-white/70">
+                <p className="hub-description text-base md:text-lg font-normal leading-relaxed text-white/70">
                   {currentSlide.description}
                 </p>
               </div>

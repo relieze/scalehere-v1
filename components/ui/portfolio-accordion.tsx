@@ -122,7 +122,7 @@ export function PortfolioAccordion() {
 
               {/* Name + industry */}
               <div className="flex-1 min-w-0">
-                <p className="text-lg font-semibold font-heading text-foreground leading-tight">
+                <p className="text-lg font-medium font-heading text-foreground leading-tight">
                   {client.name}
                 </p>
                 <p className="text-sm text-muted-foreground mt-0.5">{client.industry}</p>

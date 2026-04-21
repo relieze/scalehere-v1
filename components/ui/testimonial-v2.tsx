@@ -119,7 +119,7 @@ const TestimonialsColumn = (props: {
                       className="h-10 w-10 rounded-full object-cover ring-2 ring-white/10 group-hover:ring-primary/40 transition-all duration-300"
                     />
                     <div className="flex flex-col">
-                      <cite className="font-semibold not-italic tracking-tight leading-5 text-white text-sm">
+                      <cite className="font-bold italic tracking-tight leading-5 text-white text-sm">
                         {name}
                       </cite>
                       <span className="text-xs leading-5 tracking-tight text-white/50 mt-0.5">

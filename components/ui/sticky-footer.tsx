@@ -67,7 +67,7 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
                   className="w-full"
                 >
                   <div>
-                    <h3 className="text-xs font-semibold uppercase tracking-widest text-primary/80">
+                    <h3 className="text-xs font-medium uppercase tracking-widest text-primary/80">
                       {group.label}
                     </h3>
                     <ul className="text-muted-foreground mt-4 space-y-2 text-sm">

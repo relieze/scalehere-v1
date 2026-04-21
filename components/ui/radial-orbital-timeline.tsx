@@ -195,7 +195,7 @@ export default function RadialOrbitalTimeline() {
 
         {/* Label — offset derived from node size so gap stays consistent at every breakpoint */}
         <div
-          className={`absolute whitespace-nowrap text-xs font-semibold tracking-wider transition-all duration-300 -translate-x-1/2 left-1/2 ${
+          className={`absolute whitespace-nowrap text-xs font-bold tracking-wider transition-all duration-300 -translate-x-1/2 left-1/2 ${
             isExpanded ? "text-white" : "hidden md:block text-white/50 group-hover:text-white/80"
           }`}
           style={{ top: (isOuter ? radii!.outerNode : radii!.innerNode) + 6 }}

@@ -46,12 +46,11 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 
   /* Google Fonts loaded in layout.tsx via next/font/google */
+  /* font-sans — Karla. Default for body, labels, UI. */
   --font-sans: var(--font-sans);
   --font-mono: ui-monospace, monospace;
-  /* font-heading utility — apply to all section headings */
+  /* font-heading — Montserrat. Applied to all h1-h6 via base styles. */
   --font-heading: var(--font-heading);
-  /* font-accent utility — Fraunces, use for pull quotes and high-impact statements */
-  --font-accent: var(--font-accent);
 }
 
 /* ─────────────────────────────────────────────────────────────
