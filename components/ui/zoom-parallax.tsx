@@ -22,8 +22,8 @@ interface ZoomParallaxProps {
 function getHighlightClass(highlight?: string): string {
 	switch (highlight) {
 		case 'orange': return 'text-primary font-medium';
-		case 'bold': return 'font-semibold text-foreground';
-		case 'italic-orange': return 'italic text-primary font-semibold';
+		case 'bold': return 'font-bold text-foreground';
+		case 'italic-orange': return 'italic text-primary font-bold';
 		default: return 'text-muted-foreground';
 	}
 }
@@ -122,7 +122,7 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 						{promiseText && (
 							<motion.p
 								style={{ opacity: promiseOpacity, y: promiseY }}
-								className="absolute inset-0 flex items-center justify-center text-base md:text-lg text-primary font-semibold tracking-wide text-center"
+								className="absolute inset-0 flex items-center justify-center text-base md:text-lg text-primary font-bold tracking-wide text-center"
 							>
 								{promiseText}
 							</motion.p>
@@ -208,7 +208,7 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 							<span className="absolute top-1 right-1 text-[17rem] leading-none text-primary/10 font-serif select-none">
 								&ldquo;
 							</span>
-							<p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }} className="font-accent italic font-semibold text-foreground leading-snug relative z-10">
+							<p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)' }} className="italic text-foreground leading-snug relative z-10">
 								&ldquo;{quote.quote}&rdquo;
 							</p>
 							<p style={{ fontSize: 'clamp(0.65rem, 2.8vw, 0.85rem)' }} className="text-muted-foreground leading-relaxed mt-2">
@@ -232,7 +232,7 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 							<span className="absolute top-1 right-1 text-[17rem] leading-none text-primary/10 font-serif select-none">
 								&ldquo;
 							</span>
-							<p style={{ fontSize: 'clamp(0.85rem, 2vw, 1.1rem)' }} className="font-accent italic font-semibold text-foreground leading-snug relative z-10">
+							<p style={{ fontSize: 'clamp(0.85rem, 2vw, 1.1rem)' }} className="italic text-foreground leading-snug relative z-10">
 								&ldquo;{quote.quote}&rdquo;
 							</p>
 							<p style={{ fontSize: 'clamp(0.65rem, 1.5vw, 0.85rem)' }} className="text-muted-foreground leading-relaxed mt-2">
@@ -256,7 +256,7 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 							<span className="absolute top-1 right-1 text-[17rem] leading-none text-primary/10 font-serif select-none">
 								&ldquo;
 							</span>
-							<p style={{ fontSize: 'clamp(0.9rem, 1.5vw, 2.2rem)' }} className="font-accent italic font-semibold text-foreground leading-snug relative z-10">
+							<p style={{ fontSize: 'clamp(0.9rem, 1.5vw, 2.2rem)' }} className="italic text-foreground leading-snug relative z-10">
 								&ldquo;{quote.quote}&rdquo;
 							</p>
 							<p style={{ fontSize: 'clamp(0.65rem, 0.85vw, 1rem)' }} className="text-muted-foreground leading-relaxed mt-2">

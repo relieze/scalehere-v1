@@ -1,27 +1,23 @@
 import type { Metadata } from "next";
-import { Syne, Plus_Jakarta_Sans, Fraunces } from "next/font/google";
+import { Montserrat, Karla } from "next/font/google";
 import "./globals.css";
 import { ContactDialogProvider } from "@/lib/contact-dialog-context";
 
-// Heading font — bold, geometric, premium feel
-const syne = Syne({
+// Heading font — Montserrat. Weights used: 500 (subheads/eyebrows/nav),
+// 700 (default section titles), 900 (hero / big statement moments only)
+const montserrat = Montserrat({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["500", "700", "900"],
 });
 
-// Body font — premium, clean, modern
-const plusJakartaSans = Plus_Jakarta_Sans({
+// Body font — Karla. Weights used: 400 (body, 80% of text),
+// 700 (inline emphasis, stat callouts, labels). Italic enabled for
+// pull quotes, captions, and testimonial client names.
+const karla = Karla({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-});
-
-// Accent font — optical serif for pull quotes and high-impact statements
-const fraunces = Fraunces({
-  variable: "--font-accent",
-  subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
+  weight: ["400", "700"],
   style: ["normal", "italic"],
 });
 
@@ -40,7 +36,7 @@ export default function RootLayout({
     // "dark" class forces dark theme globally — our brand is dark by default
     <html
       lang="en"
-      className={`${syne.variable} ${plusJakartaSans.variable} ${fraunces.variable} dark h-full antialiased`}
+      className={`${montserrat.variable} ${karla.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ContactDialogProvider>{children}</ContactDialogProvider>

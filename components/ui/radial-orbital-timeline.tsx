@@ -195,7 +195,7 @@ export default function RadialOrbitalTimeline() {
 
         {/* Label — offset derived from node size so gap stays consistent at every breakpoint */}
         <div
-          className={`absolute whitespace-nowrap text-xs font-semibold tracking-wider transition-all duration-300 -translate-x-1/2 left-1/2 ${
+          className={`absolute whitespace-nowrap text-xs font-bold tracking-wider transition-all duration-300 -translate-x-1/2 left-1/2 ${
             isExpanded ? "text-white" : "hidden md:block text-white/50 group-hover:text-white/80"
           }`}
           style={{ top: (isOuter ? radii!.outerNode : radii!.innerNode) + 6 }}
@@ -220,16 +220,28 @@ export default function RadialOrbitalTimeline() {
         style={{ background: "radial-gradient(ellipse at center, rgba(59,130,246,0.08) 0%, transparent 65%)" }}
       />
 
-      {/* Center orb — always visible */}
-      <div className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 flex items-center justify-center z-10 pointer-events-none">
-        <div className="absolute w-20 h-20 rounded-full border border-blue-400/25 animate-ping opacity-60" />
+      {/* Center — Scale SD logo as the "sun" of the orbit */}
+      <div className="absolute z-10 pointer-events-none flex items-center justify-center">
+        {/* Soft blue glow backplate — anchors the chrome logo against the deep-blue bg */}
         <div
-          className="absolute w-24 h-24 rounded-full border border-blue-400/15 animate-ping opacity-40"
+          className="absolute w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0.08) 45%, transparent 70%)",
+          }}
+        />
+        {/* Pulsing rings — keep the "alive" feeling the original orb had */}
+        <div className="absolute w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 rounded-full border border-blue-400/25 animate-ping opacity-60" />
+        <div
+          className="absolute w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 xl:w-36 xl:h-36 rounded-full border border-blue-400/15 animate-ping opacity-40"
           style={{ animationDelay: "0.5s" }}
         />
-        <span className="text-[9px] font-heading font-bold text-white tracking-wide text-center leading-tight">
-          Scale<br />SD
-        </span>
+        {/* The logo itself — width-driven, height follows natural aspect */}
+        <img
+          src="/scale_sd_logo.png"
+          alt="Scale SD"
+          className="relative w-20 md:w-24 lg:w-28 xl:w-32 h-auto select-none drop-shadow-[0_0_12px_rgba(59,130,246,0.4)]"
+        />
       </div>
 
       {/* Rings + nodes — only render once radii is measured on client */}

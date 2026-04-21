@@ -34,10 +34,26 @@ export function HeroSection() {
             <HeroHeader />
             <main className="overflow-x-clip">
                 <section className="relative overflow-hidden min-h-screen">
+                    {/* Brand accent — Scale SD chrome logo, below nav, top-right.
+                        No side mask (was chopping the S). Soft bottom fade + low opacity
+                        so the whole logo sits into the bg rather than on top of it. */}
+                    <div
+                        className="absolute left-1/2 top-20 md:top-24 -translate-x-1/2 w-[65%] md:w-[55%] lg:w-[48%] aspect-[3/2] pointer-events-none"
+                        style={{
+                            backgroundImage: 'url(/scale_sd_logo.png)',
+                            backgroundSize: 'contain',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+                            opacity: 0.5,
+                        }}
+                    />
+
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
-                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-bold md:text-6xl lg:mt-4 xl:text-7xl">
+                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-black md:text-6xl lg:mt-4 xl:text-7xl">
                                     Stop Wasting Money on Marketing That Doesn't Bring Customers.
                                 </h1>
                                 <p className="mt-8 max-w-2xl text-balance text-lg">
@@ -47,7 +63,7 @@ export function HeroSection() {
                                 <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                                     <Link
                                         href="#contact"
-                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base")}>
+                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base hover:scale-105 hover:shadow-lg duration-300")}>
                                         <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="ml-1" />
                                     </Link>
@@ -64,27 +80,25 @@ export function HeroSection() {
                     {/* Trust strip — absolute, flush to bottom of hero, above video layer */}
                     <div className="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
 
-                        {/* Mobile: stacked rows */}
-                        <div className="md:hidden py-3 flex flex-col gap-3">
-                            {/* Stats infinite scroll */}
-                            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-                                <InfiniteSlider gap={28} speed={35} reverse>
-                                    {trustStats.map((stat) => (
-                                        <div key={stat.number} className="flex flex-col gap-0.5 items-center px-3">
-                                            <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                            <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
-                                        </div>
-                                    ))}
-                                </InfiniteSlider>
+                        {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
+                        <div className="xl:hidden py-3 flex flex-col gap-3">
+                            {/* Stats — static, wraps until all 4 fit in one row */}
+                            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 px-2">
+                                {trustStats.map((stat) => (
+                                    <div key={stat.number} className="flex flex-col gap-0.5 items-center">
+                                        <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                    </div>
+                                ))}
                             </div>
                             {/* Aesthetic divider — inset, fades at ends */}
                             <div className="mx-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                            {/* Logo marquee */}
+                            {/* Logo marquee — arrays doubled so single-instance ≥ container width at stacked widths up to 1280px (guarantees the marquee always fills the row during the loop) */}
                             <div className="py-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
                                 <InfiniteSlider gap={48} speed={70} reverse>
-                                    {trustLogos.map((logo) => (
+                                    {[...trustLogos, ...trustLogos].map((logo, i) => (
                                         <img
-                                            key={logo.alt}
+                                            key={`${logo.alt}-${i}`}
                                             src={logo.src}
                                             alt={logo.alt}
                                             width={logo.width}
@@ -92,10 +106,10 @@ export function HeroSection() {
                                             className="h-4 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
                                         />
                                     ))}
-                                    {trustLogoText.map((name) => (
+                                    {[...trustLogoText, ...trustLogoText].map((name, i) => (
                                         <span
-                                            key={name}
-                                            className="text-xs font-semibold tracking-wide text-white/40 whitespace-nowrap select-none"
+                                            key={`${name}-${i}`}
+                                            className="text-xs font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
                                         >
                                             {name}
                                         </span>
@@ -104,14 +118,14 @@ export function HeroSection() {
                             </div>
                         </div>
 
-                        {/* md+: 50/50 side-by-side infinite scroll */}
-                        <div className="hidden md:flex items-center py-4">
-                            {/* Logo marquee — left half, scrolls left (default) */}
+                        {/* xl+: 50/50 side-by-side — stats fit in one row at this width */}
+                        <div className="hidden xl:flex items-center py-4">
+                            {/* Logo marquee — left half, scrolls left (default). Arrays doubled to guarantee row fill at wide viewports */}
                             <div className="w-1/2 pr-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_78%,transparent)]">
                                 <InfiniteSlider gap={56} speed={70} reverse>
-                                    {trustLogos.map((logo) => (
+                                    {[...trustLogos, ...trustLogos].map((logo, i) => (
                                         <img
-                                            key={logo.alt}
+                                            key={`${logo.alt}-${i}`}
                                             src={logo.src}
                                             alt={logo.alt}
                                             width={logo.width}
@@ -119,10 +133,10 @@ export function HeroSection() {
                                             className="h-5 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
                                         />
                                     ))}
-                                    {trustLogoText.map((name) => (
+                                    {[...trustLogoText, ...trustLogoText].map((name, i) => (
                                         <span
-                                            key={name}
-                                            className="text-sm font-semibold tracking-wide text-white/40 whitespace-nowrap select-none"
+                                            key={`${name}-${i}`}
+                                            className="text-sm font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
                                         >
                                             {name}
                                         </span>
@@ -131,16 +145,16 @@ export function HeroSection() {
                             </div>
                             {/* Vertical divider — centered */}
                             <div className="w-px self-stretch bg-gradient-to-b from-transparent via-white/20 to-transparent shrink-0" />
-                            {/* Stats — right half, scrolls right (reverse) */}
-                            <div className="w-1/2 pl-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_22%,black_95%,transparent)]">
-                                <InfiniteSlider gap={40} speed={35} reverse>
-                                    {[...trustStats, ...trustStats, ...trustStats].map((stat, i) => (
-                                        <div key={i} className="flex flex-col gap-0.5 items-center px-4">
+                            {/* Stats — right half, static. Distribute with equal space between items and at both ends (justify-evenly) so the row spans the full half-width */}
+                            <div className="w-1/2 pl-8">
+                                <div className="flex flex-wrap justify-evenly items-center gap-y-2">
+                                    {trustStats.map((stat) => (
+                                        <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                             <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
                                             <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
                                         </div>
                                     ))}
-                                </InfiniteSlider>
+                                </div>
                             </div>
                         </div>
 
@@ -245,7 +259,7 @@ const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <button
                                     onClick={() => { setMenuState(false); openDialog(); }}
-                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md")}>
+                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md hover:scale-105 hover:shadow-lg duration-300")}>
                                     <span>Free Audit</span>
                                 </button>
                             </div>
