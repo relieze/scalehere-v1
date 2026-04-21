@@ -29,7 +29,7 @@ npm run build   # production build
 
 ## Design Direction
 - Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed), replaces the earlier darkshell-12.jpeg texture + overlay. Electric blue accent (`#3B82F6`) — Electric Black scheme
-- Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px). Brand logo decorative accent centered behind the hero text (`public/scale_sd_logo.png`, opacity 0.5, soft bottom fade)
+- Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px). Brand logo (`public/scale_sd_logo.png`) appears twice: (1) behind hero text at opacity 0.5 with soft bottom fade; (2) as the center "sun" of the About-section orbit, with a soft blue radial glow backplate + blue drop-shadow bloom
 - Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Fraunces retired. Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
