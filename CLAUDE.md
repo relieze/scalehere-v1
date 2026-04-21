@@ -28,8 +28,8 @@ npm run build   # production build
 - `lib/contact-dialog-context.tsx` — ContactDialogProvider + useContactDialog hook (shared dialog state)
 
 ## Design Direction
-- True black background (`#000000`) + texture image (`public/Darkshell-12.jpeg`) + `body::before` rgba(0,0,0,0.55) overlay to dim it, electric blue accent (`#3B82F6`) — Electric Black scheme
-- Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px)
+- Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed), replaces the earlier darkshell-12.jpeg texture + overlay. Electric blue accent (`#3B82F6`) — Electric Black scheme
+- Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px). Brand logo decorative accent centered behind the hero text (`public/scale_sd_logo.png`, opacity 0.5, soft bottom fade)
 - Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Fraunces retired. Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always

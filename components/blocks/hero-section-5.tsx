@@ -34,18 +34,19 @@ export function HeroSection() {
             <HeroHeader />
             <main className="overflow-x-clip">
                 <section className="relative overflow-hidden min-h-screen">
-                    {/* Chrome accent — liquid metal ribbons, right side */}
+                    {/* Brand accent — Scale SD chrome logo, below nav, top-right.
+                        No side mask (was chopping the S). Soft bottom fade + low opacity
+                        so the whole logo sits into the bg rather than on top of it. */}
                     <div
-                        className="absolute right-0 top-0 h-full w-1/2 md:w-2/5 pointer-events-none"
+                        className="absolute left-1/2 top-20 md:top-24 -translate-x-1/2 w-[65%] md:w-[55%] lg:w-[48%] aspect-[3/2] pointer-events-none"
                         style={{
-                            backgroundImage: 'url(/chrome_texture_2.jpg)',
-                            backgroundSize: 'cover',
+                            backgroundImage: 'url(/scale_sd_logo.png)',
+                            backgroundSize: 'contain',
                             backgroundPosition: 'center',
-                            maskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 65%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-                            maskComposite: 'intersect',
-                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 65%, black 80%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-                            WebkitMaskComposite: 'source-in',
-                            opacity: 0.85,
+                            backgroundRepeat: 'no-repeat',
+                            maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+                            opacity: 0.5,
                         }}
                     />
 
