@@ -242,7 +242,7 @@ export default function App() {
 
 
 demo.tsx
-import Component from "@/components/ui/testimonial-v2";
+import Component from "@/components/blocks/testimonial-v2";
 
 export default function DemoOne() {
   return <Component />;

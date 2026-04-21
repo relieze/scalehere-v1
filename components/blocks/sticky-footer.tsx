@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { motion, useReducedMotion } from 'motion/react';
 import { FaFacebookF, FaInstagram, FaYoutube, FaLinkedinIn } from 'react-icons/fa';
-import { buttonVariants } from './button';
+import { buttonVariants } from '@/components/ui/button';
 
 interface FooterLink {
   title: string;

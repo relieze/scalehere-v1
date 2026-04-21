@@ -226,7 +226,7 @@ function AnimatedContainer({
 
 demo.tsx
 import React from 'react';
-import { StickyFooter } from "@/components/ui/sticky-footer";
+import { StickyFooter } from "@/components/blocks/sticky-footer";
 import Lenis from '@studio-freight/lenis';
 import { ArrowDownIcon } from 'lucide-react';
 

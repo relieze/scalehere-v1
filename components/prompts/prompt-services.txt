@@ -314,7 +314,7 @@ export default FeatureCarousel
 
 demo.tsx
 "use client";
-import FeatureCarousel from "@/components/ui/feature-carousel";
+import FeatureCarousel from "@/components/blocks/feature-carousel";
 
 export default function Demo() {
   return (

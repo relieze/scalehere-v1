@@ -1,16 +1,16 @@
 import { HeroSection } from "@/components/blocks/hero-section-5";
-import { SoundFamiliar } from "@/components/ui/sound-familiar";
-import { FeatureCarousel } from "@/components/ui/feature-carousel";
-import { TestimonialsSection } from "@/components/ui/testimonial-v2";
-import { HowItWorks } from "@/components/ui/how-it-works";
-import { ManagementHub } from "@/components/ui/management-hub";
-import { CaseStudiesSection } from "@/components/ui/case-studies-section";
-import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
-import { AboutSection } from "@/components/ui/about-section";
-import TeamShowcase from "@/components/ui/team-showcase";
-import { FAQSection } from "@/components/ui/faq-section";
-import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
-import { StickyFooter } from "@/components/ui/sticky-footer";
+import { SoundFamiliar } from "@/components/blocks/sound-familiar";
+import { FeatureCarousel } from "@/components/blocks/feature-carousel";
+import { TestimonialsSection } from "@/components/blocks/testimonial-v2";
+import { HowItWorks } from "@/components/blocks/how-it-works";
+import { ManagementHub } from "@/components/blocks/management-hub";
+import { CaseStudiesSection } from "@/components/blocks/case-studies-section";
+import { PortfolioAccordion } from "@/components/blocks/portfolio-accordion";
+import { AboutSection } from "@/components/blocks/about-section";
+import TeamShowcase from "@/components/blocks/team-showcase";
+import { FAQSection } from "@/components/blocks/faq-section";
+import CTAWithVerticalMarquee from "@/components/blocks/cta-with-text-marquee";
+import { StickyFooter } from "@/components/blocks/sticky-footer";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
 export default function Home() {

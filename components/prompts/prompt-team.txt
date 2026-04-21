@@ -304,7 +304,7 @@ function MemberRow({
 
 
 demo.tsx
-import TeamShowcase from "@/components/ui/team-showcase";
+import TeamShowcase from "@/components/blocks/team-showcase";
 
 export default function TeamShowcaseDemo() {
   return (
