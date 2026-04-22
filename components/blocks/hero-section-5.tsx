@@ -11,10 +11,10 @@ import { useContactDialog } from '@/lib/contact-dialog-context'
 import { smoothScrollToHash } from '@/lib/utils'
 
 const trustStats = [
-    { number: '100+', label: 'Clients Trust Us' },
-    { number: '10+',  label: 'Years in Business' },
-    { number: '50+',  label: 'Businesses Scaled' },
-    { number: '$1M+', label: 'Revenue Generated' },
+    { number: '100+', short: 'Clients',     long: 'Clients Trust Us' },
+    { number: '10+',  short: 'Years',       long: 'Years in Business' },
+    { number: '50+',  short: 'Businesses',  long: 'Businesses Scaled' },
+    { number: '$1M+', short: 'Revenue',     long: 'Revenue Generated' },
 ]
 
 const trustLogos = [
@@ -86,12 +86,15 @@ export function HeroSection() {
 
                         {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
                         <div className="xl:hidden py-3 flex flex-col gap-3">
-                            {/* Stats — static, wraps until all 4 fit in one row */}
-                            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 px-2">
+                            {/* Stats — static. Single row (4-across) at all stacked widths — labels switch from short to long at sm: (640px+) where the longer versions fit comfortably. */}
+                            <div className="flex items-center justify-around gap-x-2 sm:gap-x-4 px-2">
                                 {trustStats.map((stat) => (
                                     <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                         <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">
+                                            <span className="sm:hidden">{stat.short}</span>
+                                            <span className="hidden sm:inline">{stat.long}</span>
+                                        </span>
                                     </div>
                                 ))}
                             </div>
@@ -155,7 +158,7 @@ export function HeroSection() {
                                     {trustStats.map((stat) => (
                                         <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                             <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                            <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                            <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.long}</span>
                                         </div>
                                     ))}
                                 </div>
