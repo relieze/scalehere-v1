@@ -533,6 +533,55 @@
     justify-content: center;
   }
 
+  /* Mobile + tablet override — hero-size button, <1024px. Three changes to
+     break the "doesn't stand out" effect against the enlarged hero bg logo
+     (bg-[length:180%] on mobile, bg-[length:135%] on tablet):
+       1. Foil re-cropped — zoomed-in, rotated (~166deg) view of
+          /scale_sd_logo.png so the button's foil reads as a distinct layer,
+          not a small echo of the background. Tuned in the sandbox — JSON
+          params { zoom: 113, offsetX: -52, offsetY: 18, rotation: 166 }.
+       2. Dim overlay added (V11 spec has none) — 0.22 alpha black wash on
+          top of the foil, gives the button a darker base so the bright
+          chrome bg doesn't read equivalently through the glass.
+       3. Conic ring alpha boosted 0.70 → 0.95 — sharper rim against the
+          variable chrome brightness, keeps the pill boundary crisp.
+     :not() chain keeps nav/cta/send variants on their own crops + their
+     default V11 treatment (they don't sit on the hero bg logo). */
+  @media (max-width: 1023px) {
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) {
+      --btn-glass-foil-w: 452px;
+      --btn-glass-foil-h: 299px;
+      --btn-glass-foil-x: -52px;
+      --btn-glass-foil-y: 18px;
+      --btn-glass-foil-rot: 166deg;
+    }
+    /* Dark base on the foil wrapper + isolate to scope the blend below.
+       Sets up a dark stage for the foil's mix-blend-mode to composite against. */
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass-bg {
+      background: rgba(8, 10, 16, 0.78);
+      isolation: isolate;
+    }
+    /* Screen blend — only the bright chrome highlights of the foil PNG survive
+       the composite against the dark base; darker logo pixels fall into black.
+       Result: distinct dark pill base with subtle chrome accents from the foil,
+       without any second asset or multi-stop gradient. */
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass-foil {
+      mix-blend-mode: screen;
+    }
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass::after {
+      background:
+        conic-gradient(
+          from var(--btn-glass-angle-1) at 50% 50%,
+          rgba(255,255,255,0.95) 0%,
+          transparent 5% 40%,
+          rgba(255,255,255,0.95) 50%,
+          transparent 60% 95%,
+          rgba(255,255,255,0.95) 100%
+        ),
+        linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.65));
+    }
+  }
+
   /* Disabled state — only applies to <button> inside the glass (Link has no
      native disabled). Fades the pill + blocks pointer events. */
   .btn-glass:disabled {
