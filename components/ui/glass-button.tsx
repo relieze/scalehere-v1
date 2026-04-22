@@ -110,11 +110,16 @@ export function GlassButton(props: GlassButtonProps) {
       )
     }
   } else {
+    // Narrow to Button props explicitly — the outer `'href' in props && props.href`
+    // check leaves a compound false branch that TS can't narrow on its own, so
+    // props.onClick stays as the union of anchor + button handlers. Safe assertion:
+    // href was falsy, so GlassButtonLinkProps (href: string required) is excluded.
+    const { onClick, type, disabled } = props as GlassButtonButtonProps
     trigger = (
       <button
-        type={props.type ?? 'button'}
-        onClick={props.onClick}
-        disabled={props.disabled}
+        type={type ?? 'button'}
+        onClick={onClick}
+        disabled={disabled}
         className="btn-glass"
         aria-label={ariaLabel}
       >
