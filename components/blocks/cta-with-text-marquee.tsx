@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { GlassButton } from "@/components/ui/glass-button";
 import { useContactDialog } from "@/lib/contact-dialog-context";
 
 interface VerticalMarqueeProps {
@@ -170,20 +171,15 @@ export default function CTAWithVerticalMarquee() {
 
             {/* CTA buttons */}
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-fade-in-up [animation-delay:600ms]">
-              <button
+              <GlassButton
+                size="cta"
                 onClick={() => { resetForm(); openDialog(); }}
-                className="group relative cursor-pointer px-6 py-3 btn-chrome rounded-md font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
-                <span className="relative z-10">GET MY FREE AUDIT</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-              </button>
-              <a
-                href="tel:7604437876"
-                className="group relative cursor-pointer px-6 py-3 btn-chrome rounded-md font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                <span className="relative z-10">CALL 760-443-7876</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-              </a>
+                GET MY FREE AUDIT
+              </GlassButton>
+              <GlassButton size="cta" href="tel:7604437876">
+                CALL 760-443-7876
+              </GlassButton>
             </div>
           </div>
 
@@ -266,15 +262,14 @@ export default function CTAWithVerticalMarquee() {
                 <p className="text-sm text-red-400">{errorMsg}</p>
               )}
 
-              <button
+              <GlassButton
+                size="send"
+                fullWidth
                 type="submit"
                 disabled={status === "loading"}
-                className="w-full cursor-pointer px-6 py-3 btn-chrome rounded-md font-bold text-sm tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span className="relative z-10">
-                  {status === "loading" ? "Sending…" : "SEND MESSAGE"}
-                </span>
-              </button>
+                {status === "loading" ? "Sending…" : "SEND MESSAGE"}
+              </GlassButton>
             </form>
           )}
         </DialogContent>

@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { GlassButton } from '@/components/ui/glass-button'
 import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight } from 'lucide-react'
 import { useScroll, motion } from 'motion/react'
@@ -60,13 +61,11 @@ export function HeroSection() {
                                     We build revenue-generating marketing systems for San Diego businesses — in just 1 hour of your time per week.
                                 </p>
 
-                                <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
-                                    <Link
-                                        href="#contact"
-                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base hover:scale-105 hover:shadow-lg duration-300")}>
+                                <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+                                    <GlassButton href="#contact">
                                         <span className="text-nowrap">Get Your Free Audit</span>
-                                        <ChevronRight className="ml-1" />
-                                    </Link>
+                                        <ChevronRight className="size-4" />
+                                    </GlassButton>
                                     <Link
                                         href="#about"
                                         className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-md px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
@@ -256,12 +255,13 @@ const HeroHeader = () => {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <button
+                            <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-stretch sm:gap-3 sm:space-y-0 md:w-fit">
+                                <GlassButton
+                                    size="nav"
                                     onClick={() => { setMenuState(false); openDialog(); }}
-                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md hover:scale-105 hover:shadow-lg duration-300")}>
-                                    <span>Free Audit</span>
-                                </button>
+                                >
+                                    Free Audit
+                                </GlassButton>
                             </div>
                         </div>
                     </motion.div>

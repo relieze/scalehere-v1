@@ -10,7 +10,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "btn-chrome",
+        // Primary CTAs ship through <GlassButton> (components/ui/glass-button.tsx)
+        // — the .btn-chrome treatment was retired when the glass V11 migration
+        // landed. This default is a neutral fallback so any accidental bare
+        // <Button> still renders something sensible; production callsites
+        // should use variant="ghost" or "outline" or go through GlassButton.
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
