@@ -246,12 +246,12 @@
   .btn-glass-wrap {
     /* Foil crop — all tunable without touching layer math. If the crop
        drifts when we sanity-check in browser, adjust here, not the JSX. */
-    --btn-glass-foil-w:   252px;
-    --btn-glass-foil-h:   167px;
-    --btn-glass-foil-x:   -13px;
-    --btn-glass-foil-y:   6px;
-    --btn-glass-foil-rot: -33deg;
-    --btn-glass-foil-src: url('/scale_sd_logo.png');
+    --btn-glass-foil-w:   860px;
+    --btn-glass-foil-h:   569px;
+    --btn-glass-foil-x:   46px;
+    --btn-glass-foil-y:   -140px;
+    --btn-glass-foil-rot: 30deg;
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
 
     /* Base text-shadow (halo stack) as a var so hover/active state rules
        can layer their reflection effects on top via var() concatenation
@@ -321,7 +321,12 @@
       inset 0 -.125em .125em rgba(0,0,0,0.50),
       0 .25em .125em -.125em rgba(255,255,255,0.20),
       0 0 .1em .25em inset rgba(0,0,0,0.20),
-      0 0 #000;
+      /* Permanent electric-blue glow — edges + bottom lift. Always on (not tied
+         to hover), so it reads on mobile too. Hover pulse on .btn-glass-shadow
+         still layers above this for state feedback. */
+      0 14px 32px -8px rgba(59, 130, 246, 0.55),
+      0 4px 16px -2px rgba(59, 130, 246, 0.35),
+      0 0 24px -4px rgba(59, 130, 246, 0.30);
   }
   .btn-glass:hover {
     -webkit-backdrop-filter: blur(.01em);
@@ -370,10 +375,13 @@
     gap: .25em;
     user-select: none;
     letter-spacing: -0.02em;
-    /* Hero context sizing: h-12 pl-5 pr-3 text-base font-bold. */
+    /* Hero context sizing: h-12 pl-5 pr-3. Text family/weight apply to every
+       size — Montserrat 900 is the "statement" typographic register for all
+       GlassButton contexts (spec exception in design-tokens typography). */
     padding: 14px 12px 14px 20px;
     font-size: 1rem;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: 900;
   }
   /* Hover/active stack a subtle light reflection on the base halo — this is
      the "glass flex / press drop" feel from the easemize original. */
@@ -485,10 +493,12 @@
         JSON exports. Height = width * (scale_sd_logo aspect ratio ≈ 0.663). ── */
 
   .btn-glass-wrap.btn-glass--nav {
-    --btn-glass-foil-w: 104px;
-    --btn-glass-foil-h: 69px;
-    --btn-glass-foil-x: -6px;
-    --btn-glass-foil-y: 1px;
+    --btn-glass-foil-w: 500px;
+    --btn-glass-foil-h: 331px;
+    --btn-glass-foil-x: 26px;
+    --btn-glass-foil-y: -85px;
+    --btn-glass-foil-rot: 30deg;
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
   }
   .btn-glass-wrap.btn-glass--nav .btn-glass-text {
     padding: 5px 10px;
@@ -496,10 +506,12 @@
   }
 
   .btn-glass-wrap.btn-glass--cta {
-    --btn-glass-foil-w: 244px;
-    --btn-glass-foil-h: 162px;
-    --btn-glass-foil-x: -15px;
-    --btn-glass-foil-y: 5px;
+    --btn-glass-foil-w: 860px;
+    --btn-glass-foil-h: 569px;
+    --btn-glass-foil-x: 46px;
+    --btn-glass-foil-y: -140px;
+    --btn-glass-foil-rot: 30deg;
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
   }
   .btn-glass-wrap.btn-glass--cta .btn-glass-text {
     padding: 12px 24px;
@@ -507,10 +519,12 @@
   }
 
   .btn-glass-wrap.btn-glass--send {
-    --btn-glass-foil-w: 204px;
-    --btn-glass-foil-h: 135px;
-    --btn-glass-foil-x: -10px;
-    --btn-glass-foil-y: 5px;
+    --btn-glass-foil-w: 1320px;
+    --btn-glass-foil-h: 873px;
+    --btn-glass-foil-x: 44px;
+    --btn-glass-foil-y: -236px;
+    --btn-glass-foil-rot: 27deg;
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
   }
   .btn-glass-wrap.btn-glass--send .btn-glass-text {
     padding: 12px 24px;
@@ -531,55 +545,6 @@
   .btn-glass-wrap.btn-glass--full .btn-glass-text {
     width: 100%;
     justify-content: center;
-  }
-
-  /* Mobile + tablet override — hero-size button, <1024px. Three changes to
-     break the "doesn't stand out" effect against the enlarged hero bg logo
-     (bg-[length:180%] on mobile, bg-[length:135%] on tablet):
-       1. Foil re-cropped — zoomed-in, rotated (~166deg) view of
-          /scale_sd_logo.png so the button's foil reads as a distinct layer,
-          not a small echo of the background. Tuned in the sandbox — JSON
-          params { zoom: 113, offsetX: -52, offsetY: 18, rotation: 166 }.
-       2. Dim overlay added (V11 spec has none) — 0.22 alpha black wash on
-          top of the foil, gives the button a darker base so the bright
-          chrome bg doesn't read equivalently through the glass.
-       3. Conic ring alpha boosted 0.70 → 0.95 — sharper rim against the
-          variable chrome brightness, keeps the pill boundary crisp.
-     :not() chain keeps nav/cta/send variants on their own crops + their
-     default V11 treatment (they don't sit on the hero bg logo). */
-  @media (max-width: 1023px) {
-    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) {
-      --btn-glass-foil-w: 452px;
-      --btn-glass-foil-h: 299px;
-      --btn-glass-foil-x: -52px;
-      --btn-glass-foil-y: 18px;
-      --btn-glass-foil-rot: 166deg;
-    }
-    /* Dark base on the foil wrapper + isolate to scope the blend below.
-       Sets up a dark stage for the foil's mix-blend-mode to composite against. */
-    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass-bg {
-      background: rgba(8, 10, 16, 0.78);
-      isolation: isolate;
-    }
-    /* Screen blend — only the bright chrome highlights of the foil PNG survive
-       the composite against the dark base; darker logo pixels fall into black.
-       Result: distinct dark pill base with subtle chrome accents from the foil,
-       without any second asset or multi-stop gradient. */
-    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass-foil {
-      mix-blend-mode: screen;
-    }
-    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass::after {
-      background:
-        conic-gradient(
-          from var(--btn-glass-angle-1) at 50% 50%,
-          rgba(255,255,255,0.95) 0%,
-          transparent 5% 40%,
-          rgba(255,255,255,0.95) 50%,
-          transparent 60% 95%,
-          rgba(255,255,255,0.95) 100%
-        ),
-        linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.65));
-    }
   }
 
   /* Disabled state — only applies to <button> inside the glass (Link has no
