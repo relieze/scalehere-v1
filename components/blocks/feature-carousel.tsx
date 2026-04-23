@@ -21,72 +21,58 @@ const FEATURES = [
     id: "social-media",
     label: "Social Media Management",
     icon: SmartPhone01Icon,
-    // Social media / phone content creation
-    image:
-      "https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=1200",
+    image: "/services/social_media.jpg",
     description: "Content creation, community engagement, and strategy development to build your brand online.",
   },
   {
     id: "digital-marketing",
     label: "Digital Marketing",
     icon: GlobalSearchIcon,
-    // Laptop with marketing analytics charts
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200",
+    image: "/services/digital_marketing.jpg",
     description: "From SEO to PPC — boost visibility, increase traffic, and generate more qualified leads.",
   },
   {
     id: "collaborations",
     label: "Collaborations & UGC",
     icon: CommandFreeIcons,
-    // People collaborating / influencer content shoot
-    image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200",
+    image: "/services/collaborations.jpg",
     description: "Influencer campaigns and UGC content that builds authentic trust with your audience.",
   },
   {
     id: "content",
     label: "Content Marketing",
     icon: MagicWandIcon,
-    // Content creation / video production setup
-    image:
-      "https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=1200",
+    image: "/services/content_marketing.jpg",
     description: "Blogs, video content, and campaigns that engage your audience at every stage of the funnel.",
   },
   {
     id: "branding",
     label: "Branding & Design",
     icon: ColorsIcon,
-    // Color palette / branding design workspace
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200",
+    image: "/services/branding.jpg",
     description: "Logos, brand identity, and visual elements that make your business unforgettable.",
   },
   {
     id: "ads",
     label: "Paid Advertising",
     icon: AiCloudIcon,
-    // Digital advertising / campaign on screen
-    image:
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200",
+    image: "/services/paid_advertising.jpg",
     description: "Google Ads and social media ads engineered to maximize ROI and scale your revenue.",
   },
   {
     id: "analytics",
     label: "Analytics & Reporting",
     icon: DashboardSquare01Icon,
-    // Analytics dashboard / data visualization
-    image:
-      "https://images.unsplash.com/photo-1551288049-bbda38a10ad5?q=80&w=1200",
+    image: "/services/analytics_reporting.jpeg",
     description: "Campaign tracking and performance insights so you always know your marketing is working.",
   },
   {
     id: "seo",
     label: "SEO Optimization",
     icon: CheckmarkCircle01Icon,
-    // Search / keyboard / typing — SEO concept
-    image:
-      "https://images.unsplash.com/photo-1432888622747-4eb9a8f5c70c?q=80&w=1200",
+    image: "/services/seo.jpg",
+    objectPosition: "35% 50%",
+    scale: 1.2,
     description: "Website optimization and keyword research to rank higher and attract organic traffic.",
   },
 ];
@@ -151,8 +137,8 @@ export function FeatureCarousel() {
     <div className="w-full max-w-7xl mx-auto md:p-8">
       <div className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[4rem] flex flex-col md:flex-row md:min-h-0 md:aspect-video border border-border/40">
         <div className="order-2 w-full md:w-[45%] lg:w-[40%] md:h-full relative z-30 flex flex-col items-start justify-center overflow-hidden px-8 md:px-8 lg:pl-16 min-h-[280px]">
-          <div className="absolute inset-x-0 top-0 h-12 md:h-16 bg-gradient-to-b from-black via-black/80 to-transparent z-40" />
-          <div className="absolute inset-x-0 bottom-0 h-12 md:h-16 bg-gradient-to-t from-black via-black/80 to-transparent z-40" />
+          <div className="absolute inset-x-0 top-0 h-12 md:h-16 bg-gradient-to-b from-black/40 to-transparent z-40" />
+          <div className="absolute inset-x-0 bottom-0 h-12 md:h-16 bg-gradient-to-t from-black/40 to-transparent z-40" />
           <div className="relative w-full h-full flex items-center justify-center md:justify-start z-20">
             {FEATURES.map((feature, index) => {
               const isActive = index === currentIndex;
@@ -246,6 +232,10 @@ export function FeatureCarousel() {
                   <img
                     src={feature.image}
                     alt={feature.label}
+                    style={{
+                      objectPosition: feature.objectPosition ?? "center",
+                      transform: feature.scale ? `scale(${feature.scale})` : undefined,
+                    }}
                     className={cn(
                       "w-full h-full object-cover transition-all duration-700",
                       isActive
@@ -260,12 +250,12 @@ export function FeatureCarousel() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute inset-x-0 bottom-0 p-10 pt-32 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end pointer-events-none"
+                        className="absolute inset-x-0 bottom-0 p-6 md:p-8 lg:p-10 pt-20 md:pt-24 lg:pt-32 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex flex-col justify-end pointer-events-none"
                       >
                         <div className="bg-background text-foreground px-4 py-1.5 rounded-full text-[11px] font-normal uppercase tracking-[0.2em] w-fit shadow-lg mb-3 border border-border/50">
                           {index + 1} • {feature.label}
                         </div>
-                        <p className="text-white font-normal text-xl md:text-2xl leading-tight drop-shadow-md tracking-tight">
+                        <p className="text-white font-normal text-base md:text-lg lg:text-2xl leading-tight drop-shadow-md tracking-tight">
                           {feature.description}
                         </p>
                       </motion.div>
