@@ -30,6 +30,7 @@ const trustLogos = [
 ]
 
 export function HeroSection() {
+    const { openDialog } = useContactDialog()
     return (
         <>
             <HeroHeader />
@@ -62,10 +63,7 @@ export function HeroSection() {
                                 </p>
 
                                 <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-                                    <GlassButton
-                                        href="#contact"
-                                        onClick={(e) => smoothScrollToHash(e, '#contact')}
-                                    >
+                                    <GlassButton onClick={() => openDialog()}>
                                         <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="size-4" strokeWidth={3} />
                                     </GlassButton>
