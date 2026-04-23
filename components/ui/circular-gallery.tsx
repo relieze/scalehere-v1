@@ -31,7 +31,9 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
     const snapTargetRef = useRef<number | null>(null);  // target angle when snapping
     const pauseUntilRef = useRef<number>(0);            // timestamp — pause auto-rotate until then
 
-    // Responsive card size — smaller on mobile
+    // Responsive card size — smaller on mobile.
+    // Tracked in JS state (not Tailwind classes) because marginLeft/marginTop
+    // below are derived from these values and have to be inline.
     const [cardW, setCardW] = useState(300);
     const [cardH, setCardH] = useState(400);
     useEffect(() => {

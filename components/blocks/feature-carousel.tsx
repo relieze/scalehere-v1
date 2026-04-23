@@ -92,6 +92,8 @@ const FEATURES = [
 ];
 
 const AUTO_PLAY_INTERVAL = 3000;
+// Per-row height AND per-slot Y-translate distance. Kept constant across
+// breakpoints so the gap between service rows doesn't shift on resize.
 const ITEM_HEIGHT = 65;
 
 const wrap = (min: number, max: number, v: number) => {

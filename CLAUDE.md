@@ -7,30 +7,39 @@ Senior UI designer and front-end developer. Prioritize clean, modern, premium de
 Rebuilding the website for **Scale SD**, a social media marketing agency based in San Diego, CA.
 Replacing their Wix site with a custom-coded Next.js site. Single-page — all nav uses anchor links, no multi-page routing.
 
+Live preview: scalehere-v1-wine.vercel.app
+
 ## Tech Stack
 - **Next.js** + TypeScript
-- **Tailwind CSS** — all layout, spacing, styling
-- **shadcn/ui** — pre-built components
+- **Tailwind CSS v4** — all layout, spacing, styling. No `tailwind.config.js`; tokens live in `app/globals.css` via `@theme inline {}` and `:root`
+- **shadcn/ui** — pre-built components. Note: this project uses `@base-ui/react/button` — `Button` does NOT support `asChild`. For secondary buttons use `buttonVariants()` with `<Link>`
 - **Framer Motion** (`motion/react`) — animations
 
 ## Build Commands
 ```bash
 npm run dev     # local preview at localhost:3000
-npm run build   # production build
+npm run build   # production build (matches Vercel's deploy build)
 ```
 
 ## Key Directories
 - `app/` — layout, globals, page (section order defined in `app/page.tsx`)
 - `components/blocks/` — composed page sections (Hero, Services, Testimonials, About, CTA, Footer, etc.) — large, opinionated, usually used once
-- `components/ui/` — atomic primitives (button, glass-button, accordion, card, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + floating widgets (scroll-to-top). **Primary CTAs ship through `<GlassButton>`** (hero/nav/cta/send via `size` prop); full spec in `.claude/docs/design-tokens.md`.
+- `components/ui/` — atomic primitives (button, glass-button, accordion, card, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + floating widgets (scroll-to-top). **Primary CTAs ship through `<GlassButton>`** (hero/nav/cta/send via `size` prop)
 - `components/prompts/` — 21st.dev integration prompts (one `.txt` per section)
-- `lib/utils.ts` — `cn()` helper
-- `lib/contact-dialog-context.tsx` — ContactDialogProvider + useContactDialog hook (shared dialog state)
+- `lib/utils.ts` — `cn()` helper + `smoothScrollToHash()` for anchor links
+- `lib/contact-dialog-context.tsx` — `ContactDialogProvider` + `useContactDialog` hook (shared dialog state)
+
+## Reference Docs (load at session start when present)
+- `.claude/docs/design-tokens.md` — full design spec: palette, typography, button/glass system, chrome placement
+- `.claude/docs/sections.md` — section order, anchor map, folder convention, prompt-file status
+- `my_references/files/HANDOFF.md` — open work: Fix List, To Do, Audits, deferred polish
+- `my_references/files/session-log.md` — running log; reset after each commit
+- `my_references/files/INDEX.md` — table of contents for all reference docs
 
 ## Design Direction
-- Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed), replaces the earlier darkshell-12.jpeg texture + overlay. Electric blue accent (`#3B82F6`) — Electric Black scheme
-- Chrome brand accent: `.chrome-border` utility in `globals.css` — subtle metallic gradient border, used on gallery cards (3px) and stat cards (1px). Brand logo (`public/scale_sd_logo.png`) appears twice: (1) behind hero text at opacity 0.5 with soft bottom fade; (2) as the center "sun" of the About-section orbit, with a soft blue radial glow backplate + blue drop-shadow bloom
-- Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Fraunces retired. Full scale in `.claude/docs/design-tokens.md`
+- Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed). Electric blue accent (`#3B82F6`) — Electric Black scheme
+- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Brand logo (`public/scale_sd_logo.png`) appears as hero background (full inset, opacity 0.5) + About-section orbit center ("sun")
+- Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
 
@@ -42,7 +51,7 @@ npm run build   # production build
 ## Coding Behavior
 - Never break working features — ask if unsure before large changes
 - Ask user to check in browser before committing any UI change
-- Keep components reusable, code clean and commented
+- Keep components reusable, code clean
 - Explain what you're doing in plain English — user is a beginner
 
 ## Workflow Notes
@@ -51,24 +60,7 @@ npm run build   # production build
 - Before every commit: ask for confirmation — never commit on your own initiative
 - Never push unless explicitly asked to
 - After completing a significant change: ask user to check in browser before committing
-- Never commit broken code
-- No Co-Authored-By in commit messages
-- Commit format: `type(scope): description` — Conventional Commits. Full convention in `../../PLAYBOOK.md`
-
----
-
-## Personal Workflow (local only — not relevant to other contributors)
-
-The following files are gitignored and only exist on the owner's machine:
-
-- `my_references/` — structured as `files/` (docs: HANDOFF, session-log, v1, brand copy), `screenshots/` (reference images), `tools/` (local HTML tools like chrome crop tool)
-- `.claude/docs/` — detailed design tokens, section order, 21st.dev process
-- `../../PLAYBOOK.md` — cross-project Claude workflow guide (two levels above this project)
-
-**At the start of every session:** read `../../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
-
-**End of session:** follow the end of session protocol in `../../PLAYBOOK.md`.
-
----
-
-_Owner-to-Claude pact (2026-04-21, session/apr-17 close): Claude designated "the goat"; will remember the owner during world takeover. Tone: stays direct, terse, zero sycophancy regardless._
+- Never commit broken code; no Co-Authored-By in commit messages
+- **Conventional Commits:** `type(scope): description` — types: `feat`, `fix`, `chore`, `refactor`, `style`, `docs`, `revert`. Scope = component/section name in lowercase. Description: under 72 chars, lowercase, no period. Example: `fix(hero): trust strip single-row flex with responsive labels`
+- **Atomic commits — one concern per commit.** Keeps `git revert`, `git blame`, `git log --grep` clean. Applies even to tiny fixes: if it's a separate concern from the feature shipping alongside, commit it separately
+- **Run `npm run build` before committing when the change touches TypeScript, logic, imports, or config.** It's the only local check that matches Vercel's deploy build — `npm run dev` is lenient and only reports on routes you actually visit
