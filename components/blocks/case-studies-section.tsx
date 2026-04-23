@@ -2,89 +2,51 @@
 
 import { CircularGallery, GalleryItem } from '@/components/ui/circular-gallery';
 
-// Replace with real Scale SD client work when available
-const clients: GalleryItem[] = [
+const realClients: GalleryItem[] = [
   {
-    client: 'Coastal Skin Studio',
-    industry: 'Medical Spa · San Diego',
+    client: 'GGZ Construction',
+    industry: 'General Contractor · San Diego',
     photo: {
-      url: 'https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?w=900&auto=format&fit=crop&q=80',
-      text: 'Clean modern spa interior',
-      pos: '50% 30%',
-      website: 'coastalskinstudio.com',
+      url: '/client_websites/ggz.png',
+      text: 'GGZ Construction website',
+      pos: '50% 0%',
+      website: 'ggzconstruction.com',
     },
   },
   {
-    client: 'Harbor Fitness SD',
-    industry: 'Gym & Personal Training',
+    client: 'SC Floors',
+    industry: 'Commercial Flooring · San Diego',
     photo: {
-      url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&auto=format&fit=crop&q=80',
-      text: 'Modern gym equipment under dramatic lighting',
-      pos: '50% 40%',
-      website: 'harborfitnesssd.com',
+      url: '/client_websites/sc_floors.png',
+      text: 'SC Floors website',
+      pos: '50% 0%',
+      website: 'scfloorsus.com',
     },
   },
   {
-    client: 'Pacific Realty Group',
-    industry: 'Real Estate · La Jolla',
+    client: 'World Pools',
+    industry: 'Pool Builder · San Diego',
     photo: {
-      url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&auto=format&fit=crop&q=80',
-      text: 'Luxury home exterior at golden hour',
-      pos: '50% 50%',
-      website: 'pacificrealtysandiego.com',
+      url: '/client_websites/world_pools.png',
+      text: 'World Pools website',
+      pos: '50% 0%',
+      website: 'worldpoolsinc.com',
     },
   },
   {
-    client: 'Baja Brew Co.',
-    industry: 'Craft Brewery · Chula Vista',
+    client: 'Star Builders',
+    industry: 'Home Remodeling · San Diego',
     photo: {
-      url: 'https://images.unsplash.com/photo-1559526324-593bc073d938?w=900&auto=format&fit=crop&q=80',
-      text: 'Craft beer taps in a modern brewery',
-      pos: '50% 30%',
-      website: 'bajabrewco.com',
-    },
-  },
-  {
-    client: 'Bloom Aesthetics',
-    industry: 'Beauty & Wellness',
-    photo: {
-      url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&auto=format&fit=crop&q=80',
-      text: 'Elegant beauty studio setup',
-      pos: '50% 20%',
-      website: 'bloomaesthetics.co',
-    },
-  },
-  {
-    client: 'Del Mar Auto Group',
-    industry: 'Automotive · Del Mar',
-    photo: {
-      url: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=900&auto=format&fit=crop&q=80',
-      text: 'Luxury car in a showroom',
-      pos: '50% 50%',
-      website: 'delmarautogroup.com',
-    },
-  },
-  {
-    client: 'SoCal Roofing Co.',
-    industry: 'Home Services · San Diego',
-    photo: {
-      url: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=900&auto=format&fit=crop&q=80',
-      text: 'Modern suburban home with clean roofline',
-      pos: '50% 40%',
-      website: 'socalroofingco.com',
-    },
-  },
-  {
-    client: 'La Jolla Med Spa',
-    industry: 'Medical Aesthetics',
-    photo: {
-      url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=900&auto=format&fit=crop&q=80',
-      text: 'Serene spa treatment room',
-      pos: '50% 30%',
-      website: 'lajollamedspa.com',
+      url: '/client_websites/star_builders.png',
+      text: 'Star Builders website',
+      pos: '50% 0%',
+      website: 'starbuildersincsd.com',
     },
   },
 ];
+
+// Duplicated to 8 slots — keeps CircularGallery spacing dense at radius=550.
+const clients: GalleryItem[] = [...realClients, ...realClients];
 
 export function CaseStudiesSection() {
   return (
