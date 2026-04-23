@@ -62,5 +62,6 @@ npm run build   # production build (matches Vercel's deploy build)
 - After completing a significant change: ask user to check in browser before committing
 - Never commit broken code; no Co-Authored-By in commit messages
 - **Conventional Commits:** `type(scope): description` — types: `feat`, `fix`, `chore`, `refactor`, `style`, `docs`, `revert`. Scope = component/section name in lowercase. Description: under 72 chars, lowercase, no period. Example: `fix(hero): trust strip single-row flex with responsive labels`
+- **Commit body (when one is needed):** 1–2 opening lines on *what + why*. Use bullets for enumerable changes (files, options, before/after). Use prose for reasoning and trade-offs. Wrap at ~72 chars. Skip the body entirely on trivial one-liners where the subject line says it all.
 - **Atomic commits — one concern per commit.** Keeps `git revert`, `git blame`, `git log --grep` clean. Applies even to tiny fixes: if it's a separate concern from the feature shipping alongside, commit it separately
 - **Run `npm run build` before committing when the change touches TypeScript, logic, imports, or config.** It's the only local check that matches Vercel's deploy build — `npm run dev` is lenient and only reports on routes you actually visit
