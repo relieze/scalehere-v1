@@ -28,43 +28,45 @@ interface SlideData {
   imageUrl: string
 }
 
-// NOTE: images are placeholders (/public/management_hub/ghl_N.png). Swap in real
-// Scale SD dashboard screenshots when available — should be ~2:1 landscape to match the frame.
+// Real Scale SD GHL screenshots. Frame is aspect-ratio 2/1 with object-cover —
+// wide shots (lead_capture, automated_follow_ups) fit clean; taller shots
+// (dashboard, online_booking, text_back) get top+bottom crop. Tune object-position
+// or the frame ratio if any crop loses important info.
 const slides: SlideData[] = [
   {
     title: 'Dashboard Overview',
     subtitle: 'The command center',
     description:
       'Every number, every lead, every message — one view. Know your business at a glance, no tab-switching, no guesswork.',
-    imageUrl: '/management_hub/ghl_1.png',
+    imageUrl: '/management_hub/dashboard.png',
   },
   {
     title: 'Lead Capture',
     subtitle: 'Never lose a lead',
     description:
       'Inbound leads flow straight into your pipeline — tagged, routed, and ready to work the moment they land.',
-    imageUrl: '/management_hub/ghl_2.png',
+    imageUrl: '/management_hub/lead_capture.png',
   },
   {
     title: 'Online Booking',
     subtitle: 'Clients book themselves',
     description:
       'Share one link anywhere. Your calendar fills itself, reminders go out automatically, phone tag disappears.',
-    imageUrl: '/management_hub/ghl_3.png',
+    imageUrl: '/management_hub/online_booking.png',
   },
   {
     title: 'Text Back',
     subtitle: 'Turn missed calls into revenue',
     description:
       'Missed a call? A text fires back automatically to keep the lead warm and the conversation open.',
-    imageUrl: '/management_hub/ghl_4.png',
+    imageUrl: '/management_hub/text_back.png',
   },
   {
     title: 'Automated Follow-ups',
     subtitle: 'Every lead, every time',
     description:
       'Set-and-forget sequences. Emails, texts, reminders — all running in the background while you focus on the work.',
-    imageUrl: '/management_hub/ghl_5.png',
+    imageUrl: '/management_hub/automated_follow_ups.png',
   },
 ]
 
@@ -104,6 +106,13 @@ const SCOPED_CSS = `
   }
   .hub-corner-tl { top: -12px; left: -12px;  border-top:    2px solid ${ACCENT}; border-left:  2px solid ${ACCENT}; }
   .hub-corner-br { bottom: -12px; right: -12px; border-bottom: 2px solid ${ACCENT}; border-right: 2px solid ${ACCENT}; }
+  /* Mobile: corners at 0 (wrapper edge) instead of -12px outside. Container
+     padding is px-2 (8px), so at wrapper edge they sit 8px inside viewport —
+     same breathing room as the text/arrows below. */
+  @media (max-width: 767px) {
+    .hub-corner-tl { top: 0; left: 0; }
+    .hub-corner-br { bottom: 0; right: 0; }
+  }
 
   /* ─── PROGRESS BAR ─────────────────────────────────────────────────── */
 
@@ -158,7 +167,10 @@ const SCOPED_CSS = `
   /* perspective on the wrapper establishes the 3D context; tilt div carries
      the rotation. Chrome corners (siblings of .hub-image-tilt) stay flat —
      they frame the tilted screenshot rather than tilt with it.
-     Values dialed in /sandbox/image-tilt — paste export to update. */
+     Values dialed in /sandbox/image-tilt — paste export to update.
+     2/1 everywhere — matches the real GHL screenshots which land between
+     1.77 and 1.99 aspect. Dashboard (1.42) is the outlier and loses ~20%
+     top+bottom to object-cover, acceptable per owner review apr-23. */
   .hub-image-wrapper { aspect-ratio: 2 / 1; position: relative; perspective: 1500px; }
 
   /* 3D tilt — left edge forward, right edge recedes (left sidebar closer to viewer).
@@ -179,9 +191,22 @@ const SCOPED_CSS = `
   .hub-image-tilt {
     width: 100%;
     height: 100%;
-    transform: translate(2%, -2%) rotateY(27deg) rotateX(15deg) rotateZ(0deg) scale(0.88);
+    /* Mobile only: scale(0.92) — slightly smaller than the earlier 0.94 push,
+       leaving room inside the wrapper for the chrome corners at 0. translate
+       Y is +1% (down) instead of -2% (up): rotateX(15°) already creates a
+       slight top-gap/bottom-gap asymmetry (bottom foreshortened more), and
+       the -2% translate was compounding it. +1% down balances the gaps. */
+    transform: translate(2%, 1%) rotateY(27deg) rotateX(15deg) rotateZ(0deg) scale(0.92);
     transform-origin: center center;
     will-change: transform;
+  }
+  /* Tablet: back to scale(0.88). The wider wrapper at 768-1023px makes
+     scale(0.94)'s foreshortening bulge project ~20px past the left edge,
+     colliding with the chrome corner bracket. */
+  @media (min-width: 768px) {
+    .hub-image-tilt {
+      transform: translate(2%, -2%) rotateY(27deg) rotateX(15deg) rotateZ(0deg) scale(0.88);
+    }
   }
   @media (min-width: 1024px) {
     .hub-image-tilt {
@@ -320,7 +345,7 @@ export function ManagementHub() {
       <div className="hub-bg-wash" aria-hidden />
 
       <div
-        className="relative mx-auto max-w-7xl px-6 md:px-10"
+        className="relative mx-auto max-w-7xl px-2 md:px-10"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onClick={triggerClickPause}
@@ -339,6 +364,7 @@ export function ManagementHub() {
                   src={currentSlide.imageUrl}
                   alt={currentSlide.title}
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: 'left center' }}
                 />
               </div>
             </div>
