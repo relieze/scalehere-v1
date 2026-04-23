@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/utils';
+import { cn, smoothScrollToHash } from '@/lib/utils';
 import { motion, useReducedMotion } from 'motion/react';
 import { FaFacebookF, FaInstagram, FaYoutube, FaLinkedinIn } from 'react-icons/fa';
 import { buttonVariants } from '@/components/ui/button';
@@ -71,16 +71,21 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
                       {group.label}
                     </h3>
                     <ul className="text-muted-foreground mt-4 space-y-2 text-sm">
-                      {group.links.map((link) => (
-                        <li key={link.title}>
-                          <a
-                            href={link.href}
-                            className="hover:text-foreground inline-flex items-center transition-colors duration-200"
-                          >
-                            {link.title}
-                          </a>
-                        </li>
-                      ))}
+                      {group.links.map((link) => {
+                        const isExternal = link.href.startsWith('http');
+                        return (
+                          <li key={link.title}>
+                            <a
+                              href={link.href}
+                              onClick={(e) => smoothScrollToHash(e, link.href)}
+                              {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+                              className="hover:text-foreground inline-flex items-center transition-colors duration-200"
+                            >
+                              {link.title}
+                            </a>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </AnimatedContainer>
@@ -136,8 +141,8 @@ const footerLinkGroups: FooterLinkGroup[] = [
     links: [
       { title: 'Scalenowsd@gmail.com', href: 'mailto:Scalenowsd@gmail.com' },
       { title: '760-443-7876', href: 'tel:7604437876' },
-      { title: '10918 Technology Pl', href: '#' },
-      { title: 'San Diego, CA 92025', href: '#' },
+      { title: '10918 Technology Pl', href: 'https://www.google.com/maps/search/?api=1&query=10918+Technology+Pl+San+Diego+CA+92025' },
+      { title: 'San Diego, CA 92025', href: 'https://www.google.com/maps/search/?api=1&query=10918+Technology+Pl+San+Diego+CA+92025' },
     ],
   },
 ];

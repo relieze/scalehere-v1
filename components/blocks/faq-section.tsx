@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { smoothScrollToHash } from "@/lib/utils";
 
 const faqs = [
   {
@@ -90,7 +91,7 @@ export function FAQSection() {
         {/* Footer CTA */}
         <p className="text-muted-foreground text-center text-sm mt-7">
           Still have questions?{" "}
-          <a href="#contact" className="text-primary hover:underline font-medium">
+          <a href="#contact" onClick={(e) => smoothScrollToHash(e, '#contact')} className="text-primary hover:underline font-medium">
             Book a free strategy call
           </a>{" "}
           and we'll walk you through it.

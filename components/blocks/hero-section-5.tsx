@@ -2,17 +2,19 @@
 import React from 'react'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { GlassButton } from '@/components/ui/glass-button'
 import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight } from 'lucide-react'
 import { useScroll, motion } from 'motion/react'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { useContactDialog } from '@/lib/contact-dialog-context'
+import { smoothScrollToHash } from '@/lib/utils'
 
 const trustStats = [
-    { number: '100+', label: 'Clients Trust Us' },
-    { number: '10+',  label: 'Years in Business' },
-    { number: '50+',  label: 'Businesses Scaled' },
-    { number: '$1M+', label: 'Revenue Generated' },
+    { number: '100+', short: 'Clients',     long: 'Clients Trust Us' },
+    { number: '10+',  short: 'Years',       long: 'Years in Business' },
+    { number: '50+',  short: 'Businesses',  long: 'Businesses Scaled' },
+    { number: '$1M+', short: 'Revenue',     long: 'Revenue Generated' },
 ]
 
 const trustLogos = [
@@ -34,15 +36,15 @@ export function HeroSection() {
             <HeroHeader />
             <main className="overflow-x-clip">
                 <section className="relative overflow-hidden min-h-screen">
-                    {/* Brand accent — Scale SD chrome logo, below nav, top-right.
-                        No side mask (was chopping the S). Soft bottom fade + low opacity
-                        so the whole logo sits into the bg rather than on top of it. */}
+                    {/* Brand accent — Scale SD chrome logo, spans full hero.
+                        Mobile/tablet: background-size scaled above 100% — logo extends
+                        past viewport edges. Position shifted right-of-center (X > 50%)
+                        to bring the star into view on narrow screens, and up
+                        (Y < 50%) to sit the S higher in the hero. Desktop: contain + center. */}
                     <div
-                        className="absolute left-1/2 top-20 md:top-24 -translate-x-1/2 w-[65%] md:w-[55%] lg:w-[48%] aspect-[3/2] pointer-events-none"
+                        className="absolute inset-0 pointer-events-none bg-[length:180%] bg-[position:75%_35%] md:bg-[length:135%] md:bg-[position:65%_45%] lg:bg-contain lg:bg-center"
                         style={{
                             backgroundImage: 'url(/scale_sd_logo.png)',
-                            backgroundSize: 'contain',
-                            backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
                             maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
@@ -60,15 +62,17 @@ export function HeroSection() {
                                     We build revenue-generating marketing systems for San Diego businesses — in just 1 hour of your time per week.
                                 </p>
 
-                                <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
-                                    <Link
+                                <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+                                    <GlassButton
                                         href="#contact"
-                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base hover:scale-105 hover:shadow-lg duration-300")}>
+                                        onClick={(e) => smoothScrollToHash(e, '#contact')}
+                                    >
                                         <span className="text-nowrap">Get Your Free Audit</span>
-                                        <ChevronRight className="ml-1" />
-                                    </Link>
+                                        <ChevronRight className="size-4" />
+                                    </GlassButton>
                                     <Link
                                         href="#about"
+                                        onClick={(e) => smoothScrollToHash(e, '#about')}
                                         className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-md px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
                                         <span className="text-nowrap">Learn More</span>
                                     </Link>
@@ -82,12 +86,15 @@ export function HeroSection() {
 
                         {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
                         <div className="xl:hidden py-3 flex flex-col gap-3">
-                            {/* Stats — static, wraps until all 4 fit in one row */}
-                            <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 px-2">
+                            {/* Stats — static. Single row (4-across) at all stacked widths — labels switch from short to long at sm: (640px+) where the longer versions fit comfortably. */}
+                            <div className="flex items-center justify-around gap-x-2 sm:gap-x-4 px-2">
                                 {trustStats.map((stat) => (
                                     <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                         <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">
+                                            <span className="sm:hidden">{stat.short}</span>
+                                            <span className="hidden sm:inline">{stat.long}</span>
+                                        </span>
                                     </div>
                                 ))}
                             </div>
@@ -151,7 +158,7 @@ export function HeroSection() {
                                     {trustStats.map((stat) => (
                                         <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                             <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                            <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.label}</span>
+                                            <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.long}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -214,6 +221,7 @@ const HeroHeader = () => {
                             <Link
                                 href="/"
                                 aria-label="home"
+                                onClick={(e) => smoothScrollToHash(e, '#')}
                                 className="flex items-center space-x-2">
                                 <span className="text-xl font-bold tracking-tight">Scale SD</span>
                             </Link>
@@ -232,6 +240,7 @@ const HeroHeader = () => {
                                         <li key={index}>
                                             <Link
                                                 href={item.href}
+                                                onClick={(e) => smoothScrollToHash(e, item.href)}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
                                             </Link>
@@ -248,7 +257,7 @@ const HeroHeader = () => {
                                         <li key={index}>
                                             <Link
                                                 href={item.href}
-                                                onClick={() => setMenuState(false)}
+                                                onClick={(e) => { setMenuState(false); smoothScrollToHash(e, item.href); }}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
                                             </Link>
@@ -256,12 +265,13 @@ const HeroHeader = () => {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <button
+                            <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-stretch sm:gap-3 sm:space-y-0 md:w-fit">
+                                <GlassButton
+                                    size="nav"
                                     onClick={() => { setMenuState(false); openDialog(); }}
-                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md hover:scale-105 hover:shadow-lg duration-300")}>
-                                    <span>Free Audit</span>
-                                </button>
+                                >
+                                    Free Audit
+                                </GlassButton>
                             </div>
                         </div>
                     </motion.div>

@@ -103,12 +103,16 @@ export default function RadialOrbitalTimeline() {
 
   // ── Responsive detection — radii start null, nodes don't render until set
   useEffect(() => {
+    let lastWidth = -1;
     const update = () => {
+      const w = window.innerWidth;
+      // Mobile URL-bar collapse fires resize on height-only changes — ignore, or nodes snap forward mid-scroll
+      if (w === lastWidth) return;
+      lastWidth = w;
       // Disable node transitions during resize so nodes jump instantly — no travel, no layout overflow
       setIsResizing(true);
       if (resizeTimer.current) clearTimeout(resizeTimer.current);
       resizeTimer.current = setTimeout(() => setIsResizing(false), 150);
-      const w = window.innerWidth;
       // Orbit radii use 400/640/1024 thresholds (orbit size steps)
       // Container height matches the original Tailwind breakpoints exactly (640/768/1024)
       const containerHeight = w < 640 ? 360 : w < 768 ? 460 : w < 1024 ? 560 : 640;

@@ -221,34 +221,373 @@
   padding: 1px;
 }
 
-/* Chrome button — real texture background via ::before, D5 effects, white text */
+/* ─────────────────────────────────────────────────────────────
+   GLASS BUTTON — V11 converged from sandbox/glass-iterations lab.
+   V11 = easemize structure + no dim + no sheen + solid white text
+         + stacked halo (2-layer base + 2-layer extra) + ring 0.70.
+   Current scope: hero only. Foil baked at sandbox-tuned crop:
+   Scale SD logo, zoom 63% (252x167px), X -13, Y +6, rotate -33°.
+   Multi-element structure required (wrap + button/link + text + shadow)
+   for the 3D tilt, conic ring animation, shadow pulse. Use via
+   <GlassButton> in components/ui/glass-button.tsx.
+───────────────────────────────────────────────────────────── */
+@property --btn-glass-angle-1 {
+  syntax: '<angle>';
+  initial-value: 90deg;
+  inherits: false;
+}
+@property --btn-glass-angle-2 {
+  syntax: '<angle>';
+  initial-value: 45deg;
+  inherits: false;
+}
+
 @layer utilities {
-  .btn-chrome {
+  .btn-glass-wrap {
+    /* Foil crop — all tunable without touching layer math. If the crop
+       drifts when we sanity-check in browser, adjust here, not the JSX. */
+    --btn-glass-foil-w:   252px;
+    --btn-glass-foil-h:   167px;
+    --btn-glass-foil-x:   -13px;
+    --btn-glass-foil-y:   6px;
+    --btn-glass-foil-rot: -33deg;
+    --btn-glass-foil-src: url('/scale_sd_logo.png');
+
+    /* Base text-shadow (halo stack) as a var so hover/active state rules
+       can layer their reflection effects on top via var() concatenation
+       instead of redefining the stack (which would also work but would
+       duplicate the halo string three times). */
+    --btn-glass-text-shadow:
+      0 1px 2px rgba(0,0,0,0.85),
+      0 0 6px rgba(0,0,0,0.6),
+      0 0 10px rgba(0,0,0,0.9),
+      0 2px 4px rgba(0,0,0,0.95);
+
+    --at: .4s;
+    --ae: cubic-bezier(.25,1,.5,1);
+    --bw: clamp(1px, .0625em, 4px);
+
+    z-index: 2;
+    transform-style: preserve-3d;
+    transition: transform var(--at) var(--ae);
     position: relative;
-    overflow: hidden;
-    color: #ffffff;
-    filter: brightness(1.5);
-    border: 1px solid rgba(200,200,200,0.5);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 -2px 0 rgba(0,0,0,0.3) inset, 0 0 16px rgba(200,200,200,0.12), 0 12px 32px rgba(0,0,0,0.7), 0 4px 8px rgba(0,0,0,0.4);
+    display: inline-block;
   }
-  .btn-chrome::before {
-    content: '';
+  .btn-glass-wrap:has(.btn-glass:active) { transform: rotateX(25deg); }
+
+  .btn-glass-shadow {
+    --cut: 2em;
+    width:  calc(100% + var(--cut));
+    height: calc(100% + var(--cut));
+    top:  calc(0% - var(--cut) / 2);
+    left: calc(0% - var(--cut) / 2);
+    filter: blur(clamp(2px, .125em, 12px));
+    transition: filter var(--at) var(--ae);
+    pointer-events: none;
+    position: absolute;
+  }
+  .btn-glass-shadow::after {
+    content: "";
+    background: linear-gradient(180deg, rgba(255,255,255,0.20), rgba(255,255,255,0.10));
+    width:  calc(100% - var(--cut) - .25em);
+    height: calc(100% - var(--cut) - .25em);
+    top:  calc(var(--cut) - .5em);
+    left: calc(var(--cut) - .875em);
+    box-sizing: border-box;
+    transition: all var(--at) var(--ae);
+    opacity: 1;
+    border-radius: 9999px;
+    padding: .125em;
+    position: absolute;
+  }
+
+  .btn-glass {
+    all: unset;
+    /* all: unset resets display to inline. <button> renders like inline-block
+       anyway (UA quirk) but <a> from Next Link respects `inline` literally —
+       so the pill + pseudo-elements collapse. Force inline-block explicitly. */
+    display: inline-block;
+    position: relative;
+    isolation: isolate;
+    cursor: pointer;
+    border-radius: 9999px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-backdrop-filter: blur(clamp(1px, .125em, 4px));
+    backdrop-filter: blur(clamp(1px, .125em, 4px));
+    transition: all var(--at) var(--ae);
+    background: transparent;
+    box-shadow:
+      inset 0 .125em .125em rgba(255,255,255,0.05),
+      inset 0 -.125em .125em rgba(0,0,0,0.50),
+      0 .25em .125em -.125em rgba(255,255,255,0.20),
+      0 0 .1em .25em inset rgba(0,0,0,0.20),
+      0 0 #000;
+  }
+  .btn-glass:hover {
+    -webkit-backdrop-filter: blur(.01em);
+    backdrop-filter: blur(.01em);
+    box-shadow:
+      inset 0 .125em .125em rgba(255,255,255,0.05),
+      inset 0 -.125em .125em rgba(0,0,0,0.50),
+      0 .15em .05em -.1em rgba(255,255,255,0.25),
+      0 0 .05em .1em inset rgba(0,0,0,0.50),
+      0 0 #000;
+    transform: scale(.975);
+  }
+
+  /* Foil layer — wrapped in a clipping div so the pill shape clips the
+     transformed image while the conic ring ::after (which extends past the
+     button) stays unclipped. V11 has no dim or sheen layers, so this is
+     the only child inside the bg wrapper. */
+  .btn-glass-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .btn-glass-foil {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 380px;
-    height: 676px;
-    background-image: url('/chrome_texture_2.jpg');
+    width:  var(--btn-glass-foil-w);
+    height: var(--btn-glass-foil-h);
+    background-image: var(--btn-glass-foil-src);
     background-size: 100% 100%;
-    transform: translate(-50%, -50%) translate(-106px, -107px) rotate(-29deg);
+    transform: translate(-50%, -50%)
+               translate(var(--btn-glass-foil-x), var(--btn-glass-foil-y))
+               rotate(var(--btn-glass-foil-rot));
     transform-origin: center;
   }
-  .btn-chrome::after {
-    content: '';
+
+  .btn-glass-text {
+    color: rgba(255,255,255,1);
+    text-shadow: var(--btn-glass-text-shadow);
+    transition: all var(--at) var(--ae);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .25em;
+    user-select: none;
+    letter-spacing: -0.02em;
+    /* Hero context sizing: h-12 pl-5 pr-3 text-base font-bold. */
+    padding: 14px 12px 14px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  /* Hover/active stack a subtle light reflection on the base halo — this is
+     the "glass flex / press drop" feel from the easemize original. */
+  .btn-glass:hover .btn-glass-text {
+    text-shadow: var(--btn-glass-text-shadow), .025em .025em .025em rgba(255,255,255,0.12);
+  }
+  .btn-glass-wrap:has(.btn-glass:active) .btn-glass-text {
+    text-shadow: var(--btn-glass-text-shadow), .025em .25em .05em rgba(255,255,255,0.12);
+  }
+
+  /* Inner conic sheen (within the text element) */
+  .btn-glass-text::after {
+    content: "";
+    width:  calc(100% - var(--bw));
+    height: calc(100% - var(--bw));
+    top:  calc(0% + var(--bw) / 2);
+    left: calc(0% + var(--bw) / 2);
+    box-sizing: border-box;
+    background: linear-gradient(var(--btn-glass-angle-2), transparent 0%, rgba(0,0,0,0.50) 40% 50%, transparent 55%);
+    z-index: 3;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: background-position calc(var(--at) * 1.25) var(--ae),
+                --btn-glass-angle-2 calc(var(--at) * 1.25) var(--ae);
+    background-position: 0%;
+    background-size: 200% 200%;
+    border-radius: 9999px;
+    display: block;
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, transparent 35%, rgba(0,0,0,0.25) 100%);
+    overflow: clip;
+  }
+  .btn-glass:hover .btn-glass-text::after { background-position: 25%; }
+  .btn-glass:active .btn-glass-text::after {
+    --btn-glass-angle-2: -15deg;
+    background-position: 50% 15%;
+  }
+
+  /* Outer conic ring — the glass edge (V11: 0.70 alpha, stronger than default easemize) */
+  .btn-glass::after {
+    content: "";
+    z-index: 1;
+    width:  calc(100% + var(--bw));
+    height: calc(100% + var(--bw));
+    top:  calc(0% - var(--bw) / 2);
+    left: calc(0% - var(--bw) / 2);
+    padding: var(--bw);
+    box-sizing: border-box;
+    background:
+      conic-gradient(
+        from var(--btn-glass-angle-1) at 50% 50%,
+        rgba(255,255,255,0.70) 0%,
+        transparent 5% 40%,
+        rgba(255,255,255,0.70) 50%,
+        transparent 60% 95%,
+        rgba(255,255,255,0.70) 100%
+      ),
+      linear-gradient(180deg, rgba(0,0,0,0.50), rgba(0,0,0,0.50));
+    transition: all var(--at) var(--ae),
+                --btn-glass-angle-1 .5s ease;
+    box-shadow: inset 0 0 0 calc(var(--bw) / 2) rgba(0,0,0,0.50);
+    border-radius: 9999px;
+    position: absolute;
+    -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+            mask-image: linear-gradient(#000 0, #000 0), linear-gradient(#000 0, #000 0);
+    -webkit-mask-clip: content-box, border-box;
+            mask-clip: content-box, border-box;
+    -webkit-mask-origin: content-box, border-box;
+            mask-origin: content-box, border-box;
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+  .btn-glass:hover::after  { --btn-glass-angle-1: -125deg; }
+  .btn-glass:active::after { --btn-glass-angle-1:  -75deg; }
+
+  /* Outer shadow pulse on hover/active */
+  .btn-glass-wrap:has(.btn-glass:hover)  .btn-glass-shadow { filter: blur(clamp(2px, .0625em, 6px)); }
+  .btn-glass-wrap:has(.btn-glass:hover)  .btn-glass-shadow::after {
+    top: calc(var(--cut) - .875em);
+    opacity: 1;
+  }
+  .btn-glass-wrap:has(.btn-glass:active) .btn-glass-shadow { filter: blur(clamp(2px, .125em, 12px)); }
+  .btn-glass-wrap:has(.btn-glass:active) .btn-glass-shadow::after {
+    top: calc(var(--cut) - .5em);
+    opacity: .75;
+  }
+  .btn-glass-wrap:has(.btn-glass:active) .btn-glass {
+    box-shadow:
+      inset 0 .125em .125em rgba(255,255,255,0.05),
+      inset 0 -.125em .125em rgba(0,0,0,0.50),
+      0 .125em .125em -.125em rgba(255,255,255,0.20),
+      0 0 .1em .25em inset rgba(0,0,0,0.20),
+      0 .225em .05em rgba(255,255,255,0.05),
+      0 .25em rgba(0,0,0,0.75),
+      inset 0 .25em .05em rgba(255,255,255,0.15);
+  }
+  /* Touch devices have no real :hover/:active — freeze conic angles so
+     the outer ring doesn't jitter when the :has() state flickers. */
+  @media (hover: none) and (pointer: coarse) {
+    .btn-glass::after,
+    .btn-glass:hover::after,
+    .btn-glass:active::after { --btn-glass-angle-1: -75deg; }
+    .btn-glass .btn-glass-text::after,
+    .btn-glass:active .btn-glass-text::after { --btn-glass-angle-2: -45deg; }
+  }
+
+  /* ── Size modifiers — each overrides foil crop + text sizing to match a
+        specific live-site context. Default (no modifier) = Hero. Crop values
+        below are sandbox-tuned and baked in from the `{zoom, X, Y, rotation}`
+        JSON exports. Height = width * (scale_sd_logo aspect ratio ≈ 0.663). ── */
+
+  .btn-glass-wrap.btn-glass--nav {
+    --btn-glass-foil-w: 104px;
+    --btn-glass-foil-h: 69px;
+    --btn-glass-foil-x: -6px;
+    --btn-glass-foil-y: 1px;
+  }
+  .btn-glass-wrap.btn-glass--nav .btn-glass-text {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .btn-glass-wrap.btn-glass--cta {
+    --btn-glass-foil-w: 244px;
+    --btn-glass-foil-h: 162px;
+    --btn-glass-foil-x: -15px;
+    --btn-glass-foil-y: 5px;
+  }
+  .btn-glass-wrap.btn-glass--cta .btn-glass-text {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .btn-glass-wrap.btn-glass--send {
+    --btn-glass-foil-w: 204px;
+    --btn-glass-foil-h: 135px;
+    --btn-glass-foil-x: -10px;
+    --btn-glass-foil-y: 5px;
+  }
+  .btn-glass-wrap.btn-glass--send .btn-glass-text {
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+  }
+
+  /* Full-width modifier — stretches the wrap + button + text to container
+     width. Used by the dialog Send button where the submit spans the form. */
+  .btn-glass-wrap.btn-glass--full {
+    display: block;
+    width: 100%;
+  }
+  .btn-glass-wrap.btn-glass--full > .btn-glass {
+    display: block;
+    width: 100%;
+  }
+  .btn-glass-wrap.btn-glass--full .btn-glass-text {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Mobile + tablet override — hero-size button, <1024px. Three changes to
+     break the "doesn't stand out" effect against the enlarged hero bg logo
+     (bg-[length:180%] on mobile, bg-[length:135%] on tablet):
+       1. Foil re-cropped — zoomed-in, rotated (~166deg) view of
+          /scale_sd_logo.png so the button's foil reads as a distinct layer,
+          not a small echo of the background. Tuned in the sandbox — JSON
+          params { zoom: 113, offsetX: -52, offsetY: 18, rotation: 166 }.
+       2. Dim overlay added (V11 spec has none) — 0.22 alpha black wash on
+          top of the foil, gives the button a darker base so the bright
+          chrome bg doesn't read equivalently through the glass.
+       3. Conic ring alpha boosted 0.70 → 0.95 — sharper rim against the
+          variable chrome brightness, keeps the pill boundary crisp.
+     :not() chain keeps nav/cta/send variants on their own crops + their
+     default V11 treatment (they don't sit on the hero bg logo). */
+  @media (max-width: 1023px) {
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) {
+      --btn-glass-foil-w: 452px;
+      --btn-glass-foil-h: 299px;
+      --btn-glass-foil-x: -52px;
+      --btn-glass-foil-y: 18px;
+      --btn-glass-foil-rot: 166deg;
+    }
+    /* Dark base on the foil wrapper + isolate to scope the blend below.
+       Sets up a dark stage for the foil's mix-blend-mode to composite against. */
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass-bg {
+      background: rgba(8, 10, 16, 0.78);
+      isolation: isolate;
+    }
+    /* Screen blend — only the bright chrome highlights of the foil PNG survive
+       the composite against the dark base; darker logo pixels fall into black.
+       Result: distinct dark pill base with subtle chrome accents from the foil,
+       without any second asset or multi-stop gradient. */
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass-foil {
+      mix-blend-mode: screen;
+    }
+    .btn-glass-wrap:not(.btn-glass--nav):not(.btn-glass--cta):not(.btn-glass--send) .btn-glass::after {
+      background:
+        conic-gradient(
+          from var(--btn-glass-angle-1) at 50% 50%,
+          rgba(255,255,255,0.95) 0%,
+          transparent 5% 40%,
+          rgba(255,255,255,0.95) 50%,
+          transparent 60% 95%,
+          rgba(255,255,255,0.95) 100%
+        ),
+        linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.65));
+    }
+  }
+
+  /* Disabled state — only applies to <button> inside the glass (Link has no
+     native disabled). Fades the pill + blocks pointer events. */
+  .btn-glass:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
     pointer-events: none;
   }
-  .btn-chrome > * { position: relative; z-index: 2; }
 }
+

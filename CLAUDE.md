@@ -22,7 +22,7 @@ npm run build   # production build
 ## Key Directories
 - `app/` — layout, globals, page (section order defined in `app/page.tsx`)
 - `components/blocks/` — composed page sections (Hero, Services, Testimonials, About, CTA, Footer, etc.) — large, opinionated, usually used once
-- `components/ui/` — atomic primitives (button, accordion, card, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + floating widgets (scroll-to-top)
+- `components/ui/` — atomic primitives (button, glass-button, accordion, card, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + floating widgets (scroll-to-top). **Primary CTAs ship through `<GlassButton>`** (hero/nav/cta/send via `size` prop); full spec in `.claude/docs/design-tokens.md`.
 - `components/prompts/` — 21st.dev integration prompts (one `.txt` per section)
 - `lib/utils.ts` — `cn()` helper
 - `lib/contact-dialog-context.tsx` — ContactDialogProvider + useContactDialog hook (shared dialog state)
