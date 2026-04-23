@@ -67,7 +67,7 @@ export function HeroSection() {
                                         onClick={(e) => smoothScrollToHash(e, '#contact')}
                                     >
                                         <span className="text-nowrap">Get Your Free Audit</span>
-                                        <ChevronRight className="size-4" />
+                                        <ChevronRight className="size-4" strokeWidth={3} />
                                     </GlassButton>
                                     <Link
                                         href="#about"
