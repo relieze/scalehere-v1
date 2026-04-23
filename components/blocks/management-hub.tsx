@@ -85,11 +85,11 @@ const SCOPED_CSS = `
   @media (min-width: 768px)  { .hub-description { min-height: 64px;  } } /* tablet: wide col, 2 lines */
   @media (min-width: 1024px) { .hub-description { min-height: 180px; } } /* desktop: narrow 20% col, 5-6 lines */
 
-  /* 2-col grid on desktop. minmax(0, Nfr) prevents long content from expanding
-     columns past their ratio. */
+  /* 2-col grid on desktop — image LEFT (wide), text RIGHT (narrow).
+     minmax(0, Nfr) prevents long content from expanding columns past their ratio. */
   @media (min-width: 1024px) {
     .hub-grid {
-      grid-template-columns: minmax(0, 2fr) minmax(0, 8fr) !important;
+      grid-template-columns: minmax(0, 8fr) minmax(0, 2fr) !important;
       gap: 4rem !important;
     }
   }
@@ -155,8 +155,54 @@ const SCOPED_CSS = `
 
   /* ─── IMAGE WRAPPER ────────────────────────────────────────────────── */
 
-  .hub-image-wrapper { aspect-ratio: 2 / 1; position: relative; }
-  .hub-image-frame   { width: 100%; height: 100%; position: relative; overflow: hidden; border-radius: 4px; }
+  /* perspective on the wrapper establishes the 3D context; tilt div carries
+     the rotation. Chrome corners (siblings of .hub-image-tilt) stay flat —
+     they frame the tilted screenshot rather than tilt with it.
+     Values dialed in /sandbox/image-tilt — paste export to update. */
+  .hub-image-wrapper { aspect-ratio: 2 / 1; position: relative; perspective: 1500px; }
+
+  /* 3D tilt — left edge forward, right edge recedes (left sidebar closer to viewer).
+     rotateX positive = top recedes, bottom forward — tablet leaning back on a stand.
+     Image faces right-front toward the text column for "pointing at" effect.
+     scale compensates for the foreshortening bulge so the tilted bounds fit
+     inside the chrome corner frame.
+
+     translate serves two purposes stacked:
+       1. aesthetic (all viewports): counter the foreshortening left-bias — the
+          rotated plane's near edge projects larger, shifting visual weight left,
+          so a small right-ward translate rebalances.
+       2. layout (desktop only): nudge the image toward the adjacent right-hand
+          text column for "pointing at the copy" read.
+     Mobile/tablet gets only purpose 1 (smaller value); desktop adds purpose 2 on top.
+     % units keep the shift proportional across all widths — same visual offset
+     regardless of image size. */
+  .hub-image-tilt {
+    width: 100%;
+    height: 100%;
+    transform: translate(2%, -2%) rotateY(27deg) rotateX(15deg) rotateZ(0deg) scale(0.88);
+    transform-origin: center center;
+    will-change: transform;
+  }
+  @media (min-width: 1024px) {
+    .hub-image-tilt {
+      transform: translate(4%, -3%) rotateY(27deg) rotateX(15deg) rotateZ(0deg) scale(0.88);
+    }
+  }
+
+  .hub-image-frame {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    /* Strong shadow stack (lab shadow-strength: 5) — sells depth + separates the
+       tilted plane firmly from the page. Alphas at 1.00 (valid-CSS capped);
+       blur+offset+spread scaled 2.2× vs. the 1.0x baseline. */
+    box-shadow:
+      0 110px 176px -44px rgba(0, 0, 0, 1.00),
+      0 55px 88px -33px rgba(0, 0, 0, 1.00),
+      0 22px 55px -22px rgba(59, 130, 246, 1.00);
+  }
 
   /* ─── BACKGROUND WASH ──────────────────────────────────────────────── */
 
@@ -279,11 +325,29 @@ export function ManagementHub() {
         onMouseLeave={() => setIsPaused(false)}
         onClick={triggerClickPause}
       >
-        {/* GRID — text column (description + per-slide heading) | image column.
-            On mobile, image shows first (order-1) so users see the visual before reading. */}
+        {/* GRID — image column (LEFT, wide 8fr) | text column (RIGHT, narrow 2fr) on desktop.
+            On mobile the grid collapses to 1 col; source order puts image on top, text below. */}
         <div className="hub-grid grid grid-cols-1 gap-10 items-stretch">
-          {/* Text column */}
-          <div className="order-2 lg:order-1" style={{ height: '100%' }}>
+          {/* Image column — source-first: desktop LEFT, mobile TOP. lg:self-start
+              prevents the grid (items-stretch default) from stretching this cell to the
+              text column's height, which combined with aspect-ratio: 2/1 would derive
+              width from the stretched height and overflow the column at 1024-1280px. */}
+          <div className="hub-image-wrapper lg:self-start">
+            <div className="hub-image-tilt">
+              <div className="hub-image-frame transition-all ease-out" style={imageTransition}>
+                <img
+                  src={currentSlide.imageUrl}
+                  alt={currentSlide.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="hub-corner hub-corner-tl" />
+            <div className="hub-corner hub-corner-br" />
+          </div>
+
+          {/* Text column — source-second: desktop RIGHT, mobile BOTTOM. */}
+          <div style={{ height: '100%' }}>
             <div
               className="transition-all ease-out flex flex-col"
               style={{ ...textTransition, height: '100%' }}
@@ -335,22 +399,6 @@ export function ManagementHub() {
                 </button>
               </div>
             </div>
-          </div>
-
-          {/* Image column — first on mobile. lg:self-start prevents the grid
-              (items-stretch default) from stretching this cell to the text column's
-              height, which combined with aspect-ratio: 2/1 would derive width from
-              the stretched height and overflow the column at 1024-1280px. */}
-          <div className="hub-image-wrapper order-1 lg:order-2 lg:self-start">
-            <div className="hub-image-frame transition-all ease-out" style={imageTransition}>
-              <img
-                src={currentSlide.imageUrl}
-                alt={currentSlide.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="hub-corner hub-corner-tl" />
-            <div className="hub-corner hub-corner-br" />
           </div>
         </div>
 
