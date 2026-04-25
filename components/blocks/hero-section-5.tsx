@@ -5,7 +5,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { GlassButton } from '@/components/ui/glass-button'
 import { cn } from '@/lib/utils'
 import { Menu, X, ChevronRight } from 'lucide-react'
-import { useScroll, motion } from 'motion/react'
+import { useScroll, useTransform, motion } from 'motion/react'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { useContactDialog } from '@/lib/contact-dialog-context'
 import { smoothScrollToHash } from '@/lib/utils'
@@ -31,17 +31,29 @@ const trustLogos = [
 
 export function HeroSection() {
     const { openDialog } = useContactDialog()
+    const sectionRef = React.useRef<HTMLElement>(null)
+    const { scrollYProgress: heroProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end start'],
+    })
+    // Layered parallax — logo bg drifts DOWN (background, drags behind scroll),
+    // headline block drifts UP (foreground, pulls ahead). Opposing signs create
+    // depth separation as the user scrolls out of the hero.
+    const logoY = useTransform(heroProgress, [0, 1], ['0%', '40%'])
+    const textY = useTransform(heroProgress, [0, 1], ['0%', '-50%'])
     return (
         <>
             <HeroHeader />
-            <main className="overflow-x-clip">
-                <section className="relative overflow-hidden min-h-screen">
+            <main className="relative overflow-x-clip">
+                <section ref={sectionRef} className="relative overflow-hidden min-h-screen">
                     {/* Brand accent — Scale SD chrome logo, spans full hero.
                         Mobile/tablet: background-size scaled above 100% — logo extends
                         past viewport edges. Position shifted right-of-center (X > 50%)
                         to bring the star into view on narrow screens, and up
-                        (Y < 50%) to sit the S higher in the hero. Desktop: contain + center. */}
-                    <div
+                        (Y < 50%) to sit the S higher in the hero. Desktop: contain + center.
+                        Parallax: translates DOWN relative to the hero as user scrolls,
+                        giving the illusion the logo is "farther back" (moves slower than scroll). */}
+                    <motion.div
                         className="absolute inset-0 pointer-events-none bg-[length:180%] bg-[position:75%_35%] md:bg-[length:135%] md:bg-[position:65%_45%] lg:bg-contain lg:bg-center"
                         style={{
                             backgroundImage: 'url(/scale_sd_logo.png)',
@@ -49,12 +61,16 @@ export function HeroSection() {
                             maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             opacity: 0.5,
+                            y: logoY,
+                            willChange: 'transform',
                         }}
                     />
 
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
-                            <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
+                            <motion.div
+                                style={{ y: textY, willChange: 'transform' }}
+                                className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
                                 <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-black md:text-6xl lg:mt-4 xl:text-7xl">
                                     Stop <span className="text-[#3B82F6]">Wasting Money</span> on Marketing That Doesn't Bring <span className="text-[#3B82F6]">Customers</span>.
                                 </h1>
@@ -74,7 +90,7 @@ export function HeroSection() {
                                         <span className="text-nowrap">Learn More</span>
                                     </Link>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
 
