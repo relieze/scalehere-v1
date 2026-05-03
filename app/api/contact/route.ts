@@ -15,26 +15,16 @@ export async function POST(req: Request) {
       );
     }
 
-    // Send notification email via Resend (existing behavior)
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "tools@scalehere.com",
-      subject: `New inquiry from ${name} — Scale SD Website`,
-      text: [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        phone ? `Phone: ${phone}` : null,
-        ``,
-        `Message:`,
-        message,
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    });
+    // Primary path: forward to GHL Inbound Webhook. The published workflow
+    // creates the contact, attaches the inquiry as a note, sends the
+    // auto-reply SMS, and posts to Slack #new-leads.
+    //
+    // Fallback path: if GHL is unreachable (missing env var, network error,
+    // non-2xx response), fire a Resend email so the lead is still captured
+    // out-of-band. Resend used to be the primary notification path — now
+    // it's the safety net.
+    let ghlOk = false;
 
-    // Forward submission to GHL Inbound Webhook (Phase 2b).
-    // Wrapped in its own try/catch so a GHL failure does not break the
-    // user-facing success path — Resend already succeeded above.
     if (process.env.GHL_WEBHOOK_URL) {
       try {
         const ghlRes = await fetch(process.env.GHL_WEBHOOK_URL, {
@@ -42,7 +32,8 @@ export async function POST(req: Request) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, phone, message }),
         });
-        if (!ghlRes.ok) {
+        ghlOk = ghlRes.ok;
+        if (!ghlOk) {
           console.error(
             "[contact route] GHL webhook returned non-OK:",
             ghlRes.status,
@@ -54,8 +45,34 @@ export async function POST(req: Request) {
       }
     } else {
       console.warn(
-        "[contact route] GHL_WEBHOOK_URL not set — skipping GHL forward"
+        "[contact route] GHL_WEBHOOK_URL not set — falling back to Resend"
       );
+    }
+
+    if (!ghlOk) {
+      // Resend fallback. If this also throws, the outer catch returns 500
+      // and the user sees an error — at that point neither path captured
+      // the lead and surfacing the failure is the right call.
+      console.warn(
+        "[contact route] GHL path failed — sending Resend fallback email"
+      );
+      await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: "tools@scalehere.com",
+        subject: `[FALLBACK] New inquiry from ${name} — Scale SD Website`,
+        text: [
+          `GHL webhook failed — this is the fallback notification.`,
+          ``,
+          `Name: ${name}`,
+          `Email: ${email}`,
+          phone ? `Phone: ${phone}` : null,
+          ``,
+          `Message:`,
+          message,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+      });
     }
 
     return NextResponse.json({ success: true });
