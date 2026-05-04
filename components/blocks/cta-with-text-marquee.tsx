@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { GlassButton } from "@/components/ui/glass-button";
 import { useContactDialog } from "@/lib/contact-dialog-context";
+import { captureUTMs, getStoredUTMs, type UTMData } from "@/lib/utm-capture";
 
 interface VerticalMarqueeProps {
   children: ReactNode;
@@ -88,6 +89,24 @@ export default function CTAWithVerticalMarquee() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [utms, setUtms] = useState<UTMData>({
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    utm_content: "",
+    utm_term: "",
+    gclid: "",
+    fbclid: "",
+  });
+
+  useEffect(() => {
+    // React fires deeply-nested effects before shallow ones, so this effect
+    // could otherwise read sessionStorage before UTMCaptureClient writes it.
+    // captureUTMs() is idempotent — duplicating the call here is harmless.
+    captureUTMs();
+    setUtms(getStoredUTMs());
+  }, []);
+
   const resetForm = useCallback(() => {
     setName("");
     setEmail("");
@@ -135,7 +154,19 @@ export default function CTAWithVerticalMarquee() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, message }),
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          message,
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign,
+          utm_content: utms.utm_content,
+          utm_term: utms.utm_term,
+          fbclid: utms.fbclid,
+          gclid_custom: utms.gclid,
+        }),
       });
 
       if (!res.ok) {
@@ -221,6 +252,15 @@ export default function CTAWithVerticalMarquee() {
             </p>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3 mt-2">
+              <input type="hidden" name="utm_source" value={utms.utm_source} />
+              <input type="hidden" name="utm_medium" value={utms.utm_medium} />
+              <input type="hidden" name="utm_campaign" value={utms.utm_campaign} />
+              <input type="hidden" name="utm_content" value={utms.utm_content} />
+              <input type="hidden" name="utm_term" value={utms.utm_term} />
+              <input type="hidden" name="fbclid" value={utms.fbclid} />
+              {/* GHL reserves contact.gclid as a standard field; our custom field is contact.gclid_custom */}
+              <input type="hidden" name="gclid_custom" value={utms.gclid} />
+
               {/* Name + Email row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
