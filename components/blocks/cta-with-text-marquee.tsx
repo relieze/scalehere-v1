@@ -225,6 +225,7 @@ export default function CTAWithVerticalMarquee() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   type="text"
+                  name="first_name"
                   placeholder="Name *"
                   required
                   value={name}
@@ -233,6 +234,7 @@ export default function CTAWithVerticalMarquee() {
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email *"
                   required
                   value={email}
@@ -243,6 +245,7 @@ export default function CTAWithVerticalMarquee() {
 
               <input
                 type="tel"
+                name="phone"
                 placeholder="Phone (optional)"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -250,6 +253,7 @@ export default function CTAWithVerticalMarquee() {
               />
 
               <textarea
+                name="message"
                 placeholder="Message *"
                 required
                 rows={4}
