@@ -5,9 +5,23 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { name, email, phone, message } = await req.json();
+    const {
+      name,
+      email,
+      phone,
+      message,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_content,
+      utm_term,
+      fbclid,
+      gclid_custom,
+    } = await req.json();
 
-    // Basic validation — phone is optional
+    // Basic validation — phone is optional. UTM/click-id fields are all optional;
+    // direct-visit submissions ship them as empty strings and that's a valid
+    // attribution state.
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "Name, email, and message are required." },
@@ -30,7 +44,19 @@ export async function POST(req: Request) {
         const ghlRes = await fetch(process.env.GHL_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, phone, message }),
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            message,
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            utm_content,
+            utm_term,
+            fbclid,
+            gclid_custom,
+          }),
         });
         ghlOk = ghlRes.ok;
         if (!ghlOk) {
@@ -66,6 +92,13 @@ export async function POST(req: Request) {
           `Name: ${name}`,
           `Email: ${email}`,
           phone ? `Phone: ${phone}` : null,
+          utm_source ? `utm_source: ${utm_source}` : null,
+          utm_medium ? `utm_medium: ${utm_medium}` : null,
+          utm_campaign ? `utm_campaign: ${utm_campaign}` : null,
+          utm_content ? `utm_content: ${utm_content}` : null,
+          utm_term ? `utm_term: ${utm_term}` : null,
+          fbclid ? `fbclid: ${fbclid}` : null,
+          gclid_custom ? `gclid_custom: ${gclid_custom}` : null,
           ``,
           `Message:`,
           message,
